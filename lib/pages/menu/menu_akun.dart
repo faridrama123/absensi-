@@ -4,6 +4,7 @@ import 'package:absensi/api/erp.glomed.service.dart';
 import 'package:absensi/models/profil/return.dart';
 import 'package:absensi/pages/auth/login.dart';
 import 'package:absensi/pages/general_widget.dart/widget_snackbar.dart';
+import 'package:absensi/pages/menu/menu_payroll.dart';
 import 'package:absensi/style/colors.dart';
 import 'package:absensi/style/sizes.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class _MenuAkunState extends State<MenuAkun> {
   TextEditingController ctrlNip = new TextEditingController();
   TextEditingController ctrlNama = new TextEditingController();
   TextEditingController ctrlAlamat = new TextEditingController();
+  TextEditingController ctrlPayroll = new TextEditingController();
 
   DevService _devService = DevService();
 
@@ -43,7 +45,7 @@ class _MenuAkunState extends State<MenuAkun> {
           version = info.version;
 
           nip = res.profile!.nik!;
-          nama = res.profile!.first_name! + res.profile!.last_name!;
+          nama = res.profile!.first_name! + " " + res.profile!.last_name!;
           alamat = res.profile!.address!;
           imageProfil = res.profile!.foto_profile!;
           print(imageProfil);
@@ -296,9 +298,14 @@ class _MenuAkunState extends State<MenuAkun> {
         child: Stack(
           children: <Widget>[
             Container(
-              height: Get.height * 0.4,
-              color: ColorsTheme.primary1,
-            ),
+                height: Get.height * 0.4,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [Color(0xffbefffb), Color(0x00fce9a8)],
+                  ),
+                )),
             Padding(
               padding: EdgeInsets.only(
                   left: SizeConfig.screenLeftRight1 + 10,
@@ -312,7 +319,7 @@ class _MenuAkunState extends State<MenuAkun> {
                       style: TextStyle(
                           fontFamily: 'BalsamiqSans',
                           fontSize: 24,
-                          color: Colors.white),
+                          color: Colors.black),
                     ),
                   ),
                   InkWell(
@@ -323,7 +330,7 @@ class _MenuAkunState extends State<MenuAkun> {
                       padding: const EdgeInsets.all(8.0),
                       child: Icon(
                         Icons.widgets,
-                        color: Colors.white,
+                        color: Colors.black,
                         size: 24,
                       ),
                     ),
@@ -336,6 +343,14 @@ class _MenuAkunState extends State<MenuAkun> {
               child: Container(
                 // height: Get.height * 0.4,
                 decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 4,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(40),
                       topRight: Radius.circular(40)),
@@ -347,8 +362,19 @@ class _MenuAkunState extends State<MenuAkun> {
                       height: Get.height * 0.15,
                     ),
                     card(context, Icons.email, "NIP", nip),
-                    card(context, Icons.email, "Nama", nama),
+                    //    card(context, Icons.email, "Nama", nama),
                     card(context, Icons.email, "Alamat", alamat),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => MenuPayroll(),
+                            ),
+                          );
+                        },
+                        child: card(context, Icons.email, "Payroll",
+                            'Lihat daftar gaji')),
                     SizedBox(
                       height: Get.height * 0.075,
                     ),
@@ -403,12 +429,16 @@ class _MenuAkunState extends State<MenuAkun> {
                         backgroundColor: Colors.transparent,
                       ),
                     ),
+                    SizedBox(
+                      height: 12,
+                    ),
                     Text(
-                      nama,
+                      nama.toUpperCase(),
                       style: TextStyle(
                           fontFamily: 'BalsamiqSans',
-                          fontSize: 24,
-                          color: ColorsTheme.primary1),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.blueGrey),
                     ),
                   ],
                 ),
@@ -447,7 +477,7 @@ Widget card(BuildContext context, IconData icon, String key, String value) {
                   style: TextStyle(
                       fontFamily: 'BalsamiqSans',
                       fontSize: 16,
-                      color: ColorsTheme.background3),
+                      color: Colors.blueGrey),
                 ),
                 SizedBox(
                   height: 8,
