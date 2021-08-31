@@ -12,8 +12,27 @@ class DevService {
   static final String _absenhariini = "m/absen/harini";
   static final String _listabsen = "m/absen/list";
   static final String _updatefacedata = "m/updatefacedata";
-
   static final String _absen = "m/absen";
+  static final String _profil = "m/profile";
+
+  Future<dynamic> profil(String accesToken) async {
+    final response = await http.get(
+      Uri.parse(_baseUrl + _profil),
+      headers: <String, String>{
+        'Authorization': accesToken,
+      },
+    );
+    if (response.statusCode == 200) {
+      print(response.body);
+      return response
+          .body; // ReturnListAbsen.fromJson(json.decode(response.body));
+    } else {
+      print(response.body);
+
+      print('Failed to get');
+      throw Exception('Failed to load');
+    }
+  }
 
   Future absen(String accesToken, PostAbsen postAbsen) async {
     //  Map data = {"facedata": facedata};

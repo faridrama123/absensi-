@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:absensi/api/erp.glomed.service.dart';
+import 'package:absensi/models/profil/return.dart';
 import 'package:absensi/pages/auth/login.dart';
 import 'package:absensi/pages/general_widget.dart/widget_snackbar.dart';
 import 'package:absensi/style/colors.dart';
@@ -16,25 +20,54 @@ class _MenuAkunState extends State<MenuAkun> {
   String nip = "";
   String nama = "";
   String alamat = "";
+  String imageProfil = "";
   String version = "";
 
   TextEditingController ctrlNip = new TextEditingController();
   TextEditingController ctrlNama = new TextEditingController();
   TextEditingController ctrlAlamat = new TextEditingController();
 
+  DevService _devService = DevService();
+
   getData() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final PackageInfo info = await PackageInfo.fromPlatform();
-    setState(() {
-      version = info.version;
-      nip = pref.getString("PREF_NIP")!;
-      nama = pref.getString("PREF_NAMA")!;
-      alamat = pref.getString("PREF_ALAMAT")!;
-      ctrlNip.text = nip;
-      ctrlNama.text = nama;
-      ctrlAlamat.text = alamat;
+    var accesToken = pref.getString("PREF_TOKEN")!;
+    print(accesToken);
+
+    _devService.profil(accesToken).then((value) async {
+      var res = ReturnProfil.fromJson(json.decode(value));
+      print(res.profile);
+      if (res.status_json == true) {
+        setState(() {
+          version = info.version;
+
+          nip = res.profile!.nik!;
+          nama = res.profile!.first_name! + res.profile!.last_name!;
+          alamat = res.profile!.address!;
+          imageProfil = res.profile!.foto_profile!;
+          print(imageProfil);
+          ctrlNip.text = nip;
+          ctrlNama.text = nama;
+          ctrlAlamat.text = alamat;
+        });
+      }
     });
   }
+
+  // getData() async {
+  //   SharedPreferences pref = await SharedPreferences.getInstance();
+  //   final PackageInfo info = await PackageInfo.fromPlatform();
+  //   setState(() {
+  //     version = info.version;
+  //     nip = pref.getString("PREF_NIP")!;
+  //     nama = pref.getString("PREF_NAMA")!;
+  //     alamat = pref.getString("PREF_ALAMAT")!;
+  //     ctrlNip.text = nip;
+  //     ctrlNama.text = nama;
+  //     ctrlAlamat.text = alamat;
+  //   });
+  // }
 
   dialogLogout() async {
     return showDialog(
@@ -268,8 +301,8 @@ class _MenuAkunState extends State<MenuAkun> {
             ),
             Padding(
               padding: EdgeInsets.only(
-                  left: SizeConfig.screenLeftRight1,
-                  right: SizeConfig.screenLeftRight1,
+                  left: SizeConfig.screenLeftRight1 + 10,
+                  right: SizeConfig.screenLeftRight1 + 10,
                   top: Get.height * 0.05),
               child: Row(
                 children: <Widget>[
@@ -328,7 +361,7 @@ class _MenuAkunState extends State<MenuAkun> {
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: ColorsTheme.primary2),
+                            color: ColorsTheme.text1),
                       ),
                     ),
                     SizedBox(
@@ -364,10 +397,9 @@ class _MenuAkunState extends State<MenuAkun> {
                       width: Get.width * 0.375,
                       child: CircleAvatar(
                         radius: Get.width * 0.2,
-                        backgroundImage: AssetImage(
-                          "assets/ilustration/avatar.png",
-                          // fit: BoxFit.,
-                        ),
+                        backgroundImage: NetworkImage(imageProfil),
+                        // fit: BoxFit.,
+
                         backgroundColor: Colors.transparent,
                       ),
                     ),
