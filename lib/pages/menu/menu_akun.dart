@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 class MenuAkun extends StatefulWidget {
   @override
@@ -18,13 +20,30 @@ class MenuAkun extends StatefulWidget {
 }
 
 class _MenuAkunState extends State<MenuAkun> {
-  String nip = "";
+  String staffId = "";
   String nama = "";
   String alamat = "";
   String imageProfil = "";
   String version = "";
+  String nik = "";
+  String maritalStatus = "";
+  String birthday = "";
+  String gender = "";
+  String blood = "";
+  String phone = "";
+  String email = "";
+  String address = "";
 
-  TextEditingController ctrlNip = new TextEditingController();
+  late ThemeData themeData;
+
+  TextEditingController ctrlMaritalStatus = new TextEditingController();
+  TextEditingController ctrlBirthday = new TextEditingController();
+  TextEditingController ctrlGender = new TextEditingController();
+  TextEditingController ctrlBlood = new TextEditingController();
+  TextEditingController ctrlPhone = new TextEditingController();
+  TextEditingController ctrlEmail = new TextEditingController();
+  TextEditingController ctrlAddress = new TextEditingController();
+
   TextEditingController ctrlNama = new TextEditingController();
   TextEditingController ctrlAlamat = new TextEditingController();
   TextEditingController ctrlPayroll = new TextEditingController();
@@ -44,14 +63,36 @@ class _MenuAkunState extends State<MenuAkun> {
         setState(() {
           version = info.version;
 
-          nip = res.profile!.nik!;
-          nama = res.profile!.first_name! + " " + res.profile!.last_name!;
-          alamat = res.profile!.address!;
-          imageProfil = res.profile!.foto_profile!;
+          staffId = res.profile?.staff_id ?? "";
+          var lastname = res.profile?.last_name ?? "";
+          var firstname = res.profile?.first_name ?? "";
+          nama = firstname + " " + lastname;
+          alamat = res.profile?.address ?? " ";
+          nik = res.profile?.nik ?? " ";
+          imageProfil = res.profile?.foto_profile ?? " ";
           print(imageProfil);
-          ctrlNip.text = nip;
-          ctrlNama.text = nama;
-          ctrlAlamat.text = alamat;
+
+          maritalStatus = res.profile?.marital_status ?? "";
+          birthday = res.profile?.birth_day ?? "";
+          gender = res.profile?.gender ?? "";
+          blood = res.profile?.blood ?? "";
+          phone = res.profile?.phone ?? "";
+          email = res.profile?.email ?? "";
+          address = res.profile?.address ?? "";
+
+          ctrlMaritalStatus.text = maritalStatus;
+          ctrlBirthday.text = birthday;
+          ctrlGender.text = gender;
+          ctrlBlood.text = blood;
+          ctrlPhone.text = phone;
+          ctrlEmail.text = email;
+          ctrlAddress.text = address;
+
+          //  print("maritalStatus " + maritalStatus + ctrlMaritalStatus.text);
+
+          // ctrlNip.text = staffId;
+          // ctrlNama.text = nama;
+          // ctrlAlamat.text = alamat;
         });
       }
     });
@@ -200,9 +241,9 @@ class _MenuAkunState extends State<MenuAkun> {
                     SizedBox(
                       height: 12,
                     ),
-                    textField(ctrlNip, "NIP", TextInputType.text, false),
-                    textField(ctrlNama, "Nama", TextInputType.text, false),
-                    textField(ctrlAlamat, "Alamat", TextInputType.text, false),
+                    // textField(ctrlNip, "NIP", TextInputType.text, false),
+                    // textField(ctrlNama, "Nama", TextInputType.text, false),
+                    // textField(ctrlAlamat, "Alamat", TextInputType.text, false),
                   ]),
               actions: <Widget>[
                 Padding(
@@ -260,10 +301,10 @@ class _MenuAkunState extends State<MenuAkun> {
       context: context,
       position: RelativeRect.fromLTRB(50, 50, 0, 0),
       items: [
-        PopupMenuItem<String>(
-          child: Text('Edit Profile'),
-          value: "Edit Profile",
-        ),
+        // PopupMenuItem<String>(
+        //   child: Text('Edit Profile'),
+        //   value: "Edit Profile",
+        // ),
         PopupMenuItem<String>(
           child: Text('Logout'),
           value: "Logout",
@@ -272,7 +313,7 @@ class _MenuAkunState extends State<MenuAkun> {
       elevation: 8.0,
     );
     if (selected == "Edit Profile") {
-      updateProfileDialog(selected!);
+      //  updateProfileDialog(selected!);
     } else if (selected == "Logout") {
       dialogLogout();
     }
@@ -292,6 +333,8 @@ class _MenuAkunState extends State<MenuAkun> {
 
   @override
   Widget build(BuildContext context) {
+    themeData = Theme.of(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(),
@@ -357,24 +400,685 @@ class _MenuAkunState extends State<MenuAkun> {
                   color: Colors.white,
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(
-                      height: Get.height * 0.15,
+                      height: Get.height * 0.20,
                     ),
-                    card(context, Icons.email, "NIP", nip),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 5, left: 20),
+                      child: Text("Personal information",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, letterSpacing: 0)),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                      child: TextFormField(
+                        controller: ctrlMaritalStatus,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 15, color: Color(0xff4a4c4f))),
+                        decoration: InputDecoration(
+                          hintText: "Marital Status",
+                          hintStyle: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontSize: 15, color: Color(0xff4a4c4f))),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Color(0xfffafaff),
+                          prefixIcon: Icon(
+                            Icons.supervised_user_circle,
+                            size: 22,
+                          ),
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(0),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.sentences,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                      child: TextFormField(
+                        controller: ctrlBirthday,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 15, color: Color(0xff4a4c4f))),
+                        decoration: InputDecoration(
+                          hintText: "Birthday",
+                          hintStyle: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontSize: 15, color: Color(0xff4a4c4f))),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Color(0xfffafaff),
+                          prefixIcon: Icon(
+                            Icons.date_range_sharp,
+                            size: 22,
+                          ),
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(0),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.sentences,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                      child: TextFormField(
+                        controller: ctrlGender,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 15, color: Color(0xff4a4c4f))),
+                        decoration: InputDecoration(
+                          hintText: "Gender",
+                          hintStyle: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontSize: 15, color: Color(0xff4a4c4f))),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Color(0xfffafaff),
+                          prefixIcon: Icon(
+                            Icons.transgender,
+                            size: 22,
+                          ),
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(0),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.sentences,
+                      ),
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                      child: TextFormField(
+                        controller: ctrlBlood,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 15, color: Color(0xff4a4c4f))),
+                        decoration: InputDecoration(
+                          hintText: "Blood",
+                          hintStyle: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontSize: 15, color: Color(0xff4a4c4f))),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Color(0xfffafaff),
+                          prefixIcon: Icon(
+                            Icons.bloodtype,
+                            size: 22,
+                          ),
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(0),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.sentences,
+                      ),
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                      child: TextFormField(
+                        controller: ctrlPhone,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 15, color: Color(0xff4a4c4f))),
+                        decoration: InputDecoration(
+                          hintText: "Phone",
+                          hintStyle: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontSize: 15, color: Color(0xff4a4c4f))),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Color(0xfffafaff),
+                          prefixIcon: Icon(
+                            Icons.phone,
+                            size: 22,
+                          ),
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(0),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.sentences,
+                      ),
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                      child: TextFormField(
+                        controller: ctrlEmail,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 15, color: Color(0xff4a4c4f))),
+                        decoration: InputDecoration(
+                          hintText: "Email",
+                          hintStyle: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontSize: 15, color: Color(0xff4a4c4f))),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Color(0xfffafaff),
+                          prefixIcon: Icon(
+                            Icons.email,
+                            size: 22,
+                          ),
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(0),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.sentences,
+                      ),
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                      child: TextFormField(
+                        controller: ctrlAddress,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 15, color: Color(0xff4a4c4f))),
+                        decoration: InputDecoration(
+                          hintText: "Address",
+                          hintStyle: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontSize: 15, color: Color(0xff4a4c4f))),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Color(0xfffafaff),
+                          prefixIcon: Icon(
+                            Icons.home,
+                            size: 22,
+                          ),
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(0),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.sentences,
+                      ),
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(bottom: 5, left: 20, top: 20),
+                      child: Text("Bank Account",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, letterSpacing: 0)),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                      child: TextFormField(
+                        //    controller: ctrlMaritalStatus,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 15, color: Color(0xff4a4c4f))),
+                        decoration: InputDecoration(
+                          hintText: "Bank Name",
+                          hintStyle: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontSize: 15, color: Color(0xff4a4c4f))),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Color(0xfffafaff),
+                          prefixIcon: Icon(
+                            Icons.account_balance,
+                            size: 22,
+                          ),
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(0),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.sentences,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                      child: TextFormField(
+                        //    controller: ctrlMaritalStatus,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 15, color: Color(0xff4a4c4f))),
+                        decoration: InputDecoration(
+                          hintText: "Name",
+                          hintStyle: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontSize: 15, color: Color(0xff4a4c4f))),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Color(0xfffafaff),
+                          prefixIcon: Icon(
+                            Icons.person,
+                            size: 22,
+                          ),
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(0),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.sentences,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                      child: TextFormField(
+                        //    controller: ctrlMaritalStatus,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 15, color: Color(0xff4a4c4f))),
+                        decoration: InputDecoration(
+                          hintText: "Account No",
+                          hintStyle: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontSize: 15, color: Color(0xff4a4c4f))),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Color(0xfffafaff),
+                          prefixIcon: Icon(
+                            Icons.account_balance_wallet,
+                            size: 22,
+                          ),
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(0),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.sentences,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 5, left: 20, top: 20),
+                      child: Text("Employment Detail",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, letterSpacing: 0)),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                      child: TextFormField(
+                        //    controller: ctrlMaritalStatus,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 15, color: Color(0xff4a4c4f))),
+                        decoration: InputDecoration(
+                          hintText: "Divisions",
+                          hintStyle: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontSize: 15, color: Color(0xff4a4c4f))),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Color(0xfffafaff),
+                          prefixIcon: Icon(
+                            Icons.military_tech,
+                            size: 22,
+                          ),
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(0),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.sentences,
+                      ),
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                      child: TextFormField(
+                        //    controller: ctrlMaritalStatus,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 15, color: Color(0xff4a4c4f))),
+                        decoration: InputDecoration(
+                          hintText: "Departement",
+                          hintStyle: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontSize: 15, color: Color(0xff4a4c4f))),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Color(0xfffafaff),
+                          prefixIcon: Icon(
+                            Icons.meeting_room,
+                            size: 22,
+                          ),
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(0),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.sentences,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                      child: TextFormField(
+                        //    controller: ctrlMaritalStatus,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 15, color: Color(0xff4a4c4f))),
+                        decoration: InputDecoration(
+                          hintText: "Positions",
+                          hintStyle: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontSize: 15, color: Color(0xff4a4c4f))),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Color(0xfffafaff),
+                          prefixIcon: Icon(
+                            Icons.work,
+                            size: 22,
+                          ),
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(0),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.sentences,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                      child: TextFormField(
+                        //    controller: ctrlMaritalStatus,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 15, color: Color(0xff4a4c4f))),
+                        decoration: InputDecoration(
+                          hintText: "Basic Salary",
+                          hintStyle: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontSize: 15, color: Color(0xff4a4c4f))),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Color(0xfffafaff),
+                          prefixIcon: Icon(
+                            Icons.money,
+                            size: 22,
+                          ),
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(0),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.sentences,
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: Color(0xfffafaff),
+                      ),
+                      margin: EdgeInsets.only(
+                          bottom: 5, left: 20, top: 20, right: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Leave Application",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0)),
+                          Icon(Icons.arrow_right_rounded)
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: Color(0xfffafaff),
+                      ),
+                      margin: EdgeInsets.only(
+                          bottom: 5, left: 20, top: 10, right: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Document",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0)),
+                          Icon(Icons.arrow_right_rounded)
+                        ],
+                      ),
+                    ),
+
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 10, left: 20, right: 20),
+                    //   child: TextFormField(
+                    //     //    controller: ctrlMaritalStatus,
+                    //     style: GoogleFonts.ibmPlexSans(
+                    //         textStyle: TextStyle(
+                    //             fontSize: 15, color: Color(0xff4a4c4f))),
+                    //     decoration: InputDecoration(
+                    //       hintText: "Leave Application",
+                    //       hintStyle: GoogleFonts.ibmPlexSans(
+                    //           textStyle: TextStyle(
+                    //               fontSize: 15, color: Color(0xff4a4c4f))),
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       enabledBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       focusedBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       filled: true,
+                    //       fillColor: Color(0xfffafaff),
+                    //       isDense: true,
+                    //       contentPadding: EdgeInsets.all(15),
+                    //     ),
+                    //     keyboardType: TextInputType.emailAddress,
+                    //     textCapitalization: TextCapitalization.sentences,
+                    //   ),
+                    // ),
+
+                    //   card(context, Icons.email, "NIP", staffId),
                     //    card(context, Icons.email, "Nama", nama),
-                    card(context, Icons.email, "Alamat", alamat),
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => MenuPayroll(),
-                            ),
-                          );
-                        },
-                        child: card(context, Icons.email, "Payroll",
-                            'Lihat daftar gaji')),
+                    // card(context, Icons.email, "Alamat", alamat),
+                    // GestureDetector(
+                    //     onTap: () {
+                    //       Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //           builder: (BuildContext context) => MenuPayroll(),
+                    //         ),
+                    //       );
+                    //     },
+                    //     child: card(context, Icons.email, "Payroll",
+                    //         'Lihat daftar gaji')),
                     SizedBox(
                       height: Get.height * 0.075,
                     ),
@@ -382,23 +1086,27 @@ class _MenuAkunState extends State<MenuAkun> {
                       onTap: () {
                         dialogLogout();
                       },
-                      child: Text(
-                        "KELUAR",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: ColorsTheme.text1),
+                      child: Center(
+                        child: Text(
+                          "KELUAR",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: ColorsTheme.text1),
+                        ),
                       ),
                     ),
                     SizedBox(
                       height: Get.height * 0.025,
                     ),
-                    Text(
-                      version == null ? "" : "Version " + version,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: ColorsTheme.primary1),
+                    Center(
+                      child: Text(
+                        version == null ? "" : "Version " + version,
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: ColorsTheme.primary1),
+                      ),
                     ),
                     SizedBox(
                       height: Get.height * 0.05,
@@ -416,29 +1124,69 @@ class _MenuAkunState extends State<MenuAkun> {
                 alignment: Alignment.topCenter,
                 child: Column(
                   children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(50))),
-                      height: Get.height * 0.175,
-                      width: Get.width * 0.375,
-                      child: CircleAvatar(
-                        radius: Get.width * 0.2,
-                        backgroundImage: NetworkImage(imageProfil),
-                        // fit: BoxFit.,
-
-                        backgroundColor: Colors.transparent,
+                    if (imageProfil != "")
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50))),
+                        height: Get.height * 0.175,
+                        width: Get.width * 0.375,
+                        child: CircleAvatar(
+                          radius: Get.width * 0.2,
+                          backgroundImage: NetworkImage(imageProfil),
+                          // fit: BoxFit.,
+                          backgroundColor: Colors.transparent,
+                        ),
                       ),
-                    ),
+                    if (imageProfil == "")
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50))),
+                        height: Get.height * 0.175,
+                        width: Get.width * 0.375,
+                        child:
+
+                            // CircleAvatar(
+                            //   radius: Get.width * 0.2,
+                            //   backgroundImage: NetworkImage(imageProfil),
+                            //   // fit: BoxFit.,
+
+                            //   backgroundColor: Colors.transparent,
+                            // ),
+
+                            CircleAvatar(
+                          radius: Get.width * 0.2,
+                          backgroundImage:
+                              AssetImage("assets/images/profil.png"),
+                          // fit: BoxFit.,
+
+                          backgroundColor: Colors.transparent,
+                        ),
+                      ),
                     SizedBox(
-                      height: 12,
+                      height: 15,
+                    ),
+                    Text(nama.toUpperCase(),
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0)),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text("ID Staff : " + staffId.toUpperCase(),
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 12, color: Color(0xff4a4c4f)))),
+                    SizedBox(
+                      height: 4,
                     ),
                     Text(
-                      nama.toUpperCase(),
-                      style: TextStyle(
-                          fontFamily: 'BalsamiqSans',
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.blueGrey),
+                      "NIK : " + nik.toUpperCase(),
+                      style: GoogleFonts.ibmPlexSans(
+                          textStyle: TextStyle(
+                              fontSize: 12, color: Color(0xff4a4c4f))),
                     ),
                   ],
                 ),

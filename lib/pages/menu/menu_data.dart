@@ -41,17 +41,17 @@ class _MenuDataState extends State<MenuData> {
         res.listabsen?.forEach((val) {
           print(val?.lokasi.toString());
           dataAbsen.add(Absen(
-              id: val?.id,
-              iduser: val?.iduser,
-              tipeAbsen: val?.tipe_absen,
-              datangPulang: val?.datang_pulang,
-              wfhWfo: val?.wfh_wfo,
-              tanggalAbsen: val?.tanggal_absen,
-              jamAbsen: val?.jam_absen,
-              lokasi: val?.lokasi,
-              latitude: val?.latitude,
-              longitude: val?.lokasi,
-              keterangan: val?.keterangan));
+              id: val?.id ?? "",
+              iduser: val?.iduser ?? "",
+              tipeAbsen: val?.tipe_absen ?? "",
+              datangPulang: val?.datang_pulang ?? "",
+              wfhWfo: val?.wfh_wfo ?? "",
+              tanggalAbsen: val?.tanggal_absen ?? "",
+              jamAbsen: val?.jam_absen ?? "",
+              lokasi: val?.lokasi ?? "",
+              latitude: val?.latitude ?? "",
+              longitude: val?.lokasi ?? "",
+              keterangan: val?.keterangan ?? ""));
           //  listTab.add(val);
         });
 

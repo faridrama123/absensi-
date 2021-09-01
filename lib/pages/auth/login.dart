@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:absensi/api/erp.glomed.service.dart';
 import 'package:absensi/api/service.dart';
 import 'package:absensi/models/auth/cls_post_login.dart';
 import 'package:absensi/models/login/return.dart';
+import 'package:absensi/models/return_check.dart';
 import 'package:absensi/pages/general_widget.dart/widget_progress.dart';
 import 'package:absensi/pages/general_widget.dart/widget_snackbar.dart';
 import 'package:absensi/pages/main_menu.dart';
@@ -20,6 +24,8 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController ctrlemail = new TextEditingController();
   TextEditingController ctrlPassword = new TextEditingController();
 
+  DevService _devService = DevService();
+
   Future submitLogin(BuildContext context, ReturnLogin returnLogin) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     // showDialog(
@@ -33,27 +39,40 @@ class _LoginPageState extends State<LoginPage> {
     //   Navigator.pop(context);
     //   if (res.statusJson!) {
 
-    if (returnLogin.data_user != null) {
+    if (returnLogin.dataUser != null) {
+      var firstname = returnLogin.dataUser?.firstName ?? "";
+      var lastname = returnLogin.dataUser?.lastName ?? "";
+
       pref.setString("PREF_TOKEN", returnLogin.token!);
-      pref.setString("PREF_ID_USER", returnLogin.data_user!.user_id!);
-      pref.setString("PREF_USERNAME", returnLogin.data_user!.username!);
-      pref.setString("PREF_EMAIL", returnLogin.data_user!.email!);
-      pref.setString("PREF_NIP", returnLogin.data_user!.nik!);
-      pref.setString("PREF_NIK", returnLogin.data_user!.nik!);
-      pref.setString("PREF_NAMA", returnLogin.data_user!.first_name!);
+      pref.setString("PREF_ID_USER", returnLogin.dataUser!.userId!);
+      pref.setString("PREF_USERNAME", returnLogin.dataUser!.username!);
+      pref.setString("PREF_EMAIL", returnLogin.dataUser!.email!);
+      pref.setString("PREF_NIP", returnLogin.dataUser?.staffId ?? "");
+      pref.setString("PREF_NIK", returnLogin.dataUser?.nik ?? "");
+      pref.setString("PREF_NAMA", firstname + " " + lastname);
       pref.setString("PREF_JK", "unknown");
-      pref.setString("PREF_TEMPAT_LAHIR", returnLogin.data_user!.birth_place!);
-      pref.setString("PREF_TANGGAL_LAHIR", returnLogin.data_user!.birth_day!);
-      pref.setString("PREF_ALAMAT", returnLogin.data_user!.address!);
+      pref.setString(
+          "PREF_TEMPAT_LAHIR", returnLogin.dataUser?.birthPlace ?? "");
+      pref.setString(
+          "PREF_TANGGAL_LAHIR", returnLogin.dataUser?.birthDay ?? "");
+      pref.setString("PREF_ALAMAT", returnLogin.dataUser?.address ?? "");
       pref.setString("PREF_RT", "unknown");
       pref.setString("PREF_RW", "unknown");
       pref.setString("PREF_DESA", "unknown");
       pref.setString("PREF_KECAMATAN", "unknown");
       pref.setString("PREF_KOTA", "unknown");
       pref.setString("PREF_PROVINSI", "unknown");
-      pref.setString("PREF_DEPARTEMEN", returnLogin.data_user!.division!);
-      pref.setString("PREF_POSISI", returnLogin.data_user!.position!);
-      pref.setString("PREF_FACE", returnLogin.data_user!.facedata!);
+      pref.setString("PREF_DEPARTEMEN", returnLogin.dataUser?.division ?? "");
+      pref.setString("PREF_POSISI", returnLogin.dataUser?.position ?? "");
+      pref.setString("PREF_FACE", returnLogin.dataUser?.facedata ?? "");
+      pref.setString(
+          "PREF_JARAK", returnLogin.dataUser?.jarak.toString() ?? "");
+      pref.setString(
+          "PREF_LATITUDE", returnLogin.dataUser?.latitude.toString() ?? "");
+
+      pref.setString(
+          "PREF_LONGITUDE", returnLogin.dataUser?.longitude.toString() ?? "");
+
       navigateToHome();
       print(returnLogin.token!);
     } else {
@@ -138,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    var pLogin = Provider.of<ProviderLogin>(context);
+    //var pLogin = Provider.of<ProviderLogin>(context);
 
     SizeConfig().init(context);
     return Scaffold(
@@ -255,14 +274,35 @@ class _LoginPageState extends State<LoginPage> {
                       child: SizedBox(
                         height: SizeConfig.screenHeight * 0.045,
                         child: RaisedButton(
-                          onPressed: () async {
+                          onPressed: () {
                             String check = checkMandatory();
                             if (check == "") {
                               //  submitLogin(context);
-                              pLogin.setLogin(
-                                  ctrlemail.text, ctrlPassword.text);
-                              await pLogin.fetchLogin;
-                              submitLogin(context, pLogin.returnLogin);
+                              //  print("login");
+
+                              _devService
+                                  .login(ctrlemail.text, ctrlPassword.text)
+                                  .then((value) {
+                                var res =
+                                    ReturnCheck.fromJson(json.decode(value));
+
+                                if (res.statusJson == true) {
+                                  var data =
+                                      ReturnLogin.fromJson(json.decode(value));
+
+                                  submitLogin(context, data);
+                                } else {
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                  WidgetSnackbar(
+                                      context: context,
+                                      message: res.remarks,
+                                      warna: "merah");
+                                }
+                              });
+
+                              //  print(pLogin.returnLogin);
+                              //  submitLogin(context, pLogin.returnLogin);
                             } else {
                               FocusScope.of(context).requestFocus(FocusNode());
                               WidgetSnackbar(

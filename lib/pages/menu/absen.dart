@@ -35,8 +35,8 @@ class _AbsenState extends State<AbsenForm> {
   bool loading = true;
   bool failed = false;
   bool permissionLocation = false;
-  double latitudeOffice = -6.2763419;
-  double longitudeOffice = 107.0769743;
+  double latitudeOffice = -6.2763419; //latitudeOffice
+  double longitudeOffice = 107.0769743; //latitudeOffice
   bool loadingAlamat = true;
   String alamat = "Loading...";
   static LatLng centerPoint = LatLng(-6.175417, 106.827056);
@@ -140,10 +140,15 @@ class _AbsenState extends State<AbsenForm> {
   }
 
   getData(BuildContext context) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
     setState(() {
       maxJarak = 500;
-      latitudeOffice = -6.2694281;
-      longitudeOffice = 106.8135298;
+      latitudeOffice = double.parse(pref.getString("PREF_LATITUDE")!);
+
+      /// -6.2694281; //latitudeOffice
+      longitudeOffice = double.parse(
+          pref.getString("PREF_LONGITUDE")!); //106.8135298; //latitudeOffice
       loading = false;
       failed = true;
     });

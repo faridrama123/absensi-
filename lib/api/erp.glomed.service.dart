@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 class DevService {
   //static final String _baseUrl = 'http://erp.glomed21.id/';
-  static final String _baseUrl = 'http:/smarterp.speedlab.id/';
+  static final String _baseUrl = 'http://smarterp.speedlab.id/';
 
   static final String _login = "m/login";
   static final String _absenhariini = "m/absen/harini";
@@ -145,9 +145,10 @@ class DevService {
         .timeout(Duration(seconds: 5));
 
     if (response.statusCode == 200) {
-      print(response.body);
-      return ReturnLogin.fromJson(json.decode(response.body));
+      print("Succes Login" + response.body);
+      return response.body; // ReturnLogin.fromJson(json.decode(response.body));
     } else {
+      print("Failed to post" + response.body);
       print('Failed to post');
       throw Exception('Failed to post');
     }

@@ -31,10 +31,13 @@ class ProviderLogin extends ChangeNotifier {
       notifyListeners();
       final result = await devService.login(_username, _password);
       if (result == null) {
+        print("no data");
         _state = ResultState.NoData;
         notifyListeners();
         return _message = 'Empty Data';
       } else {
+        print(" data ready");
+
         _state = ResultState.HasData;
         notifyListeners();
         return _returnLogin = result;
