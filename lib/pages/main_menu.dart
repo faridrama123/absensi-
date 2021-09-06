@@ -1,4 +1,5 @@
 import 'package:absensi/pages/menu/menu_akun.dart';
+import 'package:absensi/pages/menu/menu_application.dart';
 import 'package:absensi/pages/menu/menu_data.dart';
 import 'package:absensi/pages/menu/menu_home.dart';
 import 'package:absensi/style/colors.dart';
@@ -35,7 +36,12 @@ class _MainMenuState extends State<MainMenu> {
             onPageChanged: (index) {
               setState(() => currentIndex = index);
             },
-            children: <Widget>[MenuHome(), MenuData(), MenuAkun()],
+            children: <Widget>[
+              MenuHome(),
+              MenuData(),
+              MenuApplication(),
+              MenuAkun()
+            ],
           ),
         ),
         bottomNavigationBar: BottomNavyBar(
@@ -56,6 +62,12 @@ class _MainMenuState extends State<MainMenu> {
             BottomNavyBarItem(
               icon: Icon(Icons.history),
               title: Text('Riwayat'),
+              activeColor: ColorsTheme.primary1,
+              textAlign: TextAlign.center,
+            ),
+            BottomNavyBarItem(
+              icon: Icon(Icons.work_off),
+              title: Text('Leave Application'),
               activeColor: ColorsTheme.primary1,
               textAlign: TextAlign.center,
             ),

@@ -44,6 +44,7 @@ class _MenuHomeState extends State<MenuHome> {
   DevService _devService = DevService();
 
   late CameraDescription cameraDescription;
+  var faceData;
 
   Future getData() async {
     startUp();
@@ -54,6 +55,9 @@ class _MenuHomeState extends State<MenuHome> {
     DateTime now = DateTime.now();
     SharedPreferences pref = await SharedPreferences.getInstance();
     var accesToken = pref.getString("PREF_TOKEN")!;
+    faceData = pref.getString("PREF_FACE")!;
+    // print("faceData" + faceData.toString());
+
     print(pref.getString("PREF_TOKEN")!);
     _devService.absenhariini(accesToken).then((value) async {
       var res = ReturnAbsenHari.fromJson(json.decode(value));
@@ -241,32 +245,32 @@ class _MenuHomeState extends State<MenuHome> {
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 4),
-            child: Container(
-              child: Text(
-                posisi!,
-                style: TextStyle(
-                  color: Color(0xff171111),
-                  fontSize: 14,
-                  fontFamily: "Sansation Light",
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 4),
-            child: Container(
-              child: Text(
-                "Dept. " + departemen!,
-                style: TextStyle(
-                  color: Color(0xff171111),
-                  fontSize: 14,
-                  fontFamily: "Sansation Light",
-                ),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.only(top: 4),
+          //   child: Container(
+          //     child: Text(
+          //       posisi!,
+          //       style: TextStyle(
+          //         color: Color(0xff171111),
+          //         fontSize: 14,
+          //         fontFamily: "Sansation Light",
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.only(top: 4),
+          //   child: Container(
+          //     child: Text(
+          //       "Dept : " + departemen!,
+          //       style: TextStyle(
+          //         color: Color(0xff171111),
+          //         fontSize: 14,
+          //         fontFamily: "Sansation Light",
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
@@ -717,7 +721,7 @@ class _MenuHomeState extends State<MenuHome> {
                         online(),
                         profile(),
                         cardAbsenHariIni(),
-                        cardFaceData(),
+                        if (faceData.toString().length < 5) cardFaceData(),
                         runningClock(),
                         Center(
                           child: Padding(

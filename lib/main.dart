@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Absensi Sistem',
+        title: 'SpeedERP Absensi Sistem',
         home: SplashScreen(),
       ),
     );

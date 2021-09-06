@@ -989,44 +989,44 @@ class _MenuAkunState extends State<MenuAkun> {
                         textCapitalization: TextCapitalization.sentences,
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        color: Color(0xfffafaff),
-                      ),
-                      margin: EdgeInsets.only(
-                          bottom: 5, left: 20, top: 20, right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Leave Application",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0)),
-                          Icon(Icons.arrow_right_rounded)
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        color: Color(0xfffafaff),
-                      ),
-                      margin: EdgeInsets.only(
-                          bottom: 5, left: 20, top: 10, right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Document",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0)),
-                          Icon(Icons.arrow_right_rounded)
-                        ],
-                      ),
-                    ),
+                    // Container(
+                    //   width: MediaQuery.of(context).size.width,
+                    //   padding: EdgeInsets.all(15),
+                    //   decoration: BoxDecoration(
+                    //     color: Color(0xfffafaff),
+                    //   ),
+                    //   margin: EdgeInsets.only(
+                    //       bottom: 5, left: 20, top: 20, right: 20),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       Text("Leave Application",
+                    //           style: TextStyle(
+                    //               fontWeight: FontWeight.w600,
+                    //               letterSpacing: 0)),
+                    //       Icon(Icons.arrow_right_rounded)
+                    //     ],
+                    //   ),
+                    // ),
+                    // Container(
+                    //   width: MediaQuery.of(context).size.width,
+                    //   padding: EdgeInsets.all(15),
+                    //   decoration: BoxDecoration(
+                    //     color: Color(0xfffafaff),
+                    //   ),
+                    //   margin: EdgeInsets.only(
+                    //       bottom: 5, left: 20, top: 10, right: 20),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       Text("Document",
+                    //           style: TextStyle(
+                    //               fontWeight: FontWeight.w600,
+                    //               letterSpacing: 0)),
+                    //       Icon(Icons.arrow_right_rounded)
+                    //     ],
+                    //   ),
+                    // ),
 
                     // Container(
                     //   margin: EdgeInsets.only(top: 10, left: 20, right: 20),
