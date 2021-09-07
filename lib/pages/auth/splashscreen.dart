@@ -66,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "ABSENSI",
+                    "SpeedERP For Staff",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -78,7 +78,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   Padding(
                     padding: EdgeInsets.only(left: Get.width * 0.2),
                     child: Text(
-                      "Recording Your Attendance",
+                      "Simplify Complexity ",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
