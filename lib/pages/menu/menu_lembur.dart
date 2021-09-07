@@ -4,7 +4,7 @@ import 'package:absensi/api/erp.glomed.service.dart';
 import 'package:absensi/api/service.dart';
 import 'package:absensi/models/listabsen/return.dart';
 import 'package:absensi/models/menu/cls_absen_hari_ini.dart';
-import 'package:absensi/models/myleave/return.dart';
+import 'package:absensi/models/myovertime/return.dart';
 import 'package:absensi/models/return_check.dart';
 import 'package:absensi/pages/general_widget.dart/widget_error.dart';
 import 'package:absensi/pages/general_widget.dart/widget_loading_page.dart';
@@ -16,40 +16,38 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class MenuApplication extends StatefulWidget {
+class MenuLembur extends StatefulWidget {
   @override
-  _MenuApplicationState createState() => _MenuApplicationState();
+  _MenuLemburState createState() => _MenuLemburState();
 }
 
-class _MenuApplicationState extends State<MenuApplication> {
+class _MenuLemburState extends State<MenuLembur> {
   DevService _devService = DevService();
 
-  late List<Listleave> listleave = [];
+  late List<Listovertime> listovertime = [];
   Future getData() async {
     DateTime now = DateTime.now();
     SharedPreferences pref = await SharedPreferences.getInstance();
     var accesToken = pref.getString("PREF_TOKEN")!;
 
-    _devService.myleave(accesToken).then((value) async {
-      var res = ReturnMyLeave.fromJson(json.decode(value));
+    _devService.myovertime(accesToken).then((value) async {
+      var res = ReturnMyOvertime.fromJson(json.decode(value));
 
       if (res.statusJson == true) {
-        print("my leave" + res.listleave.length.toString());
+        print("my lembur" + res.listovertime.length.toString());
 
         setState(() {
-          listleave = res.listleave;
-          print(listleave.length);
+          listovertime = res.listovertime;
+          print(listovertime.length);
         });
       }
     });
   }
 
+  TextEditingController tanggalLembur = TextEditingController();
   TextEditingController timestart = TextEditingController();
   TextEditingController timeend = TextEditingController();
-  TextEditingController tanggalMulai = TextEditingController();
-  TextEditingController tanggalAkhir = TextEditingController();
   TextEditingController keterangan = TextEditingController();
-  TextEditingController tipe = TextEditingController();
 
   @override
   void initState() {
@@ -77,7 +75,7 @@ class _MenuApplicationState extends State<MenuApplication> {
               Container(
                 child: Center(
                   child: Text(
-                    "Leave Application",
+                    "Overtime Application",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Color(0xff171111),
@@ -88,65 +86,65 @@ class _MenuApplicationState extends State<MenuApplication> {
                   ),
                 ),
               ),
+              // Container(
+              //   margin: EdgeInsets.only(bottom: 5, left: 35, top: 20),
+              //   child: Text("Title",
+              //       style: TextStyle(
+              //           fontWeight: FontWeight.w600, letterSpacing: 0)),
+              // ),
+              // Container(
+              //   margin: EdgeInsets.only(top: 15, left: 30, right: 20),
+              //   child: TextFormField(
+              //     //    controller: ctrlMaritalStatus,
+              //     style: GoogleFonts.ibmPlexSans(
+              //         textStyle:
+              //             TextStyle(fontSize: 15, color: Color(0xff4a4c4f))),
+              //     decoration: InputDecoration(
+              //       hintText: "Title",
+              //       hintStyle: GoogleFonts.ibmPlexSans(
+              //           textStyle:
+              //               TextStyle(fontSize: 15, color: Color(0xff4a4c4f))),
+              //       border: OutlineInputBorder(
+              //           borderRadius: BorderRadius.all(
+              //             Radius.circular(8.0),
+              //           ),
+              //           borderSide: BorderSide.none),
+              //       enabledBorder: OutlineInputBorder(
+              //           borderRadius: BorderRadius.all(
+              //             Radius.circular(8.0),
+              //           ),
+              //           borderSide: BorderSide.none),
+              //       focusedBorder: OutlineInputBorder(
+              //           borderRadius: BorderRadius.all(
+              //             Radius.circular(8.0),
+              //           ),
+              //           borderSide: BorderSide.none),
+              //       filled: true,
+              //       fillColor: Color(0xfffafaff),
+              //       prefixIcon: Icon(
+              //         Icons.title,
+              //         size: 22,
+              //       ),
+              //       isDense: true,
+              //       contentPadding: EdgeInsets.all(0),
+              //     ),
+              //     keyboardType: TextInputType.emailAddress,
+              //     textCapitalization: TextCapitalization.sentences,
+              //   ),
+              // ),'
+
               SizedBox(
                 height: 30,
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 5, left: 35, top: 20),
-                child: Text("Title",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600, letterSpacing: 0)),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 15, left: 30, right: 20),
-                child: TextFormField(
-                  controller: tipe,
-                  style: GoogleFonts.ibmPlexSans(
-                      textStyle:
-                          TextStyle(fontSize: 15, color: Color(0xff4a4c4f))),
-                  decoration: InputDecoration(
-                    hintText: "Title",
-                    hintStyle: GoogleFonts.ibmPlexSans(
-                        textStyle:
-                            TextStyle(fontSize: 15, color: Color(0xff4a4c4f))),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8.0),
-                        ),
-                        borderSide: BorderSide.none),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8.0),
-                        ),
-                        borderSide: BorderSide.none),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8.0),
-                        ),
-                        borderSide: BorderSide.none),
-                    filled: true,
-                    fillColor: Color(0xfffafaff),
-                    prefixIcon: Icon(
-                      Icons.title,
-                      size: 22,
-                    ),
-                    isDense: true,
-                    contentPadding: EdgeInsets.all(0),
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  textCapitalization: TextCapitalization.sentences,
-                ),
-              ),
-              Container(
                 margin: EdgeInsets.only(bottom: 5, left: 35, top: 10),
-                child: Text("Tanggal Mulai",
+                child: Text("Tanggal Lembur",
                     style: TextStyle(
                         fontWeight: FontWeight.w600, letterSpacing: 0)),
               ),
               Container(
                 margin: EdgeInsets.only(top: 5, left: 30, right: 20),
                 child: TextFormField(
-                  controller: tanggalMulai,
                   onTap: () {
                     showDatePicker(
                       context: context,
@@ -156,69 +154,12 @@ class _MenuApplicationState extends State<MenuApplication> {
                     ).then((pickedDate) {
                       print(pickedDate);
 
-                      tanggalMulai.text =
+                      tanggalLembur.text =
                           convertDateTimeDisplay(pickedDate.toString());
+                      print(" tanggalLembur.text " + tanggalLembur.text);
                     });
                   },
-                  style: GoogleFonts.ibmPlexSans(
-                      textStyle:
-                          TextStyle(fontSize: 15, color: Color(0xff4a4c4f))),
-                  decoration: InputDecoration(
-                    hintText: "mm/dd/yyyy",
-                    hintStyle: GoogleFonts.ibmPlexSans(
-                        textStyle:
-                            TextStyle(fontSize: 15, color: Color(0xff4a4c4f))),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8.0),
-                        ),
-                        borderSide: BorderSide.none),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8.0),
-                        ),
-                        borderSide: BorderSide.none),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8.0),
-                        ),
-                        borderSide: BorderSide.none),
-                    filled: true,
-                    fillColor: Color(0xfffafaff),
-                    prefixIcon: Icon(
-                      Icons.date_range,
-                      size: 22,
-                    ),
-                    isDense: true,
-                    contentPadding: EdgeInsets.all(0),
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  textCapitalization: TextCapitalization.sentences,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 5, left: 35, top: 20),
-                child: Text("Tanggal Akhir",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600, letterSpacing: 0)),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 5, left: 30, right: 20),
-                child: TextFormField(
-                  controller: tanggalAkhir,
-                  onTap: () {
-                    showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2020, 1),
-                      lastDate: DateTime(2021, 12),
-                    ).then((pickedDate) {
-                      print(pickedDate);
-
-                      tanggalAkhir.text =
-                          convertDateTimeDisplay(pickedDate.toString());
-                    });
-                  },
+                  controller: tanggalLembur,
                   style: GoogleFonts.ibmPlexSans(
                       textStyle:
                           TextStyle(fontSize: 15, color: Color(0xff4a4c4f))),
@@ -385,6 +326,7 @@ class _MenuApplicationState extends State<MenuApplication> {
                   textCapitalization: TextCapitalization.sentences,
                 ),
               ),
+
               Container(
                 margin: EdgeInsets.only(bottom: 5, left: 35, top: 20),
                 child: Text("Keterangan",
@@ -440,14 +382,12 @@ class _MenuApplicationState extends State<MenuApplication> {
                     var idstaff = pref.getString("PREF_NIP")!;
 
                     _devService
-                        .leave(
+                        .overtime(
                             accesToken,
                             idstaff,
-                            tanggalMulai.text,
+                            tanggalLembur.text,
                             keterangan.text,
-                            tipe.text,
-                            tanggalMulai.text,
-                            tanggalAkhir.text,
+                            tanggalLembur.text,
                             timestart.text,
                             timeend.text)
                         .then((value) async {
@@ -470,9 +410,13 @@ class _MenuApplicationState extends State<MenuApplication> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 15,
+              ),
+
               Container(
                 margin: EdgeInsets.only(bottom: 5, left: 35, top: 20),
-                child: Text("History Leave",
+                child: Text("History Overtime",
                     style: TextStyle(
                         fontWeight: FontWeight.w600, letterSpacing: 0)),
               ),
@@ -482,17 +426,18 @@ class _MenuApplicationState extends State<MenuApplication> {
               Container(
                 height: 200,
                 child: ListView.builder(
-                    itemCount: listleave.length,
+                    itemCount: listovertime.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         children: [
                           ListTile(
-                              leading: Text(listleave[index].tanggal +
-                                  "\n" +
-                                  listleave[index].tipe),
-                              trailing: (listleave[index].status.toString() ==
+                              leading: Text(listovertime[index].tglLembur),
+                              trailing: (listovertime[index]
+                                              .status
+                                              .toString() ==
                                           "null" ||
-                                      listleave[index].status.toString() == "0")
+                                      listovertime[index].status.toString() ==
+                                          "0")
                                   ? Text(
                                       'pending',
                                       style: TextStyle(
@@ -506,14 +451,14 @@ class _MenuApplicationState extends State<MenuApplication> {
                               title: Column(
                                 children: [
                                   Text(
-                                    "Mulai : " + listleave[index].mulai,
+                                    "Mulai : " + listovertime[index].jamMulai,
                                     style: GoogleFonts.ibmPlexSans(
                                         textStyle: TextStyle(
                                             fontSize: 15,
                                             color: Color(0xff4a4c4f))),
                                   ),
                                   Text(
-                                    "Akhir : " + listleave[index].akhir,
+                                    "Akhir : " + listovertime[index].jamAkhir,
                                     style: GoogleFonts.ibmPlexSans(
                                         textStyle: TextStyle(
                                             fontSize: 15,
@@ -526,6 +471,7 @@ class _MenuApplicationState extends State<MenuApplication> {
                       );
                     }),
               ),
+
               SizedBox(
                 height: 50,
               )

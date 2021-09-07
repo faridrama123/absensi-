@@ -2,6 +2,7 @@ import 'package:absensi/pages/menu/menu_akun.dart';
 import 'package:absensi/pages/menu/menu_application.dart';
 import 'package:absensi/pages/menu/menu_data.dart';
 import 'package:absensi/pages/menu/menu_home.dart';
+import 'package:absensi/pages/menu/menu_lembur.dart';
 import 'package:absensi/style/colors.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,7 @@ class _MainMenuState extends State<MainMenu> {
             children: <Widget>[
               MenuHome(),
               MenuData(),
+              MenuLembur(),
               MenuApplication(),
               MenuAkun()
             ],
@@ -62,6 +64,12 @@ class _MainMenuState extends State<MainMenu> {
             BottomNavyBarItem(
               icon: Icon(Icons.history),
               title: Text('Riwayat'),
+              activeColor: ColorsTheme.primary1,
+              textAlign: TextAlign.center,
+            ),
+            BottomNavyBarItem(
+              icon: Icon(Icons.add),
+              title: Text('Overtime'),
               activeColor: ColorsTheme.primary1,
               textAlign: TextAlign.center,
             ),
