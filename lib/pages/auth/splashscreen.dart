@@ -70,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 48,
+                      fontSize: 42,
                       fontFamily: "Sansation Light",
                       fontWeight: FontWeight.bold,
                     ),
@@ -78,7 +78,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   Padding(
                     padding: EdgeInsets.only(left: Get.width * 0.2),
                     child: Text(
-                      "Simplify Complexity ",
+                      "Simplify Complexity",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,

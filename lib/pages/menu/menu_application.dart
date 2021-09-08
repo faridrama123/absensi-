@@ -339,7 +339,6 @@ class _MenuApplicationState extends State<MenuApplication> {
 
                     if (pickedTime != null) {
                       print(pickedTime.format(context)); //output 10:51 PM
-
                       setState(() {
                         timeend.text = pickedTime.format(context).toString();
                       });

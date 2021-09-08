@@ -181,10 +181,10 @@ class _LoginPageState extends State<LoginPage> {
                   Center(
                     child: Container(
                       child: Text(
-                        "ABSENSI SYSTEM",
+                        "SpeedERP For Staff",
                         style: TextStyle(
                             fontFamily: 'BalsamiqSans',
-                            fontSize: 24,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
