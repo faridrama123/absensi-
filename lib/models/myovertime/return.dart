@@ -40,7 +40,7 @@ class Listovertime {
   late final String staffId;
   late final String tanggal;
   late final String ket;
-  late final int status;
+  late final String status;
   late final String tglLembur;
   late final String jamMulai;
   late final String jamAkhir;

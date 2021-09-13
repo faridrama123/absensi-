@@ -47,7 +47,7 @@ class _AbsenState extends State<AbsenForm> {
   CameraPosition _position = positionCenterPoint;
   Completer<GoogleMapController> _controller = Completer();
   double jarak = 0;
-  double maxJarak = 500;
+  double maxJarak = 100;
   String msgJarak =
       "Jarak lokasi anda melebih batas maksimal office, harap absensi diwilayah office";
   String inOut = "IN";
@@ -143,7 +143,7 @@ class _AbsenState extends State<AbsenForm> {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
     setState(() {
-      maxJarak = 500;
+      maxJarak = 100;
       latitudeOffice = double.parse(pref.getString("PREF_LATITUDE")!);
 
       /// -6.2694281; //latitudeOffice

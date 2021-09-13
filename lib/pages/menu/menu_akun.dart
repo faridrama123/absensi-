@@ -33,6 +33,12 @@ class _MenuAkunState extends State<MenuAkun> {
   String phone = "";
   String email = "";
   String address = "";
+  String bankName = "";
+  String nobankName = "";
+
+  String division = "";
+  String position = "";
+  String section = "";
 
   late ThemeData themeData;
 
@@ -47,6 +53,13 @@ class _MenuAkunState extends State<MenuAkun> {
   TextEditingController ctrlNama = new TextEditingController();
   TextEditingController ctrlAlamat = new TextEditingController();
   TextEditingController ctrlPayroll = new TextEditingController();
+
+  TextEditingController ctrlBankName = new TextEditingController();
+  TextEditingController ctrlNoBank = new TextEditingController();
+
+  TextEditingController ctrDivison = new TextEditingController();
+  TextEditingController ctrlPosition = new TextEditingController();
+  TextEditingController ctrlSection = new TextEditingController();
 
   DevService _devService = DevService();
 
@@ -79,6 +92,16 @@ class _MenuAkunState extends State<MenuAkun> {
           phone = res.profile?.phone ?? "";
           email = res.profile?.email ?? "";
           address = res.profile?.address ?? "";
+          bankName = res.profile?.bank_name ?? "";
+          nobankName = res.profile?.bank_accountno ?? "";
+
+          division = res.profile?.division ?? "";
+          position = res.profile?.position ?? "";
+          section = res.profile?.section ?? "";
+
+          ctrDivison.text = division;
+          ctrlPosition.text = position;
+          ctrlSection.text = section;
 
           ctrlMaritalStatus.text = maritalStatus;
           ctrlBirthday.text = birthday;
@@ -87,6 +110,9 @@ class _MenuAkunState extends State<MenuAkun> {
           ctrlPhone.text = phone;
           ctrlEmail.text = email;
           ctrlAddress.text = address;
+
+          ctrlBankName.text = bankName;
+          ctrlNoBank.text = nobankName;
 
           //  print("maritalStatus " + maritalStatus + ctrlMaritalStatus.text);
 
@@ -710,7 +736,7 @@ class _MenuAkunState extends State<MenuAkun> {
                             textStyle: TextStyle(
                                 fontSize: 15, color: Color(0xff4a4c4f))),
                         decoration: InputDecoration(
-                          hintText: "Bank Name",
+                          hintText: "Bank BCA",
                           hintStyle: GoogleFonts.ibmPlexSans(
                               textStyle: TextStyle(
                                   fontSize: 15, color: Color(0xff4a4c4f))),
@@ -745,7 +771,7 @@ class _MenuAkunState extends State<MenuAkun> {
                     Container(
                       margin: EdgeInsets.only(top: 10, left: 30, right: 20),
                       child: TextFormField(
-                        //    controller: ctrlMaritalStatus,
+                        controller: ctrlBankName,
                         style: GoogleFonts.ibmPlexSans(
                             textStyle: TextStyle(
                                 fontSize: 15, color: Color(0xff4a4c4f))),
@@ -785,7 +811,7 @@ class _MenuAkunState extends State<MenuAkun> {
                     Container(
                       margin: EdgeInsets.only(top: 10, left: 30, right: 20),
                       child: TextFormField(
-                        //    controller: ctrlMaritalStatus,
+                        controller: ctrlNoBank,
                         style: GoogleFonts.ibmPlexSans(
                             textStyle: TextStyle(
                                 fontSize: 15, color: Color(0xff4a4c4f))),
@@ -831,7 +857,7 @@ class _MenuAkunState extends State<MenuAkun> {
                     Container(
                       margin: EdgeInsets.only(top: 10, left: 30, right: 20),
                       child: TextFormField(
-                        //    controller: ctrlMaritalStatus,
+                        controller: ctrDivison,
                         style: GoogleFonts.ibmPlexSans(
                             textStyle: TextStyle(
                                 fontSize: 15, color: Color(0xff4a4c4f))),
@@ -872,12 +898,12 @@ class _MenuAkunState extends State<MenuAkun> {
                     Container(
                       margin: EdgeInsets.only(top: 10, left: 30, right: 20),
                       child: TextFormField(
-                        //    controller: ctrlMaritalStatus,
+                        controller: ctrlPosition,
                         style: GoogleFonts.ibmPlexSans(
                             textStyle: TextStyle(
                                 fontSize: 15, color: Color(0xff4a4c4f))),
                         decoration: InputDecoration(
-                          hintText: "Departement",
+                          hintText: "Position",
                           hintStyle: GoogleFonts.ibmPlexSans(
                               textStyle: TextStyle(
                                   fontSize: 15, color: Color(0xff4a4c4f))),
@@ -912,12 +938,12 @@ class _MenuAkunState extends State<MenuAkun> {
                     Container(
                       margin: EdgeInsets.only(top: 10, left: 30, right: 20),
                       child: TextFormField(
-                        //    controller: ctrlMaritalStatus,
+                        controller: ctrlSection,
                         style: GoogleFonts.ibmPlexSans(
                             textStyle: TextStyle(
                                 fontSize: 15, color: Color(0xff4a4c4f))),
                         decoration: InputDecoration(
-                          hintText: "Positions",
+                          hintText: "Section",
                           hintStyle: GoogleFonts.ibmPlexSans(
                               textStyle: TextStyle(
                                   fontSize: 15, color: Color(0xff4a4c4f))),
@@ -952,7 +978,6 @@ class _MenuAkunState extends State<MenuAkun> {
                     Container(
                       margin: EdgeInsets.only(top: 10, left: 30, right: 20),
                       child: TextFormField(
-                        //    controller: ctrlMaritalStatus,
                         style: GoogleFonts.ibmPlexSans(
                             textStyle: TextStyle(
                                 fontSize: 15, color: Color(0xff4a4c4f))),

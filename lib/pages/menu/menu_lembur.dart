@@ -8,6 +8,7 @@ import 'package:absensi/models/myovertime/return.dart';
 import 'package:absensi/models/return_check.dart';
 import 'package:absensi/pages/general_widget.dart/widget_error.dart';
 import 'package:absensi/pages/general_widget.dart/widget_loading_page.dart';
+import 'package:absensi/pages/general_widget.dart/widget_snackbar.dart';
 import 'package:absensi/style/colors.dart';
 import 'package:absensi/style/sizes.dart';
 import 'package:flutter/material.dart';
@@ -138,12 +139,21 @@ class _MenuLemburState extends State<MenuLembur> {
               ),
               Container(
                 margin: EdgeInsets.only(bottom: 5, left: 35, top: 10),
-                child: Text("Tanggal Lembur",
+                child: Text("Tanggal",
                     style: TextStyle(
                         fontWeight: FontWeight.w600, letterSpacing: 0)),
               ),
               Container(
                 margin: EdgeInsets.only(top: 5, left: 30, right: 20),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x3f000000),
+                      blurRadius: 4,
+                      offset: Offset(1, 1),
+                    ),
+                  ],
+                ),
                 child: TextFormField(
                   onTap: () {
                     showDatePicker(
@@ -198,11 +208,20 @@ class _MenuLemburState extends State<MenuLembur> {
               ),
               Container(
                 margin: EdgeInsets.only(bottom: 5, left: 35, top: 20),
-                child: Text("Jam Mulai",
+                child: Text("Jam In",
                     style: TextStyle(
                         fontWeight: FontWeight.w600, letterSpacing: 0)),
               ),
               Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x3f000000),
+                      blurRadius: 4,
+                      offset: Offset(1, 1),
+                    ),
+                  ],
+                ),
                 margin: EdgeInsets.only(top: 5, left: 30, right: 20),
                 child: TextFormField(
                   controller: timestart, //editing controller of this TextField
@@ -263,11 +282,20 @@ class _MenuLemburState extends State<MenuLembur> {
               ),
               Container(
                 margin: EdgeInsets.only(bottom: 5, left: 35, top: 20),
-                child: Text("Jam Akhir",
+                child: Text("Jam Out",
                     style: TextStyle(
                         fontWeight: FontWeight.w600, letterSpacing: 0)),
               ),
               Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x3f000000),
+                      blurRadius: 4,
+                      offset: Offset(1, 1),
+                    ),
+                  ],
+                ),
                 margin: EdgeInsets.only(top: 5, left: 30, right: 20),
                 child: TextFormField(
                   controller: timeend, //editing controller of this TextField
@@ -334,6 +362,15 @@ class _MenuLemburState extends State<MenuLembur> {
                         fontWeight: FontWeight.w600, letterSpacing: 0)),
               ),
               Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x3f000000),
+                      blurRadius: 4,
+                      offset: Offset(1, 1),
+                    ),
+                  ],
+                ),
                 margin: EdgeInsets.only(top: 15, left: 30, right: 20),
                 child: TextFormField(
                   maxLines: 3,
@@ -376,27 +413,42 @@ class _MenuLemburState extends State<MenuLembur> {
               Center(
                 child: RaisedButton(
                   onPressed: () async {
-                    SharedPreferences pref =
-                        await SharedPreferences.getInstance();
-                    var accesToken = pref.getString("PREF_TOKEN")!;
-                    var idstaff = pref.getString("PREF_NIP")!;
+                    print(timestart.text + "  " + timeend.text);
 
-                    _devService
-                        .overtime(
-                            accesToken,
-                            idstaff,
-                            tanggalLembur.text,
-                            keterangan.text,
-                            tanggalLembur.text,
-                            timestart.text,
-                            timeend.text)
-                        .then((value) async {
-                      var res = ReturnCheck.fromJson(json.decode(value));
+                    var ts = timestart.text.substring(0, 2);
+                    var te = timeend.text.substring(0, 2);
 
-                      if (res.statusJson == true) {
-                        getData();
-                      }
-                    });
+                    var count = int.parse(te) - int.parse(ts);
+                    print(count.toString());
+
+                    if (count < 20) {
+                      WidgetSnackbar(
+                          context: context,
+                          message: "Overtime required 2 Hours+ ",
+                          warna: "merah");
+                    } else {
+                      SharedPreferences pref =
+                          await SharedPreferences.getInstance();
+                      var accesToken = pref.getString("PREF_TOKEN")!;
+                      var idstaff = pref.getString("PREF_NIP")!;
+
+                      _devService
+                          .overtime(
+                              accesToken,
+                              idstaff,
+                              tanggalLembur.text,
+                              keterangan.text,
+                              tanggalLembur.text,
+                              timestart.text,
+                              timeend.text)
+                          .then((value) async {
+                        var res = ReturnCheck.fromJson(json.decode(value));
+
+                        if (res.statusJson == true) {
+                          getData();
+                        }
+                      });
+                    }
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
@@ -416,7 +468,7 @@ class _MenuLemburState extends State<MenuLembur> {
 
               Container(
                 margin: EdgeInsets.only(bottom: 5, left: 35, top: 20),
-                child: Text("History Overtime",
+                child: Text("  History Overtime",
                     style: TextStyle(
                         fontWeight: FontWeight.w600, letterSpacing: 0)),
               ),
@@ -428,47 +480,52 @@ class _MenuLemburState extends State<MenuLembur> {
                 child: ListView.builder(
                     itemCount: listovertime.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: [
-                          ListTile(
-                              leading: Text(listovertime[index].tglLembur),
-                              trailing: (listovertime[index]
-                                              .status
-                                              .toString() ==
-                                          "null" ||
-                                      listovertime[index].status.toString() ==
-                                          "0")
-                                  ? Text(
-                                      'pending',
-                                      style: TextStyle(
-                                          color: Colors.green, fontSize: 15),
-                                    )
-                                  : Text(
-                                      'diterima',
-                                      style: TextStyle(
-                                          color: Colors.green, fontSize: 15),
-                                    ),
-                              title: Column(
-                                children: [
-                                  Text(
-                                    "Mulai : " + listovertime[index].jamMulai,
-                                    style: GoogleFonts.ibmPlexSans(
-                                        textStyle: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xff4a4c4f))),
-                                  ),
-                                  Text(
-                                    "Akhir : " + listovertime[index].jamAkhir,
-                                    style: GoogleFonts.ibmPlexSans(
-                                        textStyle: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xff4a4c4f))),
-                                  ),
-                                ],
-                              )),
-                          Divider(color: Colors.grey)
-                        ],
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 25, right: 15),
+                        child: card(listovertime[index]),
                       );
+
+                      // return Column(
+                      //   children: [
+                      //     ListTile(
+                      //         leading: Text(listovertime[index].tglLembur),
+                      //         trailing: (listovertime[index]
+                      //                         .status
+                      //                         .toString() ==
+                      //                     "null" ||
+                      //                 listovertime[index].status.toString() ==
+                      //                     "0")
+                      //             ? Text(
+                      //                 'pending',
+                      //                 style: TextStyle(
+                      //                     color: Colors.green, fontSize: 15),
+                      //               )
+                      //             : Text(
+                      //                 'diterima',
+                      //                 style: TextStyle(
+                      //                     color: Colors.green, fontSize: 15),
+                      //               ),
+                      //         title: Column(
+                      //           children: [
+                      //             Text(
+                      //               "Mulai : " + listovertime[index].jamMulai,
+                      //               style: GoogleFonts.ibmPlexSans(
+                      //                   textStyle: TextStyle(
+                      //                       fontSize: 15,
+                      //                       color: Color(0xff4a4c4f))),
+                      //             ),
+                      //             Text(
+                      //               "Akhir : " + listovertime[index].jamAkhir,
+                      //               style: GoogleFonts.ibmPlexSans(
+                      //                   textStyle: TextStyle(
+                      //                       fontSize: 15,
+                      //                       color: Color(0xff4a4c4f))),
+                      //             ),
+                      //           ],
+                      //         )),
+                      //     Divider(color: Colors.grey)
+                      //   ],
+                      // );
                     }),
               ),
 
@@ -479,4 +536,142 @@ class _MenuLemburState extends State<MenuLembur> {
           ),
         ));
   }
+}
+
+Widget card(Listovertime item) {
+  // DateTime tempDate =
+  //     DateFormat("yyyy-MM-dd hh:mm:ss").parse("2020-08-09 00:00:00");
+  // String tanggal = DateFormat('dd').format(tempDate);
+  // String hari = DateFormat('EEEE').format(tempDate);
+  // String bulantahun = DateFormat('MM/yyyy').format(tempDate);
+  // String wfhWfo = item.wfhWfo!.toUpperCase();
+  // String datangPulang = item.datangPulang!.toUpperCase();
+  // String tanggalAbsen = item.tanggalAbsen!;
+  // String jamAbsen = item.jamAbsen!;
+
+  return Center(
+    child: Card(
+      elevation: 1,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Container(
+          width: Get.width * 0.9,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Color(0x3f000000),
+                blurRadius: 4,
+                offset: Offset(1, 1),
+              ),
+            ],
+            color: Color(0xfffafaff),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(14.0),
+            child: Row(
+              children: [
+                Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        child: Text(
+                          "TANGGAL           :   " + item.tanggal,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xff171111),
+                            fontSize: 11,
+                            fontFamily: "Sansation Light",
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SizedBox(
+                        child: Text(
+                          "JAM IN                :  " + item.jamMulai,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xff171111),
+                            fontSize: 11,
+                            fontFamily: "Sansation Light",
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SizedBox(
+                        child: Text(
+                          "JAM OUT            :  " + item.jamAkhir,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xff171111),
+                            fontSize: 11,
+                            fontFamily: "Sansation Light",
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
+                      // SizedBox(
+                      //   height: 5,
+                      // ),
+                      // Text(
+                      //   "KET                      :  " + item.ket,
+                      //   textAlign: TextAlign.center,
+                      //   style: TextStyle(
+                      //     color: Color(0xff171111),
+                      //     fontSize: 14,
+                      //     fontFamily: "Sansation Light",
+                      //     fontWeight: FontWeight.w300,
+                      //   ),
+                      // ),
+
+                      SizedBox(
+                        height: 5,
+                      ),
+                      (item.status.toString() == "null" ||
+                              item.status.toString() == "0")
+                          ? SizedBox(
+                              child: Text(
+                                "STATUS              :  " + "PENDING",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  fontSize: 11,
+                                  fontFamily: "Sansation Light",
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            )
+                          : SizedBox(
+                              child: Text(
+                                "STATUS              :  " + "ACCEPTED",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  fontSize: 11,
+                                  fontFamily: "Sansation Light",
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            )
+                    ],
+                  ),
+                ),
+                // Container(
+                //     height: 80,
+                //     child: VerticalDivider(color: ColorsTheme.primary1)),
+              ],
+            ),
+          )),
+    ),
+  );
 }

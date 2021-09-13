@@ -10,11 +10,14 @@ import 'package:absensi/pages/general_widget.dart/widget_error.dart';
 import 'package:absensi/pages/general_widget.dart/widget_loading_page.dart';
 import 'package:absensi/style/colors.dart';
 import 'package:absensi/style/sizes.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io' as Io;
 
 class MenuApplication extends StatefulWidget {
   @override
@@ -65,6 +68,45 @@ class _MenuApplicationState extends State<MenuApplication> {
     return formatted;
   }
 
+  // String? _fileName;
+  // List<PlatformFile>? _paths;
+  // String? _directoryPath;
+  // String? _extension;
+  // bool _loadingPath = false;
+  // bool _multiPick = false;
+  // FileType _pickingType = FileType.custom;
+  // TextEditingController _controller = TextEditingController();
+
+  // void _openFileExplorer() async {
+  //   setState(() => _loadingPath = true);
+  //   try {
+  //     _directoryPath = null;
+  //     _paths = (await FilePicker.platform.pickFiles(
+  //       type: _pickingType,
+  //       allowMultiple: _multiPick,
+  //       onFileLoading: (FilePickerStatus status) => print(status),
+  //       allowedExtensions: ['pdf'],
+  //     ))
+  //         ?.files;
+
+  //     final path = _paths!.map((e) => e.path).toList()[0].toString();
+  //     final bytes = Io.File(path).readAsBytesSync();
+
+  //     String img64 = base64Encode(bytes);
+  //     print(img64.substring(0, 100));
+  //   } on PlatformException catch (e) {
+  //     print("Unsupported operation" + e.toString());
+  //   } catch (ex) {
+  //     print(ex);
+  //   }
+  //   if (!mounted) return;
+  //   setState(() {
+  //     _loadingPath = false;
+  //     _fileName =
+  //         _paths != null ? _paths!.map((e) => e.name).toString() : '...';
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,6 +140,15 @@ class _MenuApplicationState extends State<MenuApplication> {
                         fontWeight: FontWeight.w600, letterSpacing: 0)),
               ),
               Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x3f000000),
+                      blurRadius: 4,
+                      offset: Offset(1, 1),
+                    ),
+                  ],
+                ),
                 margin: EdgeInsets.only(top: 15, left: 30, right: 20),
                 child: TextFormField(
                   controller: tipe,
@@ -144,6 +195,15 @@ class _MenuApplicationState extends State<MenuApplication> {
                         fontWeight: FontWeight.w600, letterSpacing: 0)),
               ),
               Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x3f000000),
+                      blurRadius: 4,
+                      offset: Offset(1, 1),
+                    ),
+                  ],
+                ),
                 margin: EdgeInsets.only(top: 5, left: 30, right: 20),
                 child: TextFormField(
                   controller: tanggalMulai,
@@ -203,6 +263,15 @@ class _MenuApplicationState extends State<MenuApplication> {
                         fontWeight: FontWeight.w600, letterSpacing: 0)),
               ),
               Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x3f000000),
+                      blurRadius: 4,
+                      offset: Offset(1, 1),
+                    ),
+                  ],
+                ),
                 margin: EdgeInsets.only(top: 5, left: 30, right: 20),
                 child: TextFormField(
                   controller: tanggalAkhir,
@@ -262,6 +331,15 @@ class _MenuApplicationState extends State<MenuApplication> {
                         fontWeight: FontWeight.w600, letterSpacing: 0)),
               ),
               Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x3f000000),
+                      blurRadius: 4,
+                      offset: Offset(1, 1),
+                    ),
+                  ],
+                ),
                 margin: EdgeInsets.only(top: 5, left: 30, right: 20),
                 child: TextFormField(
                   controller: timestart, //editing controller of this TextField
@@ -327,6 +405,15 @@ class _MenuApplicationState extends State<MenuApplication> {
                         fontWeight: FontWeight.w600, letterSpacing: 0)),
               ),
               Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x3f000000),
+                      blurRadius: 4,
+                      offset: Offset(1, 1),
+                    ),
+                  ],
+                ),
                 margin: EdgeInsets.only(top: 5, left: 30, right: 20),
                 child: TextFormField(
                   controller: timeend, //editing controller of this TextField
@@ -391,6 +478,15 @@ class _MenuApplicationState extends State<MenuApplication> {
                         fontWeight: FontWeight.w600, letterSpacing: 0)),
               ),
               Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x3f000000),
+                      blurRadius: 4,
+                      offset: Offset(1, 1),
+                    ),
+                  ],
+                ),
                 margin: EdgeInsets.only(top: 15, left: 30, right: 20),
                 child: TextFormField(
                   maxLines: 3,
@@ -429,6 +525,12 @@ class _MenuApplicationState extends State<MenuApplication> {
               ),
               SizedBox(
                 height: 15,
+              ),
+              Container(
+                margin: EdgeInsets.only(bottom: 5, left: 35, top: 20),
+                child: Text("File tambahan",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, letterSpacing: 0)),
               ),
               Center(
                 child: RaisedButton(
@@ -483,45 +585,9 @@ class _MenuApplicationState extends State<MenuApplication> {
                 child: ListView.builder(
                     itemCount: listleave.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: [
-                          ListTile(
-                              leading: Text(listleave[index].tanggal +
-                                  "\n" +
-                                  listleave[index].tipe),
-                              trailing: (listleave[index].status.toString() ==
-                                          "null" ||
-                                      listleave[index].status.toString() == "0")
-                                  ? Text(
-                                      'pending',
-                                      style: TextStyle(
-                                          color: Colors.green, fontSize: 15),
-                                    )
-                                  : Text(
-                                      'diterima',
-                                      style: TextStyle(
-                                          color: Colors.green, fontSize: 15),
-                                    ),
-                              title: Column(
-                                children: [
-                                  Text(
-                                    "Mulai : " + listleave[index].mulai,
-                                    style: GoogleFonts.ibmPlexSans(
-                                        textStyle: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xff4a4c4f))),
-                                  ),
-                                  Text(
-                                    "Akhir : " + listleave[index].akhir,
-                                    style: GoogleFonts.ibmPlexSans(
-                                        textStyle: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xff4a4c4f))),
-                                  ),
-                                ],
-                              )),
-                          Divider(color: Colors.grey)
-                        ],
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 25, right: 15),
+                        child: card(listleave[index]),
                       );
                     }),
               ),
@@ -532,4 +598,175 @@ class _MenuApplicationState extends State<MenuApplication> {
           ),
         ));
   }
+}
+
+Widget card(Listleave item) {
+  // DateTime tempDate =
+  //     DateFormat("yyyy-MM-dd hh:mm:ss").parse("2020-08-09 00:00:00");
+  // String tanggal = DateFormat('dd').format(tempDate);
+  // String hari = DateFormat('EEEE').format(tempDate);
+  // String bulantahun = DateFormat('MM/yyyy').format(tempDate);
+  // String wfhWfo = item.wfhWfo!.toUpperCase();
+  // String datangPulang = item.datangPulang!.toUpperCase();
+  // String tanggalAbsen = item.tanggalAbsen!;
+  // String jamAbsen = item.jamAbsen!;
+
+  return Center(
+    child: Card(
+      elevation: 1,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Container(
+          width: Get.width * 0.9,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Color(0x3f000000),
+                blurRadius: 4,
+                offset: Offset(1, 1),
+              ),
+            ],
+            color: Color(0xfffafaff),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(14.0),
+            child: Row(
+              children: [
+                Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        child: Text(
+                          "TITLE                               :   " +
+                              item.tipe,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xff171111),
+                            fontSize: 11,
+                            fontFamily: "Sansation Light",
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SizedBox(
+                        child: Text(
+                          "TANGGAL MULAI          :   " + item.mulai,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xff171111),
+                            fontSize: 11,
+                            fontFamily: "Sansation Light",
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SizedBox(
+                        child: Text(
+                          "TANGGAL AKHIR          :   " + item.akhir,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xff171111),
+                            fontSize: 11,
+                            fontFamily: "Sansation Light",
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SizedBox(
+                        child: Text(
+                          "JAM IN                            :  " +
+                              item.jamMulai,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xff171111),
+                            fontSize: 11,
+                            fontFamily: "Sansation Light",
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SizedBox(
+                        child: Text(
+                          "JAM OUT                        :  " + item.jamAkhir,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xff171111),
+                            fontSize: 11,
+                            fontFamily: "Sansation Light",
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
+                      // SizedBox(
+                      //   height: 5,
+                      // ),
+                      // Text(
+                      //   "KET                      :  " + item.ket,
+                      //   textAlign: TextAlign.center,
+                      //   style: TextStyle(
+                      //     color: Color(0xff171111),
+                      //     fontSize: 14,
+                      //     fontFamily: "Sansation Light",
+                      //     fontWeight: FontWeight.w300,
+                      //   ),
+                      // ),
+
+                      SizedBox(
+                        height: 5,
+                      ),
+                      (item.status.toString() == "null" ||
+                              item.status.toString() == "0")
+                          ? SizedBox(
+                              child: Text(
+                                "STATUS                          :  " +
+                                    "PENDING",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  fontSize: 11,
+                                  fontFamily: "Sansation Light",
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            )
+                          : SizedBox(
+                              child: Text(
+                                "STATUS              :  " + "ACCEPTED",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  fontSize: 11,
+                                  fontFamily: "Sansation Light",
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            )
+                    ],
+                  ),
+                ),
+                // Container(
+                //     height: 80,
+                //     child: VerticalDivider(color: ColorsTheme.primary1)),
+              ],
+            ),
+          )),
+    ),
+  );
 }
