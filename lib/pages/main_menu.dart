@@ -1,9 +1,9 @@
-import 'package:absensi/pages/menu/menu_akun.dart';
-import 'package:absensi/pages/menu/menu_application.dart';
-import 'package:absensi/pages/menu/menu_data.dart';
-import 'package:absensi/pages/menu/menu_home.dart';
-import 'package:absensi/pages/menu/menu_lembur.dart';
-import 'package:absensi/style/colors.dart';
+import 'package:flutter_application_1/pages/menu/menu_akun.dart';
+import 'package:flutter_application_1/pages/menu/menu_application.dart';
+import 'package:flutter_application_1/pages/menu/menu_data.dart';
+import 'package:flutter_application_1/pages/menu/menu_home.dart';
+import 'package:flutter_application_1/pages/menu/menu_lembur.dart';
+import 'package:flutter_application_1/style/colors.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 

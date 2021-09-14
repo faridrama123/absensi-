@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-import 'package:absensi/api/erp.glomed.service.dart';
-import 'package:absensi/api/service.dart';
-import 'package:absensi/models/auth/cls_post_login.dart';
-import 'package:absensi/models/login/return.dart';
-import 'package:absensi/models/return_check.dart';
-import 'package:absensi/pages/general_widget.dart/widget_progress.dart';
-import 'package:absensi/pages/general_widget.dart/widget_snackbar.dart';
-import 'package:absensi/pages/main_menu.dart';
-import 'package:absensi/provider/provider.login.dart';
-import 'package:absensi/style/colors.dart';
-import 'package:absensi/style/sizes.dart';
+import 'package:flutter_application_1/api/erp.glomed.service.dart';
+import 'package:flutter_application_1/api/service.dart';
+import 'package:flutter_application_1/models/auth/cls_post_login.dart';
+import 'package:flutter_application_1/models/login/return.dart';
+import 'package:flutter_application_1/models/return_check.dart';
+import 'package:flutter_application_1/pages/general_widget.dart/widget_progress.dart';
+import 'package:flutter_application_1/pages/general_widget.dart/widget_snackbar.dart';
+import 'package:flutter_application_1/pages/main_menu.dart';
+import 'package:flutter_application_1/provider/provider.login.dart';
+import 'package:flutter_application_1/style/colors.dart';
+import 'package:flutter_application_1/style/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

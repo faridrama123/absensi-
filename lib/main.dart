@@ -1,7 +1,7 @@
 // @dart=2.9
-import 'package:absensi/api/erp.glomed.service.dart';
-import 'package:absensi/pages/auth/splashscreen.dart';
-import 'package:absensi/provider/provider.login.dart';
+import 'package:flutter_application_1/api/erp.glomed.service.dart';
+import 'package:flutter_application_1/pages/auth/splashscreen.dart';
+import 'package:flutter_application_1/provider/provider.login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'SpeedERP Absensi Sistem',
+        title: 'SpeedERP For Employee',
         home: SplashScreen(),
       ),
     );

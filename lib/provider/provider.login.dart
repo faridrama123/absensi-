@@ -1,6 +1,6 @@
-import 'package:absensi/api/erp.glomed.service.dart';
-import 'package:absensi/models/login/return.dart';
-import 'package:absensi/provider/result_state.dart';
+import 'package:flutter_application_1/api/erp.glomed.service.dart';
+import 'package:flutter_application_1/models/login/return.dart';
+import 'package:flutter_application_1/provider/result_state.dart';
 import 'package:flutter/material.dart';
 
 class ProviderLogin extends ChangeNotifier {

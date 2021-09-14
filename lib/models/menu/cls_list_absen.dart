@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:absensi/models/menu/cls_absen_hari_ini.dart';
+import 'package:flutter_application_1/models/menu/cls_absen_hari_ini.dart';
 
 ModelListAbsen modelListAbsenFromJson(String? str) =>
     ModelListAbsen.fromJson(json.decode(str!));

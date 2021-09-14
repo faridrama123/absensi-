@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:absensi/models/absen/post.dart';
-import 'package:absensi/models/absenhari/return.dart';
-import 'package:absensi/models/login/post.dart';
-import 'package:absensi/models/login/return.dart';
+import 'package:flutter_application_1/models/absen/post.dart';
+import 'package:flutter_application_1/models/absenhari/return.dart';
+import 'package:flutter_application_1/models/login/post.dart';
+import 'package:flutter_application_1/models/login/return.dart';
 import 'package:http/http.dart' as http;
 
 class DevService {
@@ -30,7 +30,8 @@ class DevService {
       String mulai,
       String akhir,
       String jammulai,
-      String jamakhir) async {
+      String jamakhir,
+      String pdfbase64) async {
     Map data = {
       "idstaff": idstaff,
       "tanggal": tanggal,
@@ -39,7 +40,8 @@ class DevService {
       "mulai": mulai,
       "akhir": akhir,
       "jam_mulai": jammulai,
-      "jam_akhir": jamakhir
+      "jam_akhir": jamakhir,
+      "pdf_base64": pdfbase64
     };
 
     var body = jsonEncode(data);

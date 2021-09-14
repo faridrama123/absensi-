@@ -1,5 +1,5 @@
-import 'package:absensi/pages/auth/login.dart';
-import 'package:absensi/style/colors.dart';
+import 'package:flutter_application_1/pages/auth/login.dart';
+import 'package:flutter_application_1/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

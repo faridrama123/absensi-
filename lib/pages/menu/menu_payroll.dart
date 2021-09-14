@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:absensi/api/erp.glomed.service.dart';
-import 'package:absensi/api/service.dart';
-import 'package:absensi/models/listabsen/return.dart';
-import 'package:absensi/models/menu/cls_absen_hari_ini.dart';
-import 'package:absensi/pages/general_widget.dart/widget_error.dart';
-import 'package:absensi/pages/general_widget.dart/widget_loading_page.dart';
-import 'package:absensi/style/colors.dart';
-import 'package:absensi/style/sizes.dart';
+import 'package:flutter_application_1/api/erp.glomed.service.dart';
+import 'package:flutter_application_1/api/service.dart';
+import 'package:flutter_application_1/models/listabsen/return.dart';
+import 'package:flutter_application_1/models/menu/cls_absen_hari_ini.dart';
+import 'package:flutter_application_1/pages/general_widget.dart/widget_error.dart';
+import 'package:flutter_application_1/pages/general_widget.dart/widget_loading_page.dart';
+import 'package:flutter_application_1/style/colors.dart';
+import 'package:flutter_application_1/style/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

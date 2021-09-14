@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:absensi/pages/auth/login.dart';
-import 'package:absensi/pages/main_menu.dart';
-import 'package:absensi/style/colors.dart';
-import 'package:absensi/style/sizes.dart';
+import 'package:flutter_application_1/pages/auth/login.dart';
+import 'package:flutter_application_1/pages/main_menu.dart';
+import 'package:flutter_application_1/style/colors.dart';
+import 'package:flutter_application_1/style/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:package_info/package_info.dart';
@@ -66,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "SpeedERP For Staff",
+                    "SpeedERP For Employee",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,

@@ -1,16 +1,16 @@
 import 'dart:async';
 
-import 'package:absensi/api/facenet.service.dart';
-import 'package:absensi/api/ml_kit_service.dart';
-import 'package:absensi/api/service.dart';
-import 'package:absensi/models/database.dart';
-import 'package:absensi/models/menu/cls_absen_hari_ini.dart';
-import 'package:absensi/pages/general_widget.dart/widget_progress.dart';
-import 'package:absensi/pages/general_widget.dart/widget_snackbar.dart';
-import 'package:absensi/pages/main_menu.dart';
-import 'package:absensi/pages/menu/sign-in.dart';
-import 'package:absensi/pages/menu/sign-up.dart';
-import 'package:absensi/style/colors.dart';
+import 'package:flutter_application_1/api/facenet.service.dart';
+import 'package:flutter_application_1/api/ml_kit_service.dart';
+import 'package:flutter_application_1/api/service.dart';
+import 'package:flutter_application_1/models/database.dart';
+import 'package:flutter_application_1/models/menu/cls_absen_hari_ini.dart';
+import 'package:flutter_application_1/pages/general_widget.dart/widget_progress.dart';
+import 'package:flutter_application_1/pages/general_widget.dart/widget_snackbar.dart';
+import 'package:flutter_application_1/pages/main_menu.dart';
+import 'package:flutter_application_1/pages/menu/sign-in.dart';
+import 'package:flutter_application_1/pages/menu/sign-up.dart';
+import 'package:flutter_application_1/style/colors.dart';
 import 'package:camera/camera.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:easy_permission_validator/easy_permission_validator.dart';

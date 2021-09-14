@@ -1,5 +1,5 @@
-import 'package:absensi/style/colors.dart';
-import 'package:absensi/style/sizes.dart';
+import 'package:flutter_application_1/style/colors.dart';
+import 'package:flutter_application_1/style/sizes.dart';
 import 'package:flutter/material.dart';
 
 class WidgetNoData extends StatefulWidget {

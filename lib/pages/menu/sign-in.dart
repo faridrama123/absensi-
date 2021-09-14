@@ -1,13 +1,13 @@
 // A screen that allows users to take a picture using a given camera.
 import 'dart:async';
 import 'dart:io';
-import 'package:absensi/api/camera.service.dart';
-import 'package:absensi/api/facenet.service.dart';
-import 'package:absensi/api/ml_kit_service.dart';
-import 'package:absensi/models/menu/cls_absen_hari_ini.dart';
-import 'package:absensi/pages/widgets/FacePainter.dart';
-import 'package:absensi/pages/widgets/auth-action-button.dart';
-import 'package:absensi/pages/widgets/camera_header.dart';
+import 'package:flutter_application_1/api/camera.service.dart';
+import 'package:flutter_application_1/api/facenet.service.dart';
+import 'package:flutter_application_1/api/ml_kit_service.dart';
+import 'package:flutter_application_1/models/menu/cls_absen_hari_ini.dart';
+import 'package:flutter_application_1/pages/widgets/FacePainter.dart';
+import 'package:flutter_application_1/pages/widgets/auth-action-button.dart';
+import 'package:flutter_application_1/pages/widgets/camera_header.dart';
 import 'package:camera/camera.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:flutter/material.dart';

@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-import 'package:absensi/api/erp.glomed.service.dart';
-import 'package:absensi/api/service.dart';
-import 'package:absensi/models/listabsen/return.dart';
-import 'package:absensi/models/menu/cls_absen_hari_ini.dart';
-import 'package:absensi/models/myovertime/return.dart';
-import 'package:absensi/models/return_check.dart';
-import 'package:absensi/pages/general_widget.dart/widget_error.dart';
-import 'package:absensi/pages/general_widget.dart/widget_loading_page.dart';
-import 'package:absensi/pages/general_widget.dart/widget_snackbar.dart';
-import 'package:absensi/style/colors.dart';
-import 'package:absensi/style/sizes.dart';
+import 'package:flutter_application_1/api/erp.glomed.service.dart';
+import 'package:flutter_application_1/api/service.dart';
+import 'package:flutter_application_1/models/listabsen/return.dart';
+import 'package:flutter_application_1/models/menu/cls_absen_hari_ini.dart';
+import 'package:flutter_application_1/models/myovertime/return.dart';
+import 'package:flutter_application_1/models/return_check.dart';
+import 'package:flutter_application_1/pages/general_widget.dart/widget_error.dart';
+import 'package:flutter_application_1/pages/general_widget.dart/widget_loading_page.dart';
+import 'package:flutter_application_1/pages/general_widget.dart/widget_snackbar.dart';
+import 'package:flutter_application_1/style/colors.dart';
+import 'package:flutter_application_1/style/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -408,7 +408,7 @@ class _MenuLemburState extends State<MenuLembur> {
                 ),
               ),
               SizedBox(
-                height: 15,
+                height: 30,
               ),
               Center(
                 child: RaisedButton(
@@ -454,7 +454,8 @@ class _MenuLemburState extends State<MenuLembur> {
                       borderRadius: BorderRadius.circular(15)),
                   color: ColorsTheme.primary1,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                     child: Text(
                       "AJUKAN",
                       style: TextStyle(color: Colors.white, fontSize: 16),
@@ -476,56 +477,15 @@ class _MenuLemburState extends State<MenuLembur> {
                 height: 15,
               ),
               Container(
-                height: 200,
+                height: 250,
                 child: ListView.builder(
                     itemCount: listovertime.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
-                        padding: const EdgeInsets.only(left: 25, right: 15),
+                        padding: const EdgeInsets.only(
+                            left: 26, right: 20, bottom: 10, top: 5),
                         child: card(listovertime[index]),
                       );
-
-                      // return Column(
-                      //   children: [
-                      //     ListTile(
-                      //         leading: Text(listovertime[index].tglLembur),
-                      //         trailing: (listovertime[index]
-                      //                         .status
-                      //                         .toString() ==
-                      //                     "null" ||
-                      //                 listovertime[index].status.toString() ==
-                      //                     "0")
-                      //             ? Text(
-                      //                 'pending',
-                      //                 style: TextStyle(
-                      //                     color: Colors.green, fontSize: 15),
-                      //               )
-                      //             : Text(
-                      //                 'diterima',
-                      //                 style: TextStyle(
-                      //                     color: Colors.green, fontSize: 15),
-                      //               ),
-                      //         title: Column(
-                      //           children: [
-                      //             Text(
-                      //               "Mulai : " + listovertime[index].jamMulai,
-                      //               style: GoogleFonts.ibmPlexSans(
-                      //                   textStyle: TextStyle(
-                      //                       fontSize: 15,
-                      //                       color: Color(0xff4a4c4f))),
-                      //             ),
-                      //             Text(
-                      //               "Akhir : " + listovertime[index].jamAkhir,
-                      //               style: GoogleFonts.ibmPlexSans(
-                      //                   textStyle: TextStyle(
-                      //                       fontSize: 15,
-                      //                       color: Color(0xff4a4c4f))),
-                      //             ),
-                      //           ],
-                      //         )),
-                      //     Divider(color: Colors.grey)
-                      //   ],
-                      // );
                     }),
               ),
 
@@ -550,128 +510,93 @@ Widget card(Listovertime item) {
   // String jamAbsen = item.jamAbsen!;
 
   return Center(
-    child: Card(
-      elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Container(
-          width: Get.width * 0.9,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Color(0x3f000000),
-                blurRadius: 4,
-                offset: Offset(1, 1),
-              ),
-            ],
-            color: Color(0xfffafaff),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(14.0),
-            child: Row(
-              children: [
-                Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        child: Text(
-                          "TANGGAL           :   " + item.tanggal,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xff171111),
-                            fontSize: 11,
-                            fontFamily: "Sansation Light",
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SizedBox(
-                        child: Text(
-                          "JAM IN                :  " + item.jamMulai,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xff171111),
-                            fontSize: 11,
-                            fontFamily: "Sansation Light",
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SizedBox(
-                        child: Text(
-                          "JAM OUT            :  " + item.jamAkhir,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xff171111),
-                            fontSize: 11,
-                            fontFamily: "Sansation Light",
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ),
-                      // SizedBox(
-                      //   height: 5,
-                      // ),
-                      // Text(
-                      //   "KET                      :  " + item.ket,
-                      //   textAlign: TextAlign.center,
-                      //   style: TextStyle(
-                      //     color: Color(0xff171111),
-                      //     fontSize: 14,
-                      //     fontFamily: "Sansation Light",
-                      //     fontWeight: FontWeight.w300,
-                      //   ),
-                      // ),
-
-                      SizedBox(
-                        height: 5,
-                      ),
-                      (item.status.toString() == "null" ||
-                              item.status.toString() == "0")
-                          ? SizedBox(
-                              child: Text(
-                                "STATUS              :  " + "PENDING",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.blueAccent,
-                                  fontSize: 11,
-                                  fontFamily: "Sansation Light",
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            )
-                          : SizedBox(
-                              child: Text(
-                                "STATUS              :  " + "ACCEPTED",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.blueAccent,
-                                  fontSize: 11,
-                                  fontFamily: "Sansation Light",
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            )
-                    ],
-                  ),
-                ),
-                // Container(
-                //     height: 80,
-                //     child: VerticalDivider(color: ColorsTheme.primary1)),
-              ],
+    child: Container(
+        width: Get.width * 0.9,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0x3f000000),
+              blurRadius: 4,
+              offset: Offset(1, 1),
             ),
-          )),
-    ),
+          ],
+          color: Color(0xfffafaff),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            children: [
+              Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      child: Text(
+                        "TANGGAL           :   " + item.tanggal,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 12, color: Color(0xff4a4c4f))),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    SizedBox(
+                      child: Text(
+                        "JAM IN                :  " + item.jamMulai,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 12, color: Color(0xff4a4c4f))),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    SizedBox(
+                      child: Text(
+                        "JAM OUT            :  " + item.jamAkhir,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 12, color: Color(0xff4a4c4f))),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    (item.status.toString() == "null" ||
+                            item.status.toString() == "0")
+                        ? SizedBox(
+                            child: Text(
+                              "STATUS               :  " + "PENDING",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.ibmPlexSans(
+                                  textStyle: TextStyle(
+                                      fontSize: 12, color: Colors.orange)),
+                            ),
+                          )
+                        : SizedBox(
+                            child: Text(
+                              "STATUS               :  " + "ACCEPTED",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.ibmPlexSans(
+                                  textStyle: TextStyle(
+                                      fontSize: 12, color: Colors.green)),
+                            ),
+                          )
+                  ],
+                ),
+              ),
+              // Container(
+              //     height: 80,
+              //     child: VerticalDivider(color: ColorsTheme.primary1)),
+            ],
+          ),
+        )),
   );
 }

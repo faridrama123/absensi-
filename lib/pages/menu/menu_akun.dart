@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:absensi/api/erp.glomed.service.dart';
-import 'package:absensi/models/profil/return.dart';
-import 'package:absensi/pages/auth/login.dart';
-import 'package:absensi/pages/general_widget.dart/widget_snackbar.dart';
-import 'package:absensi/pages/menu/menu_payroll.dart';
-import 'package:absensi/style/colors.dart';
-import 'package:absensi/style/sizes.dart';
+import 'package:flutter_application_1/api/erp.glomed.service.dart';
+import 'package:flutter_application_1/models/profil/return.dart';
+import 'package:flutter_application_1/pages/auth/login.dart';
+import 'package:flutter_application_1/pages/general_widget.dart/widget_snackbar.dart';
+import 'package:flutter_application_1/pages/menu/menu_payroll.dart';
+import 'package:flutter_application_1/style/colors.dart';
+import 'package:flutter_application_1/style/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:package_info/package_info.dart';

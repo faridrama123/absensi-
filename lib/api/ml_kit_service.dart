@@ -1,4 +1,4 @@
-import 'package:absensi/api/camera.service.dart';
+import 'package:flutter_application_1/api/camera.service.dart';
 import 'package:camera/camera.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:flutter/material.dart';

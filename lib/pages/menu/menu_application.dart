@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:absensi/api/erp.glomed.service.dart';
-import 'package:absensi/api/service.dart';
-import 'package:absensi/models/listabsen/return.dart';
-import 'package:absensi/models/menu/cls_absen_hari_ini.dart';
-import 'package:absensi/models/myleave/return.dart';
-import 'package:absensi/models/return_check.dart';
-import 'package:absensi/pages/general_widget.dart/widget_error.dart';
-import 'package:absensi/pages/general_widget.dart/widget_loading_page.dart';
-import 'package:absensi/style/colors.dart';
-import 'package:absensi/style/sizes.dart';
+import 'package:flutter_application_1/api/erp.glomed.service.dart';
+import 'package:flutter_application_1/api/service.dart';
+import 'package:flutter_application_1/models/listabsen/return.dart';
+import 'package:flutter_application_1/models/menu/cls_absen_hari_ini.dart';
+import 'package:flutter_application_1/models/myleave/return.dart';
+import 'package:flutter_application_1/models/return_check.dart';
+import 'package:flutter_application_1/pages/general_widget.dart/widget_error.dart';
+import 'package:flutter_application_1/pages/general_widget.dart/widget_loading_page.dart';
+import 'package:flutter_application_1/style/colors.dart';
+import 'package:flutter_application_1/style/sizes.dart';
 // import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +18,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io' as Io;
+import 'dart:convert';
+import 'package:file_picker/file_picker.dart';
 
 class MenuApplication extends StatefulWidget {
   @override
@@ -68,44 +70,45 @@ class _MenuApplicationState extends State<MenuApplication> {
     return formatted;
   }
 
-  // String? _fileName;
-  // List<PlatformFile>? _paths;
-  // String? _directoryPath;
-  // String? _extension;
-  // bool _loadingPath = false;
-  // bool _multiPick = false;
-  // FileType _pickingType = FileType.custom;
-  // TextEditingController _controller = TextEditingController();
+  String? _fileName;
+  String? pdf64;
+  List<PlatformFile>? _paths;
+  String? _directoryPath;
+  String? _extension;
+  bool _loadingPath = false;
+  bool _multiPick = false;
+  FileType _pickingType = FileType.custom;
+  TextEditingController _controller = TextEditingController();
 
-  // void _openFileExplorer() async {
-  //   setState(() => _loadingPath = true);
-  //   try {
-  //     _directoryPath = null;
-  //     _paths = (await FilePicker.platform.pickFiles(
-  //       type: _pickingType,
-  //       allowMultiple: _multiPick,
-  //       onFileLoading: (FilePickerStatus status) => print(status),
-  //       allowedExtensions: ['pdf'],
-  //     ))
-  //         ?.files;
+  void _openFileExplorer() async {
+    setState(() => _loadingPath = true);
+    try {
+      _directoryPath = null;
+      _paths = (await FilePicker.platform.pickFiles(
+        type: _pickingType,
+        allowMultiple: _multiPick,
+        onFileLoading: (FilePickerStatus status) => print(status),
+        allowedExtensions: ['pdf'],
+      ))
+          ?.files;
 
-  //     final path = _paths!.map((e) => e.path).toList()[0].toString();
-  //     final bytes = Io.File(path).readAsBytesSync();
+      final path = _paths!.map((e) => e.path).toList()[0].toString();
+      final bytes = Io.File(path).readAsBytesSync();
 
-  //     String img64 = base64Encode(bytes);
-  //     print(img64.substring(0, 100));
-  //   } on PlatformException catch (e) {
-  //     print("Unsupported operation" + e.toString());
-  //   } catch (ex) {
-  //     print(ex);
-  //   }
-  //   if (!mounted) return;
-  //   setState(() {
-  //     _loadingPath = false;
-  //     _fileName =
-  //         _paths != null ? _paths!.map((e) => e.name).toString() : '...';
-  //   });
-  // }
+      pdf64 = base64Encode(bytes);
+      print(pdf64?.substring(0, 100));
+    } on PlatformException catch (e) {
+      print("Unsupported operation" + e.toString());
+    } catch (ex) {
+      print(ex);
+    }
+    if (!mounted) return;
+    setState(() {
+      _loadingPath = false;
+      _fileName =
+          _paths != null ? _paths!.map((e) => e.name).toString() : '...';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -526,11 +529,47 @@ class _MenuApplicationState extends State<MenuApplication> {
               SizedBox(
                 height: 15,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 5, left: 35, top: 20),
+                    child: Text("File tambahan",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, letterSpacing: 0)),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _openFileExplorer();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.blueGrey,
+                      ),
+                      margin: EdgeInsets.only(bottom: 5, right: 30, top: 20),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 5),
+                        child: Text("Add PDF",
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0)),
+                      ),
+                    ),
+                  )
+                ],
+              ),
               Container(
-                margin: EdgeInsets.only(bottom: 5, left: 35, top: 20),
-                child: Text("File tambahan",
+                margin: EdgeInsets.only(bottom: 15, left: 35, top: 0),
+                child: Text(_fileName ?? "",
                     style: TextStyle(
-                        fontWeight: FontWeight.w600, letterSpacing: 0)),
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0)),
               ),
               Center(
                 child: RaisedButton(
@@ -550,7 +589,8 @@ class _MenuApplicationState extends State<MenuApplication> {
                             tanggalMulai.text,
                             tanggalAkhir.text,
                             timestart.text,
-                            timeend.text)
+                            timeend.text,
+                            pdf64 ?? "")
                         .then((value) async {
                       var res = ReturnCheck.fromJson(json.decode(value));
 
@@ -563,7 +603,8 @@ class _MenuApplicationState extends State<MenuApplication> {
                       borderRadius: BorderRadius.circular(15)),
                   color: ColorsTheme.primary1,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                     child: Text(
                       "AJUKAN",
                       style: TextStyle(color: Colors.white, fontSize: 16),
@@ -572,7 +613,7 @@ class _MenuApplicationState extends State<MenuApplication> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 5, left: 35, top: 20),
+                margin: EdgeInsets.only(bottom: 5, left: 35, top: 25),
                 child: Text("History Leave",
                     style: TextStyle(
                         fontWeight: FontWeight.w600, letterSpacing: 0)),
@@ -581,12 +622,14 @@ class _MenuApplicationState extends State<MenuApplication> {
                 height: 15,
               ),
               Container(
-                height: 200,
+                height: 350,
                 child: ListView.builder(
+                    padding: EdgeInsets.zero,
                     itemCount: listleave.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
-                        padding: const EdgeInsets.only(left: 25, right: 15),
+                        padding: const EdgeInsets.only(
+                            left: 26, right: 25, bottom: 10, top: 5),
                         child: card(listleave[index]),
                       );
                     }),
@@ -612,161 +655,119 @@ Widget card(Listleave item) {
   // String jamAbsen = item.jamAbsen!;
 
   return Center(
-    child: Card(
-      elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Container(
-          width: Get.width * 0.9,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Color(0x3f000000),
-                blurRadius: 4,
-                offset: Offset(1, 1),
-              ),
-            ],
-            color: Color(0xfffafaff),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(14.0),
-            child: Row(
-              children: [
-                Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        child: Text(
-                          "TITLE                               :   " +
-                              item.tipe,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xff171111),
-                            fontSize: 11,
-                            fontFamily: "Sansation Light",
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SizedBox(
-                        child: Text(
-                          "TANGGAL MULAI          :   " + item.mulai,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xff171111),
-                            fontSize: 11,
-                            fontFamily: "Sansation Light",
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SizedBox(
-                        child: Text(
-                          "TANGGAL AKHIR          :   " + item.akhir,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xff171111),
-                            fontSize: 11,
-                            fontFamily: "Sansation Light",
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SizedBox(
-                        child: Text(
-                          "JAM IN                            :  " +
-                              item.jamMulai,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xff171111),
-                            fontSize: 11,
-                            fontFamily: "Sansation Light",
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SizedBox(
-                        child: Text(
-                          "JAM OUT                        :  " + item.jamAkhir,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xff171111),
-                            fontSize: 11,
-                            fontFamily: "Sansation Light",
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ),
-                      // SizedBox(
-                      //   height: 5,
-                      // ),
-                      // Text(
-                      //   "KET                      :  " + item.ket,
-                      //   textAlign: TextAlign.center,
-                      //   style: TextStyle(
-                      //     color: Color(0xff171111),
-                      //     fontSize: 14,
-                      //     fontFamily: "Sansation Light",
-                      //     fontWeight: FontWeight.w300,
-                      //   ),
-                      // ),
-
-                      SizedBox(
-                        height: 5,
-                      ),
-                      (item.status.toString() == "null" ||
-                              item.status.toString() == "0")
-                          ? SizedBox(
-                              child: Text(
-                                "STATUS                          :  " +
-                                    "PENDING",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.blueAccent,
-                                  fontSize: 11,
-                                  fontFamily: "Sansation Light",
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            )
-                          : SizedBox(
-                              child: Text(
-                                "STATUS              :  " + "ACCEPTED",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.blueAccent,
-                                  fontSize: 11,
-                                  fontFamily: "Sansation Light",
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            )
-                    ],
-                  ),
-                ),
-                // Container(
-                //     height: 80,
-                //     child: VerticalDivider(color: ColorsTheme.primary1)),
-              ],
+    child: Container(
+        width: Get.width * 0.9,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0x3f000000),
+              blurRadius: 4,
+              offset: Offset(1, 1),
             ),
-          )),
-    ),
+          ],
+          color: Color(0xfffafaff),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            children: [
+              Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      child: Text(
+                        "TITLE                               :   " + item.tipe,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 12, color: Color(0xff4a4c4f))),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    SizedBox(
+                      child: Text(
+                        "TANGGAL MULAI          :   " + item.mulai,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 12, color: Color(0xff4a4c4f))),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    SizedBox(
+                      child: Text(
+                        "TANGGAL AKHIR          :   " + item.akhir,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 12, color: Color(0xff4a4c4f))),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    SizedBox(
+                      child: Text(
+                        "JAM IN                             :  " +
+                            item.jamMulai,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 12, color: Color(0xff4a4c4f))),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    SizedBox(
+                      child: Text(
+                        "JAM OUT                         :  " + item.jamAkhir,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontSize: 12, color: Color(0xff4a4c4f))),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    (item.status.toString() == "null" ||
+                            item.status.toString() == "0")
+                        ? SizedBox(
+                            child: Text(
+                              "STATUS                            :  " +
+                                  "PENDING",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.ibmPlexSans(
+                                  textStyle: TextStyle(
+                                      fontSize: 12, color: Colors.orange)),
+                            ),
+                          )
+                        : SizedBox(
+                            child: Text(
+                              "STATUS                :  " + "ACCEPTED",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.ibmPlexSans(
+                                  textStyle: TextStyle(
+                                      fontSize: 12, color: Colors.green)),
+                            ),
+                          )
+                  ],
+                ),
+              ),
+              // Container(
+              //     height: 80,
+              //     child: VerticalDivider(color: ColorsTheme.primary1)),
+            ],
+          ),
+        )),
   );
 }

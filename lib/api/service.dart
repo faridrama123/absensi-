@@ -1,9 +1,9 @@
-import 'package:absensi/api/base_url.dart';
-import 'package:absensi/models/auth/cls_post_login.dart';
-import 'package:absensi/models/auth/cls_return_login.dart';
-import 'package:absensi/models/cls_general_return.dart';
-import 'package:absensi/models/menu/cls_absen_hari_ini.dart';
-import 'package:absensi/models/menu/cls_list_absen.dart';
+import 'package:flutter_application_1/api/base_url.dart';
+import 'package:flutter_application_1/models/auth/cls_post_login.dart';
+import 'package:flutter_application_1/models/auth/cls_return_login.dart';
+import 'package:flutter_application_1/models/cls_general_return.dart';
+import 'package:flutter_application_1/models/menu/cls_absen_hari_ini.dart';
+import 'package:flutter_application_1/models/menu/cls_list_absen.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
