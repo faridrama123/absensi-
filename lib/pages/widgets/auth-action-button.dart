@@ -270,7 +270,10 @@ class _AuthActionButtonState extends State<AuthActionButton> {
   // }
 
   String? _predictUser(List<dynamic> datas) {
+    print("before userAndPass");
+
     String? userAndPass = _faceNetService.predict(datas);
+    print("userAndPass" + userAndPass.toString());
     return userAndPass;
   }
 
@@ -339,10 +342,16 @@ class _AuthActionButtonState extends State<AuthActionButton> {
           if (faceDetected) {
             print("===================userAndPass===================");
             if (widget.isLogin) {
+              print("===================widget.isLogi===================");
+
               SharedPreferences pref = await SharedPreferences.getInstance();
               List<dynamic> datas = json.decode(pref.getString("PREF_FACE")!);
+              print("datas " + datas.toString());
               predictedUser = _predictUser(datas);
+              print("after predict ");
+
               this.predictedUser = predictedUser;
+
               print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@predictedUser");
               print(predictedUser);
             }

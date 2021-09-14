@@ -51,7 +51,7 @@ class _AbsenState extends State<AbsenForm> {
   String msgJarak =
       "Jarak lokasi anda melebih batas maksimal office, harap absensi diwilayah office";
   String inOut = "IN";
-  String isWfh = "WFH";
+  String isWfh = "WFO";
   String? _timeString;
   Absen dataAbsen = new Absen();
 
@@ -286,6 +286,7 @@ class _AbsenState extends State<AbsenForm> {
 
   @override
   Widget build(BuildContext context) {
+    print(isWfh);
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -439,7 +440,7 @@ class _AbsenState extends State<AbsenForm> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(
-                        left: Get.width * 0.025, right: Get.width * 0.025),
+                        left: Get.width * 0.05, right: Get.width * 0.05),
                     child: Container(
                       child: Text(
                         loadingAlamat ? "Loading..." : alamat,

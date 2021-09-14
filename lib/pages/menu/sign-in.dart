@@ -135,6 +135,7 @@ class SignInState extends State<SignIn> {
       XFile file = await _cameraService.takePicture();
 
       setState(() {
+        print("_bottomSheetVisible");
         _bottomSheetVisible = true;
         pictureTaked = true;
         imagePath = file.path;

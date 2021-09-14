@@ -165,15 +165,20 @@ class _MenuDataState extends State<MenuData> {
 }
 
 Widget card(Absen item) {
-  DateTime tempDate =
-      DateFormat("yyyy-MM-dd hh:mm:ss").parse("2020-08-09 00:00:00");
-  String tanggal = DateFormat('dd').format(tempDate);
-  String hari = DateFormat('EEEE').format(tempDate);
-  String bulantahun = DateFormat('MM/yyyy').format(tempDate);
   String wfhWfo = item.wfhWfo!.toUpperCase();
   String datangPulang = item.datangPulang!.toUpperCase();
   String tanggalAbsen = item.tanggalAbsen!;
   String jamAbsen = item.jamAbsen!;
+
+  // DateTime tempDate =
+  //     DateFormat("yyyy-MM-dd hh:mm:ss").parse("2020-08-09 00:00:00");
+
+  DateTime tempDate =
+      DateFormat("yyyy-MM-dd hh:mm:ss").parse(tanggalAbsen + " " + "00:00:00");
+
+  String tanggal = DateFormat('dd').format(tempDate);
+  String hari = DateFormat('EEEE').format(tempDate);
+  String bulantahun = DateFormat('MM/yyyy').format(tempDate);
 
   return Center(
     child: Card(

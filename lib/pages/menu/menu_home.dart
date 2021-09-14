@@ -634,37 +634,37 @@ class _MenuHomeState extends State<MenuHome> {
                           onTap: () {
                             goToAbsenForm("WFO");
                           }),
-                      GestureDetector(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                  width: 120,
-                                  height: 120,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    color: Colors.black12,
-                                    image: DecorationImage(
-                                        image:
-                                            AssetImage("assets/images/wfh.png"),
-                                        fit: BoxFit.cover),
-                                  )),
-                              SizedBox(height: 4),
-                              Text(
-                                "WFH",
-                                style: TextStyle(
-                                  color: Color(0xff171111),
-                                  fontSize: 20,
-                                  fontFamily: "Sansation Light",
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )
-                            ],
-                          ),
-                          onTap: () {
-                            goToAbsenForm("WFH");
-                          }),
+                      // GestureDetector(
+                      //     child: Column(
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       crossAxisAlignment: CrossAxisAlignment.center,
+                      //       children: [
+                      //         Container(
+                      //             width: 120,
+                      //             height: 120,
+                      //             decoration: BoxDecoration(
+                      //               borderRadius: BorderRadius.circular(10.0),
+                      //               color: Colors.black12,
+                      //               image: DecorationImage(
+                      //                   image:
+                      //                       AssetImage("assets/images/wfh.png"),
+                      //                   fit: BoxFit.cover),
+                      //             )),
+                      //         SizedBox(height: 4),
+                      //         Text(
+                      //           "WFH",
+                      //           style: TextStyle(
+                      //             color: Color(0xff171111),
+                      //             fontSize: 20,
+                      //             fontFamily: "Sansation Light",
+                      //             fontWeight: FontWeight.bold,
+                      //           ),
+                      //         )
+                      //       ],
+                      //     ),
+                      //     onTap: () {
+                      //       goToAbsenForm("WFH");
+                      //     }),
                     ],
                   ),
                 )),
