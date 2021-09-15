@@ -6,6 +6,7 @@ import 'package:flutter_application_1/api/ml_kit_service.dart';
 import 'package:flutter_application_1/api/service.dart';
 import 'package:flutter_application_1/models/absenhari/return.dart';
 import 'package:flutter_application_1/models/database.dart';
+import 'package:flutter_application_1/models/listabsen/return.dart';
 import 'package:flutter_application_1/models/menu/cls_absen_hari_ini.dart';
 import 'package:flutter_application_1/pages/general_widget.dart/widget_error.dart';
 import 'package:flutter_application_1/pages/general_widget.dart/widget_loading_page.dart';
@@ -45,6 +46,8 @@ class _MenuHomeState extends State<MenuHome> {
 
   late CameraDescription cameraDescription;
   var faceData;
+  List<Absen> dataAbsen = [];
+  String hariKalender = "0";
 
   Future getData() async {
     startUp();
@@ -73,6 +76,18 @@ class _MenuHomeState extends State<MenuHome> {
         posisi = pref.getString("PREF_POSISI")!;
         nip = pref.getString("PREF_NIP")!;
 
+        String latitude = pref.getString("PREF_LATITUDE")!;
+
+        String longitude = pref.getString("PREF_LONGITUDE")!;
+        String jarak = pref.getString("PREF_JARAK")!;
+
+        print("latitude " +
+            latitude +
+            " longitude " +
+            longitude +
+            " jarak " +
+            jarak);
+
         setState(() {
           loading = false;
           failed = false;
@@ -86,61 +101,85 @@ class _MenuHomeState extends State<MenuHome> {
       }
       print(res.hari);
     });
-    // getClient()
-    //     .getAbsenHariIni(pref.getString("PREF_TOKEN")!)
-    //     .then((res) async {
 
-    // }).catchError((Object obj) {
-    //   setState(() {
-    //     loading = false;
-    //     failed = true;
-    //     remakrs = "Gagal menyambungkan ke server";
-    //   });
-    // });
+    _devService.listabsen(accesToken).then((value) async {
+      var res = ReturnListAbsen.fromJson(json.decode(value));
+      if (res.status_json == true) {
+        DateTime now = new DateTime.now();
+        DateTime date = new DateTime(now.day);
+        hariKalender = date.toString();
+
+        res.listabsen?.forEach((val) {
+          print(val?.tanggal_absen ?? "");
+          // dataAbsen.add(Absen(
+          //     id: val?.id ?? "",
+          //     iduser: val?.iduser ?? "",
+          //     tipeAbsen: val?.tipe_absen ?? "",
+          //     datangPulang: val?.datang_pulang ?? "",
+          //     wfhWfo: val?.wfh_wfo ?? "",
+          //     tanggalAbsen: val?.tanggal_absen ?? "",
+          //     jamAbsen: val?.jam_absen ?? "",
+          //     lokasi: val?.lokasi ?? "",
+          //     latitude: val?.latitude ?? "",
+          //     longitude: val?.lokasi ?? "",
+          //     keterangan: val?.keterangan ?? ""));
+          // //  listTab.add(val);
+        });
+      }
+    });
   }
 
-  // Future getData() async {
-  //   startUp();
-  //   setState(() {
-  //     loading = true;
-  //     failed = false;
-  //   });
-  //   DateTime now = DateTime.now();
-  //   SharedPreferences pref = await SharedPreferences.getInstance();
-  //   print(pref.getString("PREF_TOKEN")!);
-  //   getClient()
-  //       .getAbsenHariIni(pref.getString("PREF_TOKEN")!)
-  //       .then((res) async {
-  //     if (res.statusJson!) {
-  //       hari = res.hari;
-  //       tanggal = res.tanggal;
-  //       bulantahun = res.bulantahun;
-  //       absenIn = res.absenIn;
-  //       absenOut = res.absenOut;
-  //       nama = pref.getString("PREF_NAMA")!;
-  //       departemen = pref.getString("PREF_DEPARTEMEN")!;
-  //       posisi = pref.getString("PREF_POSISI")!;
-  //       nip = pref.getString("PREF_NIP")!;
+  Future getDataAbsen() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var accesToken = pref.getString("PREF_TOKEN")!;
+    print(pref.getString("PREF_TOKEN")!);
+    _devService.listabsen(accesToken).then((value) async {
+      var res = ReturnListAbsen.fromJson(json.decode(value));
+      if (res.status_json == true) {
+        hariKalender = DateTime.now().toString();
+        String datenow = DateTime.now().toString();
+        print("datenow" + datenow);
 
-  //       setState(() {
-  //         loading = false;
-  //         failed = false;
-  //       });
-  //     } else {
-  //       setState(() {
-  //         loading = false;
-  //         failed = true;
-  //         remakrs = res.remarks;
-  //       });
-  //     }
-  //   }).catchError((Object obj) {
-  //     setState(() {
-  //       loading = false;
-  //       failed = true;
-  //       remakrs = "Gagal menyambungkan ke server";
-  //     });
-  //   });
-  // }
+        print("hariKalender" + hariKalender.substring(9, 2));
+
+        res.listabsen?.forEach((val) {
+          dataAbsen.add(Absen(
+              id: val?.id ?? "",
+              iduser: val?.iduser ?? "",
+              tipeAbsen: val?.tipe_absen ?? "",
+              datangPulang: val?.datang_pulang ?? "",
+              wfhWfo: val?.wfh_wfo ?? "",
+              tanggalAbsen: val?.tanggal_absen ?? "",
+              jamAbsen: val?.jam_absen ?? "",
+              lokasi: val?.lokasi ?? "",
+              latitude: val?.latitude ?? "",
+              longitude: val?.lokasi ?? "",
+              keterangan: val?.keterangan ?? ""));
+          //  listTab.add(val);
+        });
+
+        setState(() {
+          print(res.listabsen?.length);
+
+          // dataAbsen = res.listabsen;
+          loading = false;
+          failed = false;
+        });
+      } else {
+        setState(() {
+          loading = false;
+          failed = true;
+          remakrs = res.remarks;
+        });
+      }
+    }).catchError((Object obj) {
+      setState(() {
+        loading = false;
+        failed = true;
+        remakrs = "Gagal menyambungkan ke server";
+      });
+    });
+  }
 
   void startUp() async {
     List<CameraDescription> cameras = await availableCameras();
@@ -272,6 +311,344 @@ class _MenuHomeState extends State<MenuHome> {
           //   ),
           // ),
         ],
+      ),
+    );
+  }
+
+  Widget thismonth(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.only(top: Get.height * 0.40),
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.95,
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Card(
+                        elevation: 1,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Container(
+                          height: 80,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "0",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text("Hari Kalender",
+                                    style: TextStyle(fontSize: 12))
+                              ],
+                            ),
+                          ),
+                        )),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Card(
+                        elevation: 1,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Container(
+                          height: 80,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "0",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text("Hadir", style: TextStyle(fontSize: 12))
+                              ],
+                            ),
+                          ),
+                        )),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Card(
+                        elevation: 1,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Container(
+                          height: 80,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "0",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text("Sakit", style: TextStyle(fontSize: 12))
+                              ],
+                            ),
+                          ),
+                        )),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Card(
+                        elevation: 1,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Container(
+                          height: 80,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "0",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text("Cuti", style: TextStyle(fontSize: 12))
+                              ],
+                            ),
+                          ),
+                        )),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Card(
+                        elevation: 1,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Container(
+                          height: 80,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "0",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  " Efektif",
+                                  style: TextStyle(fontSize: 12),
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                          ),
+                        )),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Card(
+                        elevation: 1,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Container(
+                          height: 80,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "0",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text("Hari Off", style: TextStyle(fontSize: 12))
+                              ],
+                            ),
+                          ),
+                        )),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Card(
+                        elevation: 1,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Container(
+                          height: 80,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "0",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text("Izin", style: TextStyle(fontSize: 12))
+                              ],
+                            ),
+                          ),
+                        )),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Card(
+                        elevation: 1,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Container(
+                          height: 80,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "0",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text("Tugas", style: TextStyle(fontSize: 12))
+                              ],
+                            ),
+                          ),
+                        )),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Card(
+                        elevation: 1,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Container(
+                          height: 80,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "0",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text("Mangkir", style: TextStyle(fontSize: 12))
+                              ],
+                            ),
+                          ),
+                        )),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: CustomPaint(
+                            painter: CirclePainter(),
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text("0.0",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 26,
+                                        color: Colors.black)),
+                                Text(" %"),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 0),
+                              child: Card(
+                                color: Colors.red,
+                                elevation: 1,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "September 2021",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -483,7 +860,7 @@ class _MenuHomeState extends State<MenuHome> {
 
   Widget cardFaceData() {
     return Padding(
-      padding: EdgeInsets.only(top: Get.height * 0.35),
+      padding: EdgeInsets.only(top: Get.height * 0.30),
       child: Center(
         child: Card(
             elevation: 0.5,
@@ -680,6 +1057,7 @@ class _MenuHomeState extends State<MenuHome> {
   void initState() {
     super.initState();
     getData();
+    // getDataAbsen();
   }
 
   @override
@@ -721,8 +1099,12 @@ class _MenuHomeState extends State<MenuHome> {
                         online(),
                         profile(),
                         cardAbsenHariIni(),
+
+                        thismonth(context),
                         if (faceData.toString().length < 5) cardFaceData(),
-                        runningClock(),
+                        //cardFaceData(),
+
+                        // runningClock(),
                         Center(
                           child: Padding(
                             padding: EdgeInsets.only(top: Get.height * 0.8),
@@ -750,4 +1132,24 @@ class _MenuHomeState extends State<MenuHome> {
                 ),
               );
   }
+}
+
+/// Draws a circle if placed into a square widget.
+class CirclePainter extends CustomPainter {
+  final _paint = Paint()
+    ..color = Colors.grey.withOpacity(0.4)
+    ..strokeWidth = 5
+    // Use [PaintingStyle.fill] if you want the circle to be filled.
+    ..style = PaintingStyle.stroke;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.drawOval(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      _paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

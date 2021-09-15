@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
       pref.setString("PREF_POSISI", returnLogin.dataUser?.position ?? "");
       pref.setString("PREF_FACE", returnLogin.dataUser?.facedata ?? "");
       pref.setString(
-          "PREF_JARAK", returnLogin.dataUser?.jarak.toString() ?? "");
+          "PREF_JARAK", returnLogin.dataUser?.radius.toString() ?? "");
       pref.setString(
           "PREF_LATITUDE", returnLogin.dataUser?.latitude.toString() ?? "");
 
@@ -181,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                   Center(
                     child: Container(
                       child: Text(
-                        "SpeedERP For Staff",
+                        "SpeedERP For Employee",
                         style: TextStyle(
                             fontFamily: 'BalsamiqSans',
                             fontSize: 22,

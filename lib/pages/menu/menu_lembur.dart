@@ -469,7 +469,7 @@ class _MenuLemburState extends State<MenuLembur> {
 
               Container(
                 margin: EdgeInsets.only(bottom: 5, left: 35, top: 20),
-                child: Text("  History Overtime",
+                child: Text("History Overtime",
                     style: TextStyle(
                         fontWeight: FontWeight.w600, letterSpacing: 0)),
               ),

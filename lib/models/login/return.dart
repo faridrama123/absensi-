@@ -41,9 +41,9 @@ class ReturnLoginDataUser {
   String? section;
   String? division;
   String? facedata;
-  int? jarak;
-  double? latitude;
-  double? longitude;
+  String? radius;
+  String? latitude;
+  String? longitude;
   String? date;
 
   ReturnLoginDataUser({
@@ -62,7 +62,7 @@ class ReturnLoginDataUser {
     this.section,
     this.division,
     this.facedata,
-    this.jarak,
+    this.radius,
     this.latitude,
     this.longitude,
     this.date,
@@ -83,9 +83,9 @@ class ReturnLoginDataUser {
     section = json["section"]?.toString();
     division = json["division"]?.toString();
     facedata = json["facedata"]?.toString();
-    jarak = json["jarak"]?.toInt();
-    latitude = json["latitude"]?.toDouble();
-    longitude = json["longitude"]?.toDouble();
+    radius = json["radius"]?.toString();
+    latitude = json["latitude"]?.toString();
+    longitude = json["longitude"]?.toString();
     date = json["date"]?.toString();
   }
   Map<String, dynamic> toJson() {
@@ -105,7 +105,7 @@ class ReturnLoginDataUser {
     data["section"] = section;
     data["division"] = division;
     data["facedata"] = facedata;
-    data["jarak"] = jarak;
+    data["radius"] = radius;
     data["latitude"] = latitude;
     data["longitude"] = longitude;
     data["date"] = date;

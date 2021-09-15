@@ -47,7 +47,7 @@ class _AbsenState extends State<AbsenForm> {
   CameraPosition _position = positionCenterPoint;
   Completer<GoogleMapController> _controller = Completer();
   double jarak = 0;
-  double maxJarak = 100;
+  double maxJarak = 1;
   String msgJarak =
       "Jarak lokasi anda melebih batas maksimal office, harap absensi diwilayah office";
   String inOut = "IN";
@@ -139,11 +139,12 @@ class _AbsenState extends State<AbsenForm> {
     Navigator.of(context).pop();
   }
 
-  getData(BuildContext context) async {
+  getData() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
     setState(() {
-      maxJarak = 100;
+      maxJarak = double.parse(pref.getString("PREF_JARAK")!);
+
       latitudeOffice = double.parse(pref.getString("PREF_LATITUDE")!);
 
       /// -6.2694281; //latitudeOffice
@@ -151,6 +152,13 @@ class _AbsenState extends State<AbsenForm> {
           pref.getString("PREF_LONGITUDE")!); //106.8135298; //latitudeOffice
       loading = false;
       failed = true;
+
+      print("latitude " +
+          latitudeOffice.toString() +
+          " longitude " +
+          longitudeOffice.toString() +
+          " jarak " +
+          jarak.toString());
     });
   }
 
@@ -276,6 +284,7 @@ class _AbsenState extends State<AbsenForm> {
   @override
   void initState() {
     super.initState();
+    getData();
     _permissionRequest();
     _timeString = _formatDateTime(DateTime.now());
     Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
@@ -490,7 +499,13 @@ class _AbsenState extends State<AbsenForm> {
                               }
                             } else {
                               if (jarak > maxJarak) {
-                                displayDialog(context, msgJarak, false);
+                                displayDialog(
+                                    context,
+                                    msgJarak +
+                                        " dalam " +
+                                        maxJarak.toString() +
+                                        " meter",
+                                    false);
                               } else {
                                 if (loadingAlamat) {
                                   displayDialog(
