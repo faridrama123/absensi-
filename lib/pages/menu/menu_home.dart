@@ -48,6 +48,15 @@ class _MenuHomeState extends State<MenuHome> {
   var faceData;
   List<Absen> dataAbsen = [];
   String hariKalender = "0";
+  String hadir = "0";
+  String sakit = "0";
+  String cuti = "0";
+  String efektif = "0";
+  String harioff = "0";
+  String izin = "0";
+  String tugas = "0";
+  String mangkir = "0";
+  String count = "0";
 
   Future getData() async {
     startUp();
@@ -102,83 +111,34 @@ class _MenuHomeState extends State<MenuHome> {
       print(res.hari);
     });
 
-    _devService.listabsen(accesToken).then((value) async {
-      var res = ReturnListAbsen.fromJson(json.decode(value));
-      if (res.status_json == true) {
-        DateTime now = new DateTime.now();
-        DateTime date = new DateTime(now.day);
-        hariKalender = date.toString();
+    // _devService.listabsen(accesToken).then((value) async {
+    //   var res = ReturnListAbsen.fromJson(json.decode(value));
+    //   if (res.status_json == true) {
+    //     final now = new DateTime.now();
+    //     String day = DateFormat('d').format(now);
+    //             String month = DateFormat('M').format(now);
 
-        res.listabsen?.forEach((val) {
-          print(val?.tanggal_absen ?? "");
-          // dataAbsen.add(Absen(
-          //     id: val?.id ?? "",
-          //     iduser: val?.iduser ?? "",
-          //     tipeAbsen: val?.tipe_absen ?? "",
-          //     datangPulang: val?.datang_pulang ?? "",
-          //     wfhWfo: val?.wfh_wfo ?? "",
-          //     tanggalAbsen: val?.tanggal_absen ?? "",
-          //     jamAbsen: val?.jam_absen ?? "",
-          //     lokasi: val?.lokasi ?? "",
-          //     latitude: val?.latitude ?? "",
-          //     longitude: val?.lokasi ?? "",
-          //     keterangan: val?.keterangan ?? ""));
-          // //  listTab.add(val);
-        });
-      }
-    });
-  }
+    //     hariKalender = day;
 
-  Future getDataAbsen() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    var accesToken = pref.getString("PREF_TOKEN")!;
-    print(pref.getString("PREF_TOKEN")!);
-    _devService.listabsen(accesToken).then((value) async {
-      var res = ReturnListAbsen.fromJson(json.decode(value));
-      if (res.status_json == true) {
-        hariKalender = DateTime.now().toString();
-        String datenow = DateTime.now().toString();
-        print("datenow" + datenow);
+    //     res.listabsen?.forEach((val) {
+    //       print(val?.tanggal_absen ?? "");
 
-        print("hariKalender" + hariKalender.substring(9, 2));
-
-        res.listabsen?.forEach((val) {
-          dataAbsen.add(Absen(
-              id: val?.id ?? "",
-              iduser: val?.iduser ?? "",
-              tipeAbsen: val?.tipe_absen ?? "",
-              datangPulang: val?.datang_pulang ?? "",
-              wfhWfo: val?.wfh_wfo ?? "",
-              tanggalAbsen: val?.tanggal_absen ?? "",
-              jamAbsen: val?.jam_absen ?? "",
-              lokasi: val?.lokasi ?? "",
-              latitude: val?.latitude ?? "",
-              longitude: val?.lokasi ?? "",
-              keterangan: val?.keterangan ?? ""));
-          //  listTab.add(val);
-        });
-
-        setState(() {
-          print(res.listabsen?.length);
-
-          // dataAbsen = res.listabsen;
-          loading = false;
-          failed = false;
-        });
-      } else {
-        setState(() {
-          loading = false;
-          failed = true;
-          remakrs = res.remarks;
-        });
-      }
-    }).catchError((Object obj) {
-      setState(() {
-        loading = false;
-        failed = true;
-        remakrs = "Gagal menyambungkan ke server";
-      });
-    });
+    //       // dataAbsen.add(Absen(
+    //       //     id: val?.id ?? "",
+    //       //     iduser: val?.iduser ?? "",
+    //       //     tipeAbsen: val?.tipe_absen ?? "",
+    //       //     datangPulang: val?.datang_pulang ?? "",
+    //       //     wfhWfo: val?.wfh_wfo ?? "",
+    //       //     tanggalAbsen: val?.tanggal_absen ?? "",
+    //       //     jamAbsen: val?.jam_absen ?? "",
+    //       //     lokasi: val?.lokasi ?? "",
+    //       //     latitude: val?.latitude ?? "",
+    //       //     longitude: val?.lokasi ?? "",
+    //       //     keterangan: val?.keterangan ?? ""));
+    //       // //  listTab.add(val);
+    //     });
+    //   }
+    // });
   }
 
   void startUp() async {
@@ -339,7 +299,7 @@ class _MenuHomeState extends State<MenuHome> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "0",
+                                  hariKalender,
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18),
