@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:collection';
+import 'dart:math';
 
 import 'package:flutter_application_1/api/facenet.service.dart';
 import 'package:flutter_application_1/api/ml_kit_service.dart';
@@ -10,6 +12,7 @@ import 'package:flutter_application_1/pages/general_widget.dart/widget_snackbar.
 import 'package:flutter_application_1/pages/main_menu.dart';
 import 'package:flutter_application_1/pages/menu/sign-in.dart';
 import 'package:flutter_application_1/pages/menu/sign-up.dart';
+import 'package:flutter_application_1/provider/provider.cabang.dart';
 import 'package:flutter_application_1/style/colors.dart';
 import 'package:camera/camera.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -23,6 +26,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart' as ll;
+import 'package:provider/provider.dart';
 // import 'package:latlong/latlong.dart' as ll;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -51,9 +55,15 @@ class _AbsenState extends State<AbsenForm> {
   String msgJarak =
       "Jarak lokasi anda melebih batas maksimal office, harap absensi diwilayah office";
   String inOut = "IN";
-  String isWfh = "WFO";
+  String isWfh = "WFH";
   String? _timeString;
   Absen dataAbsen = new Absen();
+
+  //
+  bool locationInside = false;
+  final Set<Polygon> _polygons = HashSet<Polygon>();
+
+  List<LatLng> globalPolygonCoords = [];
 
   _permissionRequest() async {
     final permissionValidator = EasyPermissionValidator(
@@ -108,6 +118,12 @@ class _AbsenState extends State<AbsenForm> {
       latitudeCurrent = position.latitude;
       longitudeCurrent = position.longitude;
     });
+
+    List<LatLng> polygonCoords = globalPolygonCoords;
+    Polygon polygonSet =
+        new Polygon(polygonId: PolygonId('PolygonId'), points: polygonCoords);
+
+    _checkLocationInPolygon(currentPosition.target, polygonSet);
   }
 
   Future<void> _goPosition(CameraPosition position) async {
@@ -258,6 +274,9 @@ class _AbsenState extends State<AbsenForm> {
   }
 
   Future submitAbsen(BuildContext context) async {
+    print("locationInside :" + locationInside.toString());
+    if (locationInside == false) return false;
+
     final DateTime now = DateTime.now();
     String tanggal = DateFormat('yyyy-MM-dd').format(now);
     String jam = DateFormat('HH:mm:ss').format(now);
@@ -293,9 +312,69 @@ class _AbsenState extends State<AbsenForm> {
     startUp();
   }
 
+  bool isDone = false;
+
   @override
   Widget build(BuildContext context) {
-    print(isWfh);
+    var providerCabang = Provider.of<ProviderCabang>(context);
+
+    providerCabang.cabangClick;
+
+    String? polygon = providerCabang
+        .returnCabang.listcabang![providerCabang.cabangClick]?.polygon;
+
+    List latlong = polygon!.split('#');
+
+    List<LatLng> hehe = [];
+
+    if (isDone == false) {
+      for (var i in latlong) {
+        int index = i.indexOf(",");
+        String lat = i.substring(0, index).trim();
+        String lng = i.substring(index + 1).trim();
+        double lati = double.parse(lat);
+        double lngi = double.parse(lng);
+        // print(lati + lngi);
+
+        hehe.add(LatLng(lati, lngi));
+
+        print(hehe);
+        print("index" + index.toString() + latlong.length.toString());
+        if (hehe.length == latlong.length) {
+          setState(() {
+            globalPolygonCoords = hehe;
+
+            isDone = true;
+          });
+        }
+      }
+    }
+
+    // print(isWfh);
+
+    Set<Polygon> myPolygon() {
+      List<LatLng> polygonCoords = hehe;
+      // for (var i in polygonCoords) {
+
+      //   polygonCoords.add(LatLng(i.latitude, i.longitude));
+      // }
+
+      //  print(polygonCoords);
+
+      _polygons
+          .removeWhere((polygon) => polygon.polygonId.value == 'user_polygon');
+      _polygons.add(
+        Polygon(
+          polygonId: PolygonId('user_polygon'),
+          points: polygonCoords,
+          strokeWidth: 2,
+          strokeColor: Colors.blue,
+          fillColor: Colors.blue.withOpacity(0.4),
+        ),
+      );
+      return _polygons;
+    }
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -306,16 +385,18 @@ class _AbsenState extends State<AbsenForm> {
               mapType: MapType.normal,
               initialCameraPosition: CameraPosition(
                 target: centerPoint,
-                zoom: 12,
+                zoom: 17.5,
               ),
               myLocationEnabled: true,
               myLocationButtonEnabled: true,
-              scrollGesturesEnabled: false,
-              zoomControlsEnabled: false,
-              zoomGesturesEnabled: false,
+              //scrollGesturesEnabled: false,
+              // zoomControlsEnabled: false,
+              // zoomGesturesEnabled: false,
               onCameraIdle: () {
                 getAddressFromLatLng(_position);
               },
+              polygons: myPolygon(),
+
               onCameraMove: updateCameraPosition,
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
@@ -394,24 +475,24 @@ class _AbsenState extends State<AbsenForm> {
                   SizedBox(
                     height: Get.height * 0.01,
                   ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        isWfh = isWfh == "WFH" ? "WFO" : "WFH";
-                      });
-                    },
-                    child: CircleAvatar(
-                      radius: Get.width * 0.05,
-                      backgroundColor: isWfh == "WFH"
-                          ? ColorsTheme.primary2
-                          : ColorsTheme.background3,
-                      child: Text(
-                        isWfh == "WFH" ? "WFO" : "WFH",
-                        style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
+                  // InkWell(
+                  //   onTap: () {
+                  //     setState(() {
+                  //       isWfh = isWfh == "WFH" ? "WFO" : "WFH";
+                  //     });
+                  //   },
+                  //   child: CircleAvatar(
+                  //     radius: Get.width * 0.05,
+                  //     backgroundColor: isWfh == "WFH"
+                  //         ? ColorsTheme.primary2
+                  //         : ColorsTheme.background3,
+                  //     child: Text(
+                  //       isWfh == "WFH" ? "WFO" : "WFH",
+                  //       style: TextStyle(
+                  //           fontSize: 12, fontWeight: FontWeight.bold),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -461,21 +542,21 @@ class _AbsenState extends State<AbsenForm> {
                   SizedBox(
                     height: 16,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: Get.width * 0.025, right: Get.width * 0.025),
-                    child: Container(
-                      child: Text(
-                        "Jarak kantor dari lokasi anda saat ini " +
-                            jarak.toString() +
-                            " Meter",
-                        style: TextStyle(
-                            fontFamily: 'BalsamiqSans',
-                            fontSize: 12,
-                            color: ColorsTheme.merah),
-                      ),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: EdgeInsets.only(
+                  //       left: Get.width * 0.025, right: Get.width * 0.025),
+                  //   child: Container(
+                  //     child: Text(
+                  //       "Jarak kantor dari lokasi anda saat ini " +
+                  //           jarak.toString() +
+                  //           " Meter",
+                  //       style: TextStyle(
+                  //           fontFamily: 'BalsamiqSans',
+                  //           fontSize: 12,
+                  //           color: ColorsTheme.merah),
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 16,
                   ),
@@ -497,26 +578,29 @@ class _AbsenState extends State<AbsenForm> {
                               } else {
                                 submitAbsen(context);
                               }
-                            } else {
-                              if (jarak > maxJarak) {
-                                displayDialog(
-                                    context,
-                                    msgJarak +
-                                        " dalam " +
-                                        maxJarak.toString() +
-                                        " meter",
-                                    false);
-                              } else {
-                                if (loadingAlamat) {
-                                  displayDialog(
-                                      context,
-                                      "Mohon tunggu sampai loading alamat selesai.",
-                                      false);
-                                } else {
-                                  submitAbsen(context);
-                                }
-                              }
                             }
+
+                            //  else {
+
+                            //   if (jarak > maxJarak) {
+                            //     displayDialog(
+                            //         context,
+                            //         msgJarak +
+                            //             " dalam " +
+                            //             maxJarak.toString() +
+                            //             " meter",
+                            //         false);
+                            //   } else {
+                            //     if (loadingAlamat) {
+                            //       displayDialog(
+                            //           context,
+                            //           "Mohon tunggu sampai loading alamat selesai.",
+                            //           false);
+                            //     } else {
+                            //       submitAbsen(context);
+                            //     }
+                            //   }
+                            // }
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25)),
@@ -539,5 +623,54 @@ class _AbsenState extends State<AbsenForm> {
         ],
       ),
     );
+  }
+
+  _checkLocationInPolygon(LatLng position, Polygon polygon) {
+    bool trueFalse;
+    var vertexPosition = polygon.points.firstWhere((point) => point == position,
+        orElse: () => LatLng(-0.0, 0.0));
+    if (vertexPosition != null) {
+      trueFalse = true;
+    }
+
+    // Check if the point is inside the polygon or on the boundary
+    int intersections = 0;
+    var verticesCount = polygon.points.length;
+
+    for (int i = 1; i < verticesCount; i++) {
+      LatLng vertex1 = polygon.points[i - 1];
+      LatLng vertex2 = polygon.points[i];
+
+      // Check if point is on an horizontal polygon boundary
+      if (vertex1.latitude == vertex2.latitude &&
+          vertex1.latitude == position.latitude &&
+          position.longitude > min(vertex1.longitude, vertex2.longitude) &&
+          position.longitude < max(vertex1.longitude, vertex2.longitude)) {
+        return true;
+      }
+
+      if (position.latitude > min(vertex1.latitude, vertex2.latitude) &&
+          position.latitude <= max(vertex1.latitude, vertex2.latitude) &&
+          position.longitude <= max(vertex1.longitude, vertex2.longitude) &&
+          vertex1.latitude != vertex2.latitude) {
+        var xinters = (position.latitude - vertex1.latitude) *
+                (vertex2.longitude - vertex1.longitude) /
+                (vertex2.latitude - vertex1.latitude) +
+            vertex1.longitude;
+        if (xinters == position.longitude) {
+          // Check if point is on the polygon boundary (other than horizontal)
+          return true;
+        }
+        if (vertex1.longitude == vertex2.longitude ||
+            position.longitude <= xinters) {
+          intersections++;
+        }
+      }
+    }
+    trueFalse = intersections % 2 != 0;
+
+    setState(() {
+      locationInside = trueFalse;
+    });
   }
 }

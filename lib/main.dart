@@ -1,6 +1,7 @@
 // @dart=2.9
 import 'package:flutter_application_1/api/erp.glomed.service.dart';
 import 'package:flutter_application_1/pages/auth/splashscreen.dart';
+import 'package:flutter_application_1/provider/provider.cabang.dart';
 import 'package:flutter_application_1/provider/provider.login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => ProviderLogin(devService: DevService()),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProviderCabang(devService: DevService()),
         ),
       ],
       child: GetMaterialApp(

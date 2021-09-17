@@ -11,12 +11,17 @@ import 'package:flutter_application_1/models/menu/cls_absen_hari_ini.dart';
 import 'package:flutter_application_1/pages/general_widget.dart/widget_error.dart';
 import 'package:flutter_application_1/pages/general_widget.dart/widget_loading_page.dart';
 import 'package:flutter_application_1/pages/menu/absen.dart';
+import 'package:flutter_application_1/pages/menu/menu_cabang.dart';
 import 'package:flutter_application_1/pages/menu/sign-up.dart';
+import 'package:flutter_application_1/pages/menu/test.dart';
+import 'package:flutter_application_1/provider/provider.cabang.dart';
 import 'package:flutter_application_1/style/colors.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MenuHome extends StatefulWidget {
@@ -56,7 +61,9 @@ class _MenuHomeState extends State<MenuHome> {
   String izin = "0";
   String tugas = "0";
   String mangkir = "0";
-  String count = "0";
+  String count = "0.0";
+  String bulan = "Januari";
+  String tahun = "2021";
 
   Future getData() async {
     startUp();
@@ -111,34 +118,76 @@ class _MenuHomeState extends State<MenuHome> {
       print(res.hari);
     });
 
-    // _devService.listabsen(accesToken).then((value) async {
-    //   var res = ReturnListAbsen.fromJson(json.decode(value));
-    //   if (res.status_json == true) {
-    //     final now = new DateTime.now();
-    //     String day = DateFormat('d').format(now);
-    //             String month = DateFormat('M').format(now);
+    _devService.listabsen(accesToken).then((value) async {
+      var res = ReturnListAbsen.fromJson(json.decode(value));
+      if (res.status_json == true) {
+        final now = new DateTime.now();
+        String day = DateFormat('d').format(now);
+        String month = DateFormat('M').format(now);
+        String year = DateFormat('y').format(now);
 
-    //     hariKalender = day;
+        tahun = year;
 
-    //     res.listabsen?.forEach((val) {
-    //       print(val?.tanggal_absen ?? "");
+        if (month == "1") {
+          bulan = "Januari";
+        }
+        if (month == "2") {
+          bulan = "Februari";
+        }
+        if (month == "3") {
+          bulan = "Maret";
+        }
+        if (month == "4") {
+          bulan = "April";
+        }
+        if (month == "5") {
+          bulan = "Mei";
+        }
+        if (month == "6") {
+          bulan = "Juni";
+        }
+        if (month == "7") {
+          bulan = "Juli";
+        }
+        if (month == "8") {
+          bulan = "Agustus";
+        }
+        if (month == "9") {
+          bulan = "September";
+        }
+        if (month == "10") {
+          bulan = "Oktober";
+        }
+        if (month == "11") {
+          bulan = "November";
+        }
+        if (month == "12") {
+          bulan = "Desember";
+        }
 
-    //       // dataAbsen.add(Absen(
-    //       //     id: val?.id ?? "",
-    //       //     iduser: val?.iduser ?? "",
-    //       //     tipeAbsen: val?.tipe_absen ?? "",
-    //       //     datangPulang: val?.datang_pulang ?? "",
-    //       //     wfhWfo: val?.wfh_wfo ?? "",
-    //       //     tanggalAbsen: val?.tanggal_absen ?? "",
-    //       //     jamAbsen: val?.jam_absen ?? "",
-    //       //     lokasi: val?.lokasi ?? "",
-    //       //     latitude: val?.latitude ?? "",
-    //       //     longitude: val?.lokasi ?? "",
-    //       //     keterangan: val?.keterangan ?? ""));
-    //       // //  listTab.add(val);
-    //     });
-    //   }
-    // });
+        int hadir_ = 0;
+
+        res.listabsen?.forEach((val) {
+          DateTime parseDate = DateTime.parse(val?.tanggal_absen ?? "");
+          String formatMonth = DateFormat('M').format(parseDate);
+
+          if (month == formatMonth && val?.datang_pulang == "in") {
+            hadir_ = hadir_ + 1;
+            print(hadir_);
+          }
+        });
+
+        setState(() {
+          hariKalender = day;
+          hadir = hadir_.toString();
+
+          double kehadiran =
+              double.parse(hadir) / double.parse(hariKalender) * 100;
+
+          count = kehadiran.toString().substring(0, 4);
+        });
+      }
+    });
   }
 
   void startUp() async {
@@ -293,7 +342,7 @@ class _MenuHomeState extends State<MenuHome> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Container(
-                          height: 80,
+                          height: 60,
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -322,13 +371,13 @@ class _MenuHomeState extends State<MenuHome> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Container(
-                          height: 80,
+                          height: 60,
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "0",
+                                  hadir,
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18),
@@ -350,7 +399,7 @@ class _MenuHomeState extends State<MenuHome> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Container(
-                          height: 80,
+                          height: 60,
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -378,7 +427,7 @@ class _MenuHomeState extends State<MenuHome> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Container(
-                          height: 80,
+                          height: 60,
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -410,7 +459,7 @@ class _MenuHomeState extends State<MenuHome> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Container(
-                          height: 80,
+                          height: 60,
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -442,7 +491,7 @@ class _MenuHomeState extends State<MenuHome> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Container(
-                          height: 80,
+                          height: 60,
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -470,7 +519,7 @@ class _MenuHomeState extends State<MenuHome> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Container(
-                          height: 80,
+                          height: 60,
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -498,7 +547,7 @@ class _MenuHomeState extends State<MenuHome> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Container(
-                          height: 80,
+                          height: 60,
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -526,7 +575,7 @@ class _MenuHomeState extends State<MenuHome> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Container(
-                          height: 80,
+                          height: 60,
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -549,7 +598,7 @@ class _MenuHomeState extends State<MenuHome> {
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: 15,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -559,8 +608,8 @@ class _MenuHomeState extends State<MenuHome> {
                       alignment: Alignment.center,
                       children: [
                         SizedBox(
-                          width: 100,
-                          height: 100,
+                          width: 90,
+                          height: 90,
                           child: CustomPaint(
                             painter: CirclePainter(),
                           ),
@@ -569,10 +618,10 @@ class _MenuHomeState extends State<MenuHome> {
                           children: [
                             Row(
                               children: [
-                                Text("0.0",
+                                Text(count,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 26,
+                                        fontSize: 16,
                                         color: Colors.black)),
                                 Text(" %"),
                               ],
@@ -587,9 +636,9 @@ class _MenuHomeState extends State<MenuHome> {
                                 ),
                                 child: Container(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(6.0),
                                     child: Text(
-                                      "September 2021",
+                                      bulan + " " + tahun,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 14,
@@ -926,98 +975,126 @@ class _MenuHomeState extends State<MenuHome> {
           ),
         ),
         builder: (builder) {
-          return Container(
-            height: Get.height * 0.3,
-            color: Colors.transparent,
-            child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: const Radius.circular(10.0),
-                        topRight: const Radius.circular(10.0))),
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                  width: 120,
-                                  height: 120,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    color: Colors.black12,
-                                    image: DecorationImage(
-                                        image:
-                                            AssetImage("assets/images/wfo.png"),
-                                        fit: BoxFit.cover),
-                                  )),
-                              SizedBox(height: 4),
-                              Text(
-                                "WFO",
-                                style: TextStyle(
-                                  color: Color(0xff171111),
-                                  fontSize: 20,
-                                  fontFamily: "Sansation Light",
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )
-                            ],
-                          ),
-                          onTap: () {
-                            goToAbsenForm("WFO");
-                          }),
-                      // GestureDetector(
-                      //     child: Column(
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       crossAxisAlignment: CrossAxisAlignment.center,
-                      //       children: [
-                      //         Container(
-                      //             width: 120,
-                      //             height: 120,
-                      //             decoration: BoxDecoration(
-                      //               borderRadius: BorderRadius.circular(10.0),
-                      //               color: Colors.black12,
-                      //               image: DecorationImage(
-                      //                   image:
-                      //                       AssetImage("assets/images/wfh.png"),
-                      //                   fit: BoxFit.cover),
-                      //             )),
-                      //         SizedBox(height: 4),
-                      //         Text(
-                      //           "WFH",
-                      //           style: TextStyle(
-                      //             color: Color(0xff171111),
-                      //             fontSize: 20,
-                      //             fontFamily: "Sansation Light",
-                      //             fontWeight: FontWeight.bold,
-                      //           ),
-                      //         )
-                      //       ],
-                      //     ),
-                      //     onTap: () {
-                      //       goToAbsenForm("WFH");
-                      //     }),
-                    ],
-                  ),
-                )),
-          );
+          return Consumer<ProviderCabang>(builder: (context, provider, _) {
+            return Container(
+              height: Get.height * 0.3,
+              color: Colors.transparent,
+              child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: const Radius.circular(10.0),
+                          topRight: const Radius.circular(10.0))),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                    width: 120,
+                                    height: 120,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      color: Colors.black12,
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              "assets/images/wfo.png"),
+                                          fit: BoxFit.cover),
+                                    )),
+                                SizedBox(height: 4),
+                                Text(
+                                  "WFO",
+                                  style: TextStyle(
+                                    color: Color(0xff171111),
+                                    fontSize: 20,
+                                    fontFamily: "Sansation Light",
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              ],
+                            ),
+                            onTap: () async {
+                              await provider.fetchHistory;
+
+                              var results = provider.returnCabang;
+
+                              if (results != null) {
+                                //    print(results);
+
+                                goToCabangOption();
+                              } else {
+                                print("data null");
+                              }
+
+                              //  goToAbsenForm("WFO");
+                            }),
+                        // GestureDetector(
+                        //     child: Column(
+                        //       mainAxisAlignment: MainAxisAlignment.center,
+                        //       crossAxisAlignment: CrossAxisAlignment.center,
+                        //       children: [
+                        //         Container(
+                        //             width: 120,
+                        //             height: 120,
+                        //             decoration: BoxDecoration(
+                        //               borderRadius: BorderRadius.circular(10.0),
+                        //               color: Colors.black12,
+                        //               image: DecorationImage(
+                        //                   image:
+                        //                       AssetImage("assets/images/wfh.png"),
+                        //                   fit: BoxFit.cover),
+                        //             )),
+                        //         SizedBox(height: 4),
+                        //         Text(
+                        //           "WFH",
+                        //           style: TextStyle(
+                        //             color: Color(0xff171111),
+                        //             fontSize: 20,
+                        //             fontFamily: "Sansation Light",
+                        //             fontWeight: FontWeight.bold,
+                        //           ),
+                        //         )
+                        //       ],
+                        //     ),
+                        //     onTap: () {
+                        //       goToAbsenForm("WFH");
+                        //     }),
+                      ],
+                    ),
+                  )),
+            );
+          });
         });
   }
 
   void goToAbsenForm(String param) {
     Get.to(AbsenForm());
+    //  Get.to(MyHomePage123());
+  }
+
+  void goToCabangOption() {
+    //  Get.to(AbsenForm());
+
+    showMaterialModalBottomSheet(
+      expand: false,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => PageCabang(
+        reverse: false,
+      ),
+    );
+    //  Get.to(MyHomePage123());
   }
 
   @override
   void initState() {
     super.initState();
     getData();
-    // getDataAbsen();
   }
 
   @override

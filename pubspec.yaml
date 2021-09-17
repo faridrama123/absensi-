@@ -53,6 +53,8 @@ dependencies:
   url_launcher: ^6.0.3
   google_fonts: ^2.0.0
   flutter_icons: ^1.1.0
+  modal_bottom_sheet: ^1.0.0
+
  
   
   #RETROFIT DONT CHANGE THIS SECTION
@@ -72,6 +74,7 @@ dependencies:
   http: ^0.13.3
   provider: ^5.0.0
   material_design_icons_flutter: ^5.0.5955-rc.1
+  
 
 
 

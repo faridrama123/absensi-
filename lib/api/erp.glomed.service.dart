@@ -2,13 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter_application_1/models/absen/post.dart';
 import 'package:flutter_application_1/models/absenhari/return.dart';
+import 'package:flutter_application_1/models/cabang/return.dart';
 import 'package:flutter_application_1/models/login/post.dart';
 import 'package:flutter_application_1/models/login/return.dart';
 import 'package:http/http.dart' as http;
 
 class DevService {
-  // static final String _baseUrl = 'http://erp.glomed21.id/';
-  static final String _baseUrl = 'http://smarterp.speedlab.id/';
+  static final String _baseUrl = 'http://erp.glomed21.id/';
+  //static final String _baseUrl = 'http://smarterp.speedlab.id/';
 
   static final String _login = "m/login";
   static final String _absenhariini = "m/absen/harini";
@@ -20,6 +21,25 @@ class DevService {
   static final String _myleave = "m/myleave";
   static final String _overtime = "m/overtime";
   static final String _leave = "m/leave";
+  static final String _allcabang = "m/allcabang";
+
+  Future<dynamic> allcabang(String accesToken) async {
+    final response = await http.get(
+      Uri.parse(_baseUrl + _allcabang),
+      headers: <String, String>{
+        'Authorization': accesToken,
+      },
+    );
+    if (response.statusCode == 200) {
+      print(response.body);
+      return ReturnCabang.fromJson(json.decode(response.body));
+    } else {
+      print(response.body);
+
+      print('Failed to get myovertime');
+      throw Exception('Failed to load');
+    }
+  }
 
   Future leave(
       String accesToken,

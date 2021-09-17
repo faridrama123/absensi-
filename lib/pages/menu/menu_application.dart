@@ -26,6 +26,8 @@ class MenuApplication extends StatefulWidget {
   _MenuApplicationState createState() => _MenuApplicationState();
 }
 
+enum SingingCharacter { lafayette, jefferson }
+
 class _MenuApplicationState extends State<MenuApplication> {
   DevService _devService = DevService();
 
@@ -79,6 +81,7 @@ class _MenuApplicationState extends State<MenuApplication> {
   bool _multiPick = false;
   FileType _pickingType = FileType.custom;
   TextEditingController _controller = TextEditingController();
+  bool? optionTitle = false;
 
   void _openFileExplorer() async {
     setState(() => _loadingPath = true);
@@ -109,6 +112,8 @@ class _MenuApplicationState extends State<MenuApplication> {
           _paths != null ? _paths!.map((e) => e.name).toString() : '...';
     });
   }
+
+  SingingCharacter? _character;
 
   @override
   Widget build(BuildContext context) {
@@ -154,11 +159,18 @@ class _MenuApplicationState extends State<MenuApplication> {
                 ),
                 margin: EdgeInsets.only(top: 15, left: 30, right: 20),
                 child: TextFormField(
+                  onTap: () {
+                    setState(() {
+                      optionTitle = true;
+                      print(optionTitle);
+                    });
+                  },
                   controller: tipe,
                   style: GoogleFonts.ibmPlexSans(
                       textStyle:
                           TextStyle(fontSize: 15, color: Color(0xff4a4c4f))),
                   decoration: InputDecoration(
+                    //    enabled: false,
                     hintText: "Title",
                     hintStyle: GoogleFonts.ibmPlexSans(
                         textStyle:
@@ -191,6 +203,42 @@ class _MenuApplicationState extends State<MenuApplication> {
                   textCapitalization: TextCapitalization.sentences,
                 ),
               ),
+              if (optionTitle == true)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: ListTile(
+                    title: const Text('Izin'),
+                    leading: Radio<SingingCharacter>(
+                      value: SingingCharacter.lafayette,
+                      groupValue: _character,
+                      onChanged: (SingingCharacter? value) {
+                        setState(() {
+                          _character = value;
+                          optionTitle = false;
+                          tipe.text = "Izin";
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              if (optionTitle == true)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: ListTile(
+                    title: const Text('Sakit'),
+                    leading: Radio<SingingCharacter>(
+                      value: SingingCharacter.jefferson,
+                      groupValue: _character,
+                      onChanged: (SingingCharacter? value) {
+                        setState(() {
+                          _character = value;
+                          optionTitle = false;
+                          tipe.text = "Sakit";
+                        });
+                      },
+                    ),
+                  ),
+                ),
               Container(
                 margin: EdgeInsets.only(bottom: 5, left: 35, top: 10),
                 child: Text("Tanggal Mulai",
