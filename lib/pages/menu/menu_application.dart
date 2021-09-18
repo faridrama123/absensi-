@@ -240,7 +240,7 @@ class _MenuApplicationState extends State<MenuApplication> {
                   ),
                 ),
               Container(
-                margin: EdgeInsets.only(bottom: 5, left: 35, top: 10),
+                margin: EdgeInsets.only(bottom: 5, left: 35, top: 20),
                 child: Text("Tanggal Mulai",
                     style: TextStyle(
                         fontWeight: FontWeight.w600, letterSpacing: 0)),
@@ -648,7 +648,7 @@ class _MenuApplicationState extends State<MenuApplication> {
                     });
                   },
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
+                      borderRadius: BorderRadius.circular(10)),
                   color: ColorsTheme.primary1,
                   child: Padding(
                     padding:
@@ -675,11 +675,13 @@ class _MenuApplicationState extends State<MenuApplication> {
                     padding: EdgeInsets.zero,
                     itemCount: listleave.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                            left: 26, right: 25, bottom: 10, top: 5),
-                        child: card(listleave[index]),
-                      );
+                      // return Padding(
+                      //   padding: const EdgeInsets.only(
+                      //       left: 26, right: 25, bottom: 10, top: 5),
+                      //   child: card(listleave[index]),
+                      // );
+
+                      return card2(listleave[index]);
                     }),
               ),
               SizedBox(
@@ -689,6 +691,168 @@ class _MenuApplicationState extends State<MenuApplication> {
           ),
         ));
   }
+}
+
+Widget card2(Listleave item) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+    child: Card(
+      elevation: 2,
+      //   shadowColor: Colors.blue,
+      child: Container(
+        //     height: 200,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Icon(Icons.topic_outlined, size: 20, color: Colors.grey),
+                // SizedBox(
+                //   width: 5,
+                // ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(item.tipe,
+                      style: GoogleFonts.ibmPlexSans(
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              color: Color(0xff4a4c4f)))),
+                ),
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    child:
+                        Icon(Icons.more_vert, size: 20, color: Colors.black)),
+              ],
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 20,
+                ),
+                Column(
+                  children: [
+                    Text("Mulai",
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                color: Color(0xff4a4c4f)))),
+                    Text(item.mulai,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                color: Color(0xff4a4c4f)))),
+                    Text(item.jamMulai,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                color: Color(0xff4a4c4f)))),
+                  ],
+                ),
+                Spacer(),
+                Column(
+                  children: [
+                    Text("Akhir",
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                color: Color(0xff4a4c4f)))),
+                    Text(item.akhir,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                color: Color(0xff4a4c4f)))),
+                    Text(item.jamAkhir,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                color: Color(0xff4a4c4f)))),
+                  ],
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
+              child: Divider(
+                color: Colors.grey,
+                height: 1,
+              ),
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Ket:",
+                          style: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: Color(0xff4a4c4f)))),
+                      Text(item.ket,
+                          style: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15,
+                                  color: Color(0xff4a4c4f)))),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.blueGrey,
+                  ),
+                  margin: EdgeInsets.only(bottom: 5, right: 30, top: 20),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    child: Text(
+                        (item.status.toString() == "null" ||
+                                item.status.toString() == "0")
+                            ? "PENDING"
+                            : "ACCEPTED",
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0)),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 5,
+            )
+          ],
+        ),
+      ),
+    ),
+  );
 }
 
 Widget card(Listleave item) {

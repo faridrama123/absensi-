@@ -419,9 +419,9 @@ class _MenuLemburState extends State<MenuLembur> {
                     var te = timeend.text.substring(0, 2);
 
                     var count = int.parse(te) - int.parse(ts);
-                    print(count.toString());
+                    print("count" + count.toString());
 
-                    if (count < 20) {
+                    if (count < 2) {
                       WidgetSnackbar(
                           context: context,
                           message: "Overtime required 2 Hours+ ",
@@ -451,7 +451,7 @@ class _MenuLemburState extends State<MenuLembur> {
                     }
                   },
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
+                      borderRadius: BorderRadius.circular(10)),
                   color: ColorsTheme.primary1,
                   child: Padding(
                     padding:
@@ -481,10 +481,13 @@ class _MenuLemburState extends State<MenuLembur> {
                 child: ListView.builder(
                     itemCount: listovertime.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                            left: 26, right: 20, bottom: 10, top: 5),
-                        child: card(listovertime[index]),
+                      // return Padding(
+                      //   padding: const EdgeInsets.only(
+                      //       left: 26, right: 20, bottom: 10, top: 5),
+                      //   child: card(listovertime[index]),
+
+                      return card2(
+                        listovertime[index],
                       );
                     }),
               ),
@@ -496,6 +499,156 @@ class _MenuLemburState extends State<MenuLembur> {
           ),
         ));
   }
+}
+
+Widget card2(Listovertime item) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+    child: Card(
+      elevation: 2,
+      //   shadowColor: Colors.blue,
+      child: Container(
+        //     height: 200,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Icon(Icons.topic_outlined, size: 20, color: Colors.grey),
+                // SizedBox(
+                //   width: 5,
+                // ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(item.tanggal,
+                      style: GoogleFonts.ibmPlexSans(
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              color: Color(0xff4a4c4f)))),
+                ),
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    child:
+                        Icon(Icons.more_vert, size: 20, color: Colors.black)),
+              ],
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 20,
+                ),
+                Column(
+                  children: [
+                    Text("Jam in",
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                color: Color(0xff4a4c4f)))),
+                    Text(item.jamMulai,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                color: Color(0xff4a4c4f)))),
+                  ],
+                ),
+                Spacer(),
+                Column(
+                  children: [
+                    Text("Jam Out",
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                color: Color(0xff4a4c4f)))),
+                    Text(item.jamAkhir,
+                        style: GoogleFonts.ibmPlexSans(
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                color: Color(0xff4a4c4f)))),
+                  ],
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
+              child: Divider(
+                color: Colors.grey,
+                height: 1,
+              ),
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Ket:",
+                          style: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: Color(0xff4a4c4f)))),
+                      Text(item.ket,
+                          style: GoogleFonts.ibmPlexSans(
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15,
+                                  color: Color(0xff4a4c4f)))),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.blueGrey,
+                  ),
+                  margin: EdgeInsets.only(bottom: 5, right: 30, top: 20),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    child: Text(
+                        (item.status.toString() == "null" ||
+                                item.status.toString() == "0")
+                            ? "PENDING"
+                            : "ACCEPTED",
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0)),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 5,
+            )
+          ],
+        ),
+      ),
+    ),
+  );
 }
 
 Widget card(Listovertime item) {
