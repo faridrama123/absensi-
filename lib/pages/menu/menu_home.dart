@@ -126,6 +126,8 @@ class _MenuHomeState extends State<MenuHome> {
         String month = DateFormat('M').format(now);
         String year = DateFormat('y').format(now);
 
+        print(" day : " + day + " month " + month + " year " + year);
+
         tahun = year;
 
         if (month == "1") {
@@ -183,6 +185,8 @@ class _MenuHomeState extends State<MenuHome> {
 
           double kehadiran =
               double.parse(hadir) / double.parse(hariKalender) * 100;
+
+          print("kehadiran " + kehadiran.toString());
 
           count = kehadiran.toString().substring(0, 4);
         });
@@ -1025,7 +1029,6 @@ class _MenuHomeState extends State<MenuHome> {
 
                               if (results != null) {
                                 //    print(results);
-
                                 goToCabangOption();
                               } else {
                                 print("data null");

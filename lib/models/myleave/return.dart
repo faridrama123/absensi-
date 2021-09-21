@@ -41,7 +41,7 @@ class Listleave {
   late final String staffId;
   late final String tanggal;
   late final String ket;
-  late final int status;
+  late final String status;
   late final String tipe;
   late final String mulai;
   late final String akhir;

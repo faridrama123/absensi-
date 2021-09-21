@@ -73,6 +73,12 @@ class _LoginPageState extends State<LoginPage> {
       pref.setString(
           "PREF_LONGITUDE", returnLogin.dataUser?.longitude.toString() ?? "");
 
+      pref.setString(
+          "PREF_FACE_IOS", returnLogin.dataUser?.faceIos.toString() ?? "");
+
+      pref.setString("PREF_FACE_ANDROID",
+          returnLogin.dataUser?.faceAndroid.toString() ?? "");
+
       navigateToHome();
       print(returnLogin.token!);
     } else {

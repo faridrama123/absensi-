@@ -685,7 +685,7 @@ class _MenuApplicationState extends State<MenuApplication> {
                     }),
               ),
               SizedBox(
-                height: 50,
+                height: 100,
               )
             ],
           ),

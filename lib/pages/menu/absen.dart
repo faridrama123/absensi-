@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter_application_1/api/erp.glomed.service.dart';
 import 'package:flutter_application_1/api/facenet.service.dart';
 import 'package:flutter_application_1/api/ml_kit_service.dart';
 import 'package:flutter_application_1/api/service.dart';
+import 'package:flutter_application_1/models/absen/post.dart';
+import 'package:flutter_application_1/models/absen/return.dart';
 import 'package:flutter_application_1/models/database.dart';
 import 'package:flutter_application_1/models/menu/cls_absen_hari_ini.dart';
 import 'package:flutter_application_1/pages/general_widget.dart/widget_progress.dart';
@@ -36,6 +40,8 @@ class AbsenForm extends StatefulWidget {
 }
 
 class _AbsenState extends State<AbsenForm> {
+  DevService _devService = DevService();
+
   bool loading = true;
   bool failed = false;
   bool permissionLocation = false;
@@ -291,13 +297,48 @@ class _AbsenState extends State<AbsenForm> {
     dataAbsen.longitude = longitudeCurrent.toString();
     dataAbsen.wfhWfo = isWfh.toLowerCase();
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) =>
-            SignIn(cameraDescription: cameraDescription, absen: dataAbsen),
-      ),
-    );
+    String usingFace = pref.getString("PREF_FACE_ANDROID")!;
+
+    print("usingFace : " + usingFace);
+
+    if (usingFace == "true") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) =>
+              SignIn(cameraDescription: cameraDescription, absen: dataAbsen),
+        ),
+      );
+    } else {
+      PostAbsen postAbsen = new PostAbsen();
+      postAbsen.tipe_absen = dataAbsen.tipeAbsen;
+
+      postAbsen.datang_pulang = dataAbsen.datangPulang;
+      postAbsen.wfh_wfo = dataAbsen.wfhWfo;
+      postAbsen.tanggal_absen = dataAbsen.tanggalAbsen;
+
+      postAbsen.jam_absen = dataAbsen.jamAbsen;
+
+      postAbsen.lokasi = dataAbsen.lokasi;
+
+      postAbsen.latitude = dataAbsen.latitude;
+
+      postAbsen.longitude = dataAbsen.longitude;
+      postAbsen.keterangan = dataAbsen.keterangan;
+
+      _devService
+          .absen(pref.getString("PREF_TOKEN")!, postAbsen)
+          .then((value) async {
+        var res = ReturnAbsen.fromJson(json.decode(value));
+
+        if (res.status_json == true) {
+          displayDialog(context, res.remarks!, true);
+        } else {
+          WidgetSnackbar(
+              context: context, message: res.remarks, warna: "merah");
+        }
+      });
+    }
   }
 
   @override
@@ -389,14 +430,13 @@ class _AbsenState extends State<AbsenForm> {
               ),
               myLocationEnabled: true,
               myLocationButtonEnabled: true,
-              //scrollGesturesEnabled: false,
-              // zoomControlsEnabled: false,
-              // zoomGesturesEnabled: false,
+              scrollGesturesEnabled: false,
+              zoomControlsEnabled: false,
+              zoomGesturesEnabled: false,
               onCameraIdle: () {
                 getAddressFromLatLng(_position);
               },
               polygons: myPolygon(),
-
               onCameraMove: updateCameraPosition,
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
