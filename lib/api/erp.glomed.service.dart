@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 
 class DevService {
   static final String _baseUrl = 'http://erp.glomed21.id/';
-  //static final String _baseUrl = 'http://smarterp.speedlab.id/';
+//  static final String _baseUrl = 'http://smarterp.speedlab.id/';
 
   static final String _login = "m/login";
   static final String _absenhariini = "m/absen/harini";
