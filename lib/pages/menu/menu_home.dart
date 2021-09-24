@@ -1028,6 +1028,8 @@ class _MenuHomeState extends State<MenuHome> {
                               var results = provider.returnCabang;
 
                               if (results != null) {
+                                provider.setFilterCabang('');
+
                                 //    print(results);
                                 goToCabangOption();
                               } else {

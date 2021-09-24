@@ -24,6 +24,32 @@ class ProviderCabang extends ChangeNotifier {
     _cabangClick = value;
   }
 
+  late ReturnCabang _returnCabangFilter;
+  ReturnCabang get returnCabangFilter => _returnCabangFilter;
+
+  void setFilterCabang(String value) {
+    _returnCabangFilter = _returnCabang;
+
+    if (value == "reset") {
+      print("reset");
+      _returnCabangFilter.listcabang = _returnCabang.listcabang;
+      notifyListeners();
+    } else {
+      _returnCabangFilter.listcabang =
+          _returnCabangFilter.listcabang!.map((user) {
+        String? namacabangxx = user?.namaCabang ?? "";
+
+        String namalowercase = namacabangxx.toLowerCase();
+        print(namalowercase);
+
+        if (namalowercase.contains(value)) return user;
+        notifyListeners();
+
+        return null;
+      }).toList();
+    }
+  }
+
   Future<dynamic> get fetchHistory => _fetchHistory();
 
   Future<dynamic> _fetchHistory() async {

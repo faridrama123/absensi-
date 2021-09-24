@@ -448,11 +448,11 @@ class _AbsenState extends State<AbsenForm> {
               ].toSet(),
             ),
           ),
-          Align(
-              alignment: Alignment.center,
-              child: Container(
-                  width: Get.width * 0.12,
-                  child: Image.asset("assets/images/pin.png"))),
+          // Align(
+          //     alignment: Alignment.center,
+          //     child: Container(
+          //         width: Get.width * 0.12,
+          //         child: Image.asset("assets/images/pin.png"))),
           InkWell(
             onTap: () {
               backToHome();

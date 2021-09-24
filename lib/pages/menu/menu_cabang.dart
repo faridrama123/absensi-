@@ -2,12 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/menu/absen.dart';
 import 'package:flutter_application_1/provider/provider.cabang.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:get/get.dart';
+import 'package:html/parser.dart' as htmlparser;
+import 'package:html/dom.dart' as dom;
 
 class PageCabang extends StatelessWidget {
   final bool reverse;
@@ -16,23 +19,29 @@ class PageCabang extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Color.fromRGBO(193, 193, 193, 1),
-            width: 0.5,
+    return SafeArea(
+      child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Color.fromRGBO(193, 193, 193, 1),
+              width: 0.5,
+            ),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+            ),
+            color: Colors.white,
           ),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-          ),
-          color: Colors.white,
-        ),
-        child: cabang(context));
+          child: cabang(context)),
+    );
   }
 
   Widget cabang(BuildContext context) {
+    TextEditingController ctrlfilterCabang = new TextEditingController();
+
     return Consumer<ProviderCabang>(builder: (context, provider, _) {
+      //provider.setFilterCabang('');
+
       return ListView(
         padding: EdgeInsets.zero,
         shrinkWrap: true,
@@ -76,87 +85,160 @@ class PageCabang extends StatelessWidget {
                   ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: FloatingActionButton(
+                  mini: true,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(
+                    Icons.backspace,
+                  ),
+                ),
+              ),
             ],
+          ),
+          Container(
+            margin: EdgeInsets.only(bottom: 15, top: 5, left: 30, right: 20),
+            child: TextFormField(
+              // controller: ctrlfilterCabang,
+              onChanged: (value) {
+                if (value.length <= 1) {
+                  provider.setFilterCabang('reset');
+                  // print("hehehe reset");
+                } else {
+                  provider.setFilterCabang(value.toLowerCase());
+                }
+              },
+              style: GoogleFonts.ibmPlexSans(
+                  textStyle: TextStyle(fontSize: 16, color: Color(0xff4a4c4f))),
+              decoration: InputDecoration(
+                hintText: "Search",
+                hintStyle: GoogleFonts.ibmPlexSans(
+                    textStyle:
+                        TextStyle(fontSize: 15, color: Color(0xff4a4c4f))),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8.0),
+                    ),
+                    borderSide: BorderSide.none),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8.0),
+                    ),
+                    borderSide: BorderSide.none),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8.0),
+                    ),
+                    borderSide: BorderSide.none),
+                filled: true,
+                fillColor: Color(0xfffafaff),
+                prefixIcon: Icon(
+                  Icons.search,
+                  size: 22,
+                ),
+                isDense: true,
+                contentPadding: EdgeInsets.all(0),
+              ),
+              keyboardType: TextInputType.emailAddress,
+              textCapitalization: TextCapitalization.sentences,
+            ),
           ),
           ListView.builder(
               padding: EdgeInsets.zero,
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
-              itemCount: provider.returnCabang.listcabang?.length,
+              //   itemCount: provider.returnCabang.listcabang?.length,
+              itemCount: provider.returnCabangFilter.listcabang?.length,
               itemBuilder: (context, index) {
-                String name =
-                    provider.returnCabang.listcabang![index]?.namaCabang ?? "";
+                String name = provider
+                        .returnCabangFilter.listcabang![index]?.namaCabang ??
+                    "";
 
-                String alamat =
-                    provider.returnCabang.listcabang![index]?.alamatCabang ??
-                        "";
+                String alamat = provider
+                        .returnCabangFilter.listcabang![index]?.alamatCabang ??
+                    "";
+
+                dom.Document document = htmlparser.parse(alamat);
 
                 return GestureDetector(
-                  onTap: () async {
-                    provider.setCabangClick(index);
+                    onTap: () async {
+                      provider.setCabangClick(index);
 
-                    if (provider.cabangClick != null) {
-                      Get.to(AbsenForm());
-                    }
-                  },
-                  child: ListTile(
-                    contentPadding:
-                        EdgeInsets.only(bottom: 5, top: 5, left: 15, right: 15),
-                    leading: Container(
-                      margin: EdgeInsets.only(bottom: 0),
-                      height: MediaQuery.of(context).size.height * 0.0783,
-                      width: MediaQuery.of(context).size.width * 0.1654,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(24.0),
-                        child: Image.asset(
-                          "assets/images/hospital.png",
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                    ),
-                    title: Container(
-                      height: MediaQuery.of(context).size.height * 0.111,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                              width: 0.8, color: Colors.grey.withOpacity(0.5)),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 14),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              name,
-                              textAlign: TextAlign.justify,
-                              maxLines: 2,
-                              style: GoogleFonts.mPlusRounded1c(
-                                  color: Color.fromRGBO(79, 79, 79, 1),
-                                  fontSize: 14,
-                                  letterSpacing:
-                                      0 /*percentages not used in flutter. defaulting to zero*/,
-                                  fontWeight: FontWeight.bold,
-                                  height: 0.8421052631578947),
+                      if (provider.cabangClick != null) {
+                        // Get.to(AbsenForm());
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    AbsenForm()));
+                      }
+                    },
+                    child: (name != "")
+                        ? ListTile(
+                            contentPadding: EdgeInsets.only(
+                                bottom: 5, top: 5, left: 15, right: 15),
+                            leading: Container(
+                              margin: EdgeInsets.only(bottom: 0),
+                              height:
+                                  MediaQuery.of(context).size.height * 0.0783,
+                              width: MediaQuery.of(context).size.width * 0.1654,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(24.0),
+                                child: Image.asset(
+                                  "assets/images/hospital.png",
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ),
                             ),
-                            Text(
-                              alamat,
-                              textAlign: TextAlign.left,
-                              maxLines: 2,
-                              style: GoogleFonts.mPlusRounded1c(
-                                  color: Color.fromRGBO(130, 130, 130, 1),
-                                  fontSize: 14,
-                                  letterSpacing:
-                                      0 /*percentages not used in flutter. defaulting to zero*/,
-                                  fontWeight: FontWeight.normal,
-                                  height: 1.2857142857142858),
+                            title: Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.161,
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                      width: 0.8,
+                                      color: Colors.grey.withOpacity(0.5)),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 14),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      name,
+                                      textAlign: TextAlign.justify,
+                                      maxLines: 2,
+                                      style: GoogleFonts.mPlusRounded1c(
+                                          color: Color.fromRGBO(79, 79, 79, 1),
+                                          fontSize: 14,
+                                          letterSpacing:
+                                              0 /*percentages not used in flutter. defaulting to zero*/,
+                                          fontWeight: FontWeight.bold,
+                                          height: 0.8421052631578947),
+                                    ),
+                                    Expanded(child: Html(data: alamat))
+                                    // Text(
+                                    //   alamat,
+                                    //   textAlign: TextAlign.left,
+                                    //   maxLines: 2,
+                                    //   style: GoogleFonts.mPlusRounded1c(
+                                    //       color: Color.fromRGBO(130, 130, 130, 1),
+                                    //       fontSize: 14,
+                                    //       letterSpacing:
+                                    //           0 /*percentages not used in flutter. defaulting to zero*/,
+                                    //       fontWeight: FontWeight.normal,
+                                    //       height: 1.2857142857142858),
+                                    // ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
+                          )
+                        : SizedBox());
               }),
         ],
       );
