@@ -33,6 +33,8 @@ import 'package:latlong2/latlong.dart' as ll;
 import 'package:provider/provider.dart';
 // import 'package:latlong/latlong.dart' as ll;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io' show Platform;
+
 
 class AbsenForm extends StatefulWidget {
   @override
@@ -281,7 +283,13 @@ class _AbsenState extends State<AbsenForm> {
 
   Future submitAbsen(BuildContext context) async {
     print("locationInside :" + locationInside.toString());
-    if (locationInside == false) return false;
+    if (locationInside == false) {
+      WidgetSnackbar(
+          context: context,
+          message: "Anda berada diluar area absen",
+          warna: "merah");
+      return false;
+    }
 
     final DateTime now = DateTime.now();
     String tanggal = DateFormat('yyyy-MM-dd').format(now);
@@ -297,9 +305,12 @@ class _AbsenState extends State<AbsenForm> {
     dataAbsen.longitude = longitudeCurrent.toString();
     dataAbsen.wfhWfo = isWfh.toLowerCase();
 
-    String usingFace = pref.getString("PREF_FACE_ANDROID")!;
-
-    print("usingFace : " + usingFace);
+    String usingFace = "false"; 
+    if (Platform.isIOS) {
+      usingFace = pref.getString("PREF_FACE_ANDROID")!;
+    } else if (Platform.isAndroid) {
+      usingFace = pref.getString("PREF_FACE_IOS")!;
+    }
 
     if (usingFace == "true") {
       Navigator.push(
@@ -552,7 +563,7 @@ class _AbsenState extends State<AbsenForm> {
                 children: <Widget>[
                   SizedBox(height: 16),
                   Text(
-                    isWfh + " - " + inOut,
+                    inOut,
                     style: TextStyle(
                         fontFamily: 'BalsamiqSans',
                         fontSize: 24,

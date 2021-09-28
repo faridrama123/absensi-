@@ -873,7 +873,7 @@ class _MenuHomeState extends State<MenuHome> {
 
   Widget cardFaceData() {
     return Padding(
-      padding: EdgeInsets.only(top: Get.height * 0.30),
+      padding: EdgeInsets.only(top: Get.height * 0.32),
       child: Center(
         child: Card(
             elevation: 0.5,
@@ -1149,7 +1149,7 @@ class _MenuHomeState extends State<MenuHome> {
                         // runningClock(),
                         Center(
                           child: Padding(
-                            padding: EdgeInsets.only(top: Get.height * 0.8),
+                            padding: EdgeInsets.only(top: Get.height * 0.7),
                             child: RaisedButton(
                               onPressed: () {
                                 _modalBottomSheet();

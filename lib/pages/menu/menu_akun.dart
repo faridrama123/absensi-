@@ -4,7 +4,6 @@ import 'package:flutter_application_1/api/erp.glomed.service.dart';
 import 'package:flutter_application_1/models/profil/return.dart';
 import 'package:flutter_application_1/pages/auth/login.dart';
 import 'package:flutter_application_1/pages/general_widget.dart/widget_snackbar.dart';
-import 'package:flutter_application_1/pages/menu/menu_payroll.dart';
 import 'package:flutter_application_1/style/colors.dart';
 import 'package:flutter_application_1/style/sizes.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,6 @@ import 'package:get/get.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
 class MenuAkun extends StatefulWidget {
   @override
@@ -812,6 +810,7 @@ class _MenuAkunState extends State<MenuAkun> {
                       margin: EdgeInsets.only(top: 10, left: 30, right: 20),
                       child: TextFormField(
                         controller: ctrlNoBank,
+                        readOnly: true,
                         style: GoogleFonts.ibmPlexSans(
                             textStyle: TextStyle(
                                 fontSize: 15, color: Color(0xff4a4c4f))),
@@ -935,85 +934,85 @@ class _MenuAkunState extends State<MenuAkun> {
                         textCapitalization: TextCapitalization.sentences,
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
-                      child: TextFormField(
-                        controller: ctrlSection,
-                        style: GoogleFonts.ibmPlexSans(
-                            textStyle: TextStyle(
-                                fontSize: 15, color: Color(0xff4a4c4f))),
-                        decoration: InputDecoration(
-                          hintText: "Section",
-                          hintStyle: GoogleFonts.ibmPlexSans(
-                              textStyle: TextStyle(
-                                  fontSize: 15, color: Color(0xff4a4c4f))),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          fillColor: Color(0xfffafaff),
-                          prefixIcon: Icon(
-                            Icons.work,
-                            size: 22,
-                          ),
-                          isDense: true,
-                          contentPadding: EdgeInsets.all(0),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        textCapitalization: TextCapitalization.sentences,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
-                      child: TextFormField(
-                        style: GoogleFonts.ibmPlexSans(
-                            textStyle: TextStyle(
-                                fontSize: 15, color: Color(0xff4a4c4f))),
-                        decoration: InputDecoration(
-                          hintText: "Basic Salary",
-                          hintStyle: GoogleFonts.ibmPlexSans(
-                              textStyle: TextStyle(
-                                  fontSize: 15, color: Color(0xff4a4c4f))),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          fillColor: Color(0xfffafaff),
-                          prefixIcon: Icon(
-                            Icons.money,
-                            size: 22,
-                          ),
-                          isDense: true,
-                          contentPadding: EdgeInsets.all(0),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        textCapitalization: TextCapitalization.sentences,
-                      ),
-                    ),
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                    //   child: TextFormField(
+                    //     controller: ctrlSection,
+                    //     style: GoogleFonts.ibmPlexSans(
+                    //         textStyle: TextStyle(
+                    //             fontSize: 15, color: Color(0xff4a4c4f))),
+                    //     decoration: InputDecoration(
+                    //       hintText: "Section",
+                    //       hintStyle: GoogleFonts.ibmPlexSans(
+                    //           textStyle: TextStyle(
+                    //               fontSize: 15, color: Color(0xff4a4c4f))),
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       enabledBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       focusedBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       filled: true,
+                    //       fillColor: Color(0xfffafaff),
+                    //       prefixIcon: Icon(
+                    //         Icons.work,
+                    //         size: 22,
+                    //       ),
+                    //       isDense: true,
+                    //       contentPadding: EdgeInsets.all(0),
+                    //     ),
+                    //     keyboardType: TextInputType.emailAddress,
+                    //     textCapitalization: TextCapitalization.sentences,
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                    //   child: TextFormField(
+                    //     style: GoogleFonts.ibmPlexSans(
+                    //         textStyle: TextStyle(
+                    //             fontSize: 15, color: Color(0xff4a4c4f))),
+                    //     decoration: InputDecoration(
+                    //       hintText: "Basic Salary",
+                    //       hintStyle: GoogleFonts.ibmPlexSans(
+                    //           textStyle: TextStyle(
+                    //               fontSize: 15, color: Color(0xff4a4c4f))),
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       enabledBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       focusedBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       filled: true,
+                    //       fillColor: Color(0xfffafaff),
+                    //       prefixIcon: Icon(
+                    //         Icons.money,
+                    //         size: 22,
+                    //       ),
+                    //       isDense: true,
+                    //       contentPadding: EdgeInsets.all(0),
+                    //     ),
+                    //     keyboardType: TextInputType.emailAddress,
+                    //     textCapitalization: TextCapitalization.sentences,
+                    //   ),
+                    // ),
                     // Container(
                     //   width: MediaQuery.of(context).size.width,
                     //   padding: EdgeInsets.all(15),
