@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_application_1/api/erp.glomed.service.dart';
 import 'package:flutter_application_1/models/profil/return.dart';
+import 'package:flutter_application_1/models/return_check.dart';
 import 'package:flutter_application_1/pages/auth/login.dart';
 import 'package:flutter_application_1/pages/general_widget.dart/widget_snackbar.dart';
 import 'package:flutter_application_1/style/colors.dart';
@@ -429,21 +430,440 @@ class _MenuAkunState extends State<MenuAkun> {
                     SizedBox(
                       height: Get.height * 0.20,
                     ),
+                    // Container(
+                    //   margin: EdgeInsets.only(bottom: 5, left: 20),
+                    //   child: Text("Personal information",
+                    //       style: TextStyle(
+                    //           fontWeight: FontWeight.w600, letterSpacing: 0)),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                    //   child: TextFormField(
+                    //     controller: ctrlMaritalStatus,
+                    //     style: GoogleFonts.ibmPlexSans(
+                    //         textStyle: TextStyle(
+                    //             fontSize: 15, color: Color(0xff4a4c4f))),
+                    //     decoration: InputDecoration(
+                    //       hintText: "Marital Status",
+                    //       hintStyle: GoogleFonts.ibmPlexSans(
+                    //           textStyle: TextStyle(
+                    //               fontSize: 15, color: Color(0xff4a4c4f))),
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       enabledBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       focusedBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       filled: true,
+                    //       fillColor: Color(0xfffafaff),
+                    //       prefixIcon: Icon(
+                    //         Icons.supervised_user_circle,
+                    //         size: 22,
+                    //       ),
+                    //       isDense: true,
+                    //       contentPadding: EdgeInsets.all(0),
+                    //     ),
+                    //     keyboardType: TextInputType.emailAddress,
+                    //     textCapitalization: TextCapitalization.sentences,
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                    //   child: TextFormField(
+                    //     controller: ctrlBirthday,
+                    //     style: GoogleFonts.ibmPlexSans(
+                    //         textStyle: TextStyle(
+                    //             fontSize: 15, color: Color(0xff4a4c4f))),
+                    //     decoration: InputDecoration(
+                    //       hintText: "Birthday",
+                    //       hintStyle: GoogleFonts.ibmPlexSans(
+                    //           textStyle: TextStyle(
+                    //               fontSize: 15, color: Color(0xff4a4c4f))),
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       enabledBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       focusedBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       filled: true,
+                    //       fillColor: Color(0xfffafaff),
+                    //       prefixIcon: Icon(
+                    //         Icons.date_range_sharp,
+                    //         size: 22,
+                    //       ),
+                    //       isDense: true,
+                    //       contentPadding: EdgeInsets.all(0),
+                    //     ),
+                    //     keyboardType: TextInputType.emailAddress,
+                    //     textCapitalization: TextCapitalization.sentences,
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                    //   child: TextFormField(
+                    //     controller: ctrlGender,
+                    //     style: GoogleFonts.ibmPlexSans(
+                    //         textStyle: TextStyle(
+                    //             fontSize: 15, color: Color(0xff4a4c4f))),
+                    //     decoration: InputDecoration(
+                    //       hintText: "Gender",
+                    //       hintStyle: GoogleFonts.ibmPlexSans(
+                    //           textStyle: TextStyle(
+                    //               fontSize: 15, color: Color(0xff4a4c4f))),
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       enabledBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       focusedBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       filled: true,
+                    //       fillColor: Color(0xfffafaff),
+                    //       prefixIcon: Icon(
+                    //         Icons.transgender,
+                    //         size: 22,
+                    //       ),
+                    //       isDense: true,
+                    //       contentPadding: EdgeInsets.all(0),
+                    //     ),
+                    //     keyboardType: TextInputType.emailAddress,
+                    //     textCapitalization: TextCapitalization.sentences,
+                    //   ),
+                    // ),
+
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                    //   child: TextFormField(
+                    //     controller: ctrlBlood,
+                    //     style: GoogleFonts.ibmPlexSans(
+                    //         textStyle: TextStyle(
+                    //             fontSize: 15, color: Color(0xff4a4c4f))),
+                    //     decoration: InputDecoration(
+                    //       hintText: "Blood",
+                    //       hintStyle: GoogleFonts.ibmPlexSans(
+                    //           textStyle: TextStyle(
+                    //               fontSize: 15, color: Color(0xff4a4c4f))),
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       enabledBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       focusedBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       filled: true,
+                    //       fillColor: Color(0xfffafaff),
+                    //       prefixIcon: Icon(
+                    //         Icons.bloodtype,
+                    //         size: 22,
+                    //       ),
+                    //       isDense: true,
+                    //       contentPadding: EdgeInsets.all(0),
+                    //     ),
+                    //     keyboardType: TextInputType.emailAddress,
+                    //     textCapitalization: TextCapitalization.sentences,
+                    //   ),
+                    // ),
+
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                    //   child: TextFormField(
+                    //     controller: ctrlPhone,
+                    //     style: GoogleFonts.ibmPlexSans(
+                    //         textStyle: TextStyle(
+                    //             fontSize: 15, color: Color(0xff4a4c4f))),
+                    //     decoration: InputDecoration(
+                    //       hintText: "Phone",
+                    //       hintStyle: GoogleFonts.ibmPlexSans(
+                    //           textStyle: TextStyle(
+                    //               fontSize: 15, color: Color(0xff4a4c4f))),
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       enabledBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       focusedBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       filled: true,
+                    //       fillColor: Color(0xfffafaff),
+                    //       prefixIcon: Icon(
+                    //         Icons.phone,
+                    //         size: 22,
+                    //       ),
+                    //       isDense: true,
+                    //       contentPadding: EdgeInsets.all(0),
+                    //     ),
+                    //     keyboardType: TextInputType.emailAddress,
+                    //     textCapitalization: TextCapitalization.sentences,
+                    //   ),
+                    // ),
+
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                    //   child: TextFormField(
+                    //     controller: ctrlEmail,
+                    //     style: GoogleFonts.ibmPlexSans(
+                    //         textStyle: TextStyle(
+                    //             fontSize: 15, color: Color(0xff4a4c4f))),
+                    //     decoration: InputDecoration(
+                    //       hintText: "Email",
+                    //       hintStyle: GoogleFonts.ibmPlexSans(
+                    //           textStyle: TextStyle(
+                    //               fontSize: 15, color: Color(0xff4a4c4f))),
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       enabledBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       focusedBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       filled: true,
+                    //       fillColor: Color(0xfffafaff),
+                    //       prefixIcon: Icon(
+                    //         Icons.email,
+                    //         size: 22,
+                    //       ),
+                    //       isDense: true,
+                    //       contentPadding: EdgeInsets.all(0),
+                    //     ),
+                    //     keyboardType: TextInputType.emailAddress,
+                    //     textCapitalization: TextCapitalization.sentences,
+                    //   ),
+                    // ),
+
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                    //   child: TextFormField(
+                    //     controller: ctrlAddress,
+                    //     style: GoogleFonts.ibmPlexSans(
+                    //         textStyle: TextStyle(
+                    //             fontSize: 15, color: Color(0xff4a4c4f))),
+                    //     decoration: InputDecoration(
+                    //       hintText: "Address",
+                    //       hintStyle: GoogleFonts.ibmPlexSans(
+                    //           textStyle: TextStyle(
+                    //               fontSize: 15, color: Color(0xff4a4c4f))),
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       enabledBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       focusedBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       filled: true,
+                    //       fillColor: Color(0xfffafaff),
+                    //       prefixIcon: Icon(
+                    //         Icons.home,
+                    //         size: 22,
+                    //       ),
+                    //       isDense: true,
+                    //       contentPadding: EdgeInsets.all(0),
+                    //     ),
+                    //     keyboardType: TextInputType.emailAddress,
+                    //     textCapitalization: TextCapitalization.sentences,
+                    //   ),
+                    // ),
+
+                    // Container(
+                    //   margin: EdgeInsets.only(bottom: 5, left: 20, top: 20),
+                    //   child: Text("Bank Account",
+                    //       style: TextStyle(
+                    //           fontWeight: FontWeight.w600, letterSpacing: 0)),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                    //   child: TextFormField(
+                    //     //    controller: ctrlMaritalStatus,
+                    //     style: GoogleFonts.ibmPlexSans(
+                    //         textStyle: TextStyle(
+                    //             fontSize: 15, color: Color(0xff4a4c4f))),
+                    //     decoration: InputDecoration(
+                    //       hintText: "Bank BCA",
+                    //       hintStyle: GoogleFonts.ibmPlexSans(
+                    //           textStyle: TextStyle(
+                    //               fontSize: 15, color: Color(0xff4a4c4f))),
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       enabledBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       focusedBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       filled: true,
+                    //       fillColor: Color(0xfffafaff),
+                    //       prefixIcon: Icon(
+                    //         Icons.account_balance,
+                    //         size: 22,
+                    //       ),
+                    //       isDense: true,
+                    //       contentPadding: EdgeInsets.all(0),
+                    //     ),
+                    //     keyboardType: TextInputType.emailAddress,
+                    //     textCapitalization: TextCapitalization.sentences,
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                    //   child: TextFormField(
+                    //     controller: ctrlBankName,
+                    //     style: GoogleFonts.ibmPlexSans(
+                    //         textStyle: TextStyle(
+                    //             fontSize: 15, color: Color(0xff4a4c4f))),
+                    //     decoration: InputDecoration(
+                    //       hintText: "Name",
+                    //       hintStyle: GoogleFonts.ibmPlexSans(
+                    //           textStyle: TextStyle(
+                    //               fontSize: 15, color: Color(0xff4a4c4f))),
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       enabledBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       focusedBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       filled: true,
+                    //       fillColor: Color(0xfffafaff),
+                    //       prefixIcon: Icon(
+                    //         Icons.person,
+                    //         size: 22,
+                    //       ),
+                    //       isDense: true,
+                    //       contentPadding: EdgeInsets.all(0),
+                    //     ),
+                    //     keyboardType: TextInputType.emailAddress,
+                    //     textCapitalization: TextCapitalization.sentences,
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 10, left: 30, right: 20),
+                    //   child: TextFormField(
+                    //     controller: ctrlNoBank,
+                    //     readOnly: true,
+                    //     style: GoogleFonts.ibmPlexSans(
+                    //         textStyle: TextStyle(
+                    //             fontSize: 15, color: Color(0xff4a4c4f))),
+                    //     decoration: InputDecoration(
+                    //       hintText: "Account No",
+                    //       hintStyle: GoogleFonts.ibmPlexSans(
+                    //           textStyle: TextStyle(
+                    //               fontSize: 15, color: Color(0xff4a4c4f))),
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       enabledBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       focusedBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.0),
+                    //           ),
+                    //           borderSide: BorderSide.none),
+                    //       filled: true,
+                    //       fillColor: Color(0xfffafaff),
+                    //       prefixIcon: Icon(
+                    //         Icons.account_balance_wallet,
+                    //         size: 22,
+                    //       ),
+                    //       isDense: true,
+                    //       contentPadding: EdgeInsets.all(0),
+                    //     ),
+                    //     keyboardType: TextInputType.emailAddress,
+                    //     textCapitalization: TextCapitalization.sentences,
+                    //   ),
+                    // ),
                     Container(
-                      margin: EdgeInsets.only(bottom: 5, left: 20),
-                      child: Text("Personal information",
+                      margin: EdgeInsets.only(bottom: 5, left: 20, top: 20),
+                      child: Text("Employment Detail",
                           style: TextStyle(
                               fontWeight: FontWeight.w600, letterSpacing: 0)),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 10, left: 30, right: 20),
                       child: TextFormField(
-                        controller: ctrlMaritalStatus,
+                        enabled: false,
+                        controller: ctrDivison,
                         style: GoogleFonts.ibmPlexSans(
                             textStyle: TextStyle(
                                 fontSize: 15, color: Color(0xff4a4c4f))),
                         decoration: InputDecoration(
-                          hintText: "Marital Status",
+                          hintText: "Divisions",
                           hintStyle: GoogleFonts.ibmPlexSans(
                               textStyle: TextStyle(
                                   fontSize: 15, color: Color(0xff4a4c4f))),
@@ -465,87 +885,7 @@ class _MenuAkunState extends State<MenuAkun> {
                           filled: true,
                           fillColor: Color(0xfffafaff),
                           prefixIcon: Icon(
-                            Icons.supervised_user_circle,
-                            size: 22,
-                          ),
-                          isDense: true,
-                          contentPadding: EdgeInsets.all(0),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        textCapitalization: TextCapitalization.sentences,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
-                      child: TextFormField(
-                        controller: ctrlBirthday,
-                        style: GoogleFonts.ibmPlexSans(
-                            textStyle: TextStyle(
-                                fontSize: 15, color: Color(0xff4a4c4f))),
-                        decoration: InputDecoration(
-                          hintText: "Birthday",
-                          hintStyle: GoogleFonts.ibmPlexSans(
-                              textStyle: TextStyle(
-                                  fontSize: 15, color: Color(0xff4a4c4f))),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          fillColor: Color(0xfffafaff),
-                          prefixIcon: Icon(
-                            Icons.date_range_sharp,
-                            size: 22,
-                          ),
-                          isDense: true,
-                          contentPadding: EdgeInsets.all(0),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        textCapitalization: TextCapitalization.sentences,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
-                      child: TextFormField(
-                        controller: ctrlGender,
-                        style: GoogleFonts.ibmPlexSans(
-                            textStyle: TextStyle(
-                                fontSize: 15, color: Color(0xff4a4c4f))),
-                        decoration: InputDecoration(
-                          hintText: "Gender",
-                          hintStyle: GoogleFonts.ibmPlexSans(
-                              textStyle: TextStyle(
-                                  fontSize: 15, color: Color(0xff4a4c4f))),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          fillColor: Color(0xfffafaff),
-                          prefixIcon: Icon(
-                            Icons.transgender,
+                            Icons.military_tech,
                             size: 22,
                           ),
                           isDense: true,
@@ -559,12 +899,13 @@ class _MenuAkunState extends State<MenuAkun> {
                     Container(
                       margin: EdgeInsets.only(top: 10, left: 30, right: 20),
                       child: TextFormField(
-                        controller: ctrlBlood,
+                        controller: ctrlPosition,
+                        enabled: false,
                         style: GoogleFonts.ibmPlexSans(
                             textStyle: TextStyle(
                                 fontSize: 15, color: Color(0xff4a4c4f))),
                         decoration: InputDecoration(
-                          hintText: "Blood",
+                          hintText: "Position",
                           hintStyle: GoogleFonts.ibmPlexSans(
                               textStyle: TextStyle(
                                   fontSize: 15, color: Color(0xff4a4c4f))),
@@ -586,7 +927,7 @@ class _MenuAkunState extends State<MenuAkun> {
                           filled: true,
                           fillColor: Color(0xfffafaff),
                           prefixIcon: Icon(
-                            Icons.bloodtype,
+                            Icons.meeting_room,
                             size: 22,
                           ),
                           isDense: true,
@@ -595,6 +936,13 @@ class _MenuAkunState extends State<MenuAkun> {
                         keyboardType: TextInputType.emailAddress,
                         textCapitalization: TextCapitalization.sentences,
                       ),
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(bottom: 5, left: 20, top: 20),
+                      child: Text("Employment Contact",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, letterSpacing: 0)),
                     ),
 
                     Container(
@@ -641,6 +989,7 @@ class _MenuAkunState extends State<MenuAkun> {
                     Container(
                       margin: EdgeInsets.only(top: 10, left: 30, right: 20),
                       child: TextFormField(
+                        enabled: false,
                         controller: ctrlEmail,
                         style: GoogleFonts.ibmPlexSans(
                             textStyle: TextStyle(
@@ -678,260 +1027,45 @@ class _MenuAkunState extends State<MenuAkun> {
                         textCapitalization: TextCapitalization.sentences,
                       ),
                     ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                      child: RaisedButton(
+                        onPressed: () async {
+                          SharedPreferences pref =
+                              await SharedPreferences.getInstance();
+                          var accesToken = pref.getString("PREF_TOKEN")!;
 
-                    Container(
-                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
-                      child: TextFormField(
-                        controller: ctrlAddress,
-                        style: GoogleFonts.ibmPlexSans(
-                            textStyle: TextStyle(
-                                fontSize: 15, color: Color(0xff4a4c4f))),
-                        decoration: InputDecoration(
-                          hintText: "Address",
-                          hintStyle: GoogleFonts.ibmPlexSans(
-                              textStyle: TextStyle(
-                                  fontSize: 15, color: Color(0xff4a4c4f))),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          fillColor: Color(0xfffafaff),
-                          prefixIcon: Icon(
-                            Icons.home,
-                            size: 22,
-                          ),
-                          isDense: true,
-                          contentPadding: EdgeInsets.all(0),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        textCapitalization: TextCapitalization.sentences,
-                      ),
-                    ),
+                          _devService
+                              .myprofile(accesToken, ctrlPhone.text)
+                              .then((value) async {
+                            var res = ReturnCheck.fromJson(json.decode(value));
 
-                    Container(
-                      margin: EdgeInsets.only(bottom: 5, left: 20, top: 20),
-                      child: Text("Bank Account",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, letterSpacing: 0)),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
-                      child: TextFormField(
-                        //    controller: ctrlMaritalStatus,
-                        style: GoogleFonts.ibmPlexSans(
-                            textStyle: TextStyle(
-                                fontSize: 15, color: Color(0xff4a4c4f))),
-                        decoration: InputDecoration(
-                          hintText: "Bank BCA",
-                          hintStyle: GoogleFonts.ibmPlexSans(
-                              textStyle: TextStyle(
-                                  fontSize: 15, color: Color(0xff4a4c4f))),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          fillColor: Color(0xfffafaff),
-                          prefixIcon: Icon(
-                            Icons.account_balance,
-                            size: 22,
+                            if (res.statusJson == true) {
+                              WidgetSnackbar(
+                                  context: context,
+                                  message: "Nomor Handphone Berhasil disimpan",
+                                  warna: "hijau");
+                            } else {
+                              WidgetSnackbar(
+                                  context: context,
+                                  message: "Something Wrong",
+                                  warna: "merah");
+                            }
+                          });
+                        },
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        color: ColorsTheme.primary1,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 0),
+                          child: Text(
+                            "SIMPAN",
+                            style: TextStyle(color: Colors.white, fontSize: 16),
                           ),
-                          isDense: true,
-                          contentPadding: EdgeInsets.all(0),
                         ),
-                        keyboardType: TextInputType.emailAddress,
-                        textCapitalization: TextCapitalization.sentences,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
-                      child: TextFormField(
-                        controller: ctrlBankName,
-                        style: GoogleFonts.ibmPlexSans(
-                            textStyle: TextStyle(
-                                fontSize: 15, color: Color(0xff4a4c4f))),
-                        decoration: InputDecoration(
-                          hintText: "Name",
-                          hintStyle: GoogleFonts.ibmPlexSans(
-                              textStyle: TextStyle(
-                                  fontSize: 15, color: Color(0xff4a4c4f))),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          fillColor: Color(0xfffafaff),
-                          prefixIcon: Icon(
-                            Icons.person,
-                            size: 22,
-                          ),
-                          isDense: true,
-                          contentPadding: EdgeInsets.all(0),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        textCapitalization: TextCapitalization.sentences,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
-                      child: TextFormField(
-                        controller: ctrlNoBank,
-                        readOnly: true,
-                        style: GoogleFonts.ibmPlexSans(
-                            textStyle: TextStyle(
-                                fontSize: 15, color: Color(0xff4a4c4f))),
-                        decoration: InputDecoration(
-                          hintText: "Account No",
-                          hintStyle: GoogleFonts.ibmPlexSans(
-                              textStyle: TextStyle(
-                                  fontSize: 15, color: Color(0xff4a4c4f))),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          fillColor: Color(0xfffafaff),
-                          prefixIcon: Icon(
-                            Icons.account_balance_wallet,
-                            size: 22,
-                          ),
-                          isDense: true,
-                          contentPadding: EdgeInsets.all(0),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        textCapitalization: TextCapitalization.sentences,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 5, left: 20, top: 20),
-                      child: Text("Employment Detail",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, letterSpacing: 0)),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
-                      child: TextFormField(
-                        controller: ctrDivison,
-                        style: GoogleFonts.ibmPlexSans(
-                            textStyle: TextStyle(
-                                fontSize: 15, color: Color(0xff4a4c4f))),
-                        decoration: InputDecoration(
-                          hintText: "Divisions",
-                          hintStyle: GoogleFonts.ibmPlexSans(
-                              textStyle: TextStyle(
-                                  fontSize: 15, color: Color(0xff4a4c4f))),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          fillColor: Color(0xfffafaff),
-                          prefixIcon: Icon(
-                            Icons.military_tech,
-                            size: 22,
-                          ),
-                          isDense: true,
-                          contentPadding: EdgeInsets.all(0),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        textCapitalization: TextCapitalization.sentences,
-                      ),
-                    ),
-
-                    Container(
-                      margin: EdgeInsets.only(top: 10, left: 30, right: 20),
-                      child: TextFormField(
-                        controller: ctrlPosition,
-                        style: GoogleFonts.ibmPlexSans(
-                            textStyle: TextStyle(
-                                fontSize: 15, color: Color(0xff4a4c4f))),
-                        decoration: InputDecoration(
-                          hintText: "Position",
-                          hintStyle: GoogleFonts.ibmPlexSans(
-                              textStyle: TextStyle(
-                                  fontSize: 15, color: Color(0xff4a4c4f))),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          fillColor: Color(0xfffafaff),
-                          prefixIcon: Icon(
-                            Icons.meeting_room,
-                            size: 22,
-                          ),
-                          isDense: true,
-                          contentPadding: EdgeInsets.all(0),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        textCapitalization: TextCapitalization.sentences,
                       ),
                     ),
                     // Container(

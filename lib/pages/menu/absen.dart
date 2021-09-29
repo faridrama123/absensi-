@@ -35,7 +35,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io' show Platform;
 
-
 class AbsenForm extends StatefulWidget {
   @override
   _AbsenState createState() => _AbsenState();
@@ -305,10 +304,10 @@ class _AbsenState extends State<AbsenForm> {
     dataAbsen.longitude = longitudeCurrent.toString();
     dataAbsen.wfhWfo = isWfh.toLowerCase();
 
-    String usingFace = "false"; 
-    if (Platform.isIOS) {
+    String usingFace = "false";
+    if (Platform.isAndroid) {
       usingFace = pref.getString("PREF_FACE_ANDROID")!;
-    } else if (Platform.isAndroid) {
+    } else if (Platform.isIOS) {
       usingFace = pref.getString("PREF_FACE_IOS")!;
     }
 

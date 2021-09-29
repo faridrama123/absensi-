@@ -22,6 +22,7 @@ class DevService {
   static final String _overtime = "m/overtime";
   static final String _leave = "m/leave";
   static final String _allcabang = "m/allcabang";
+  static final String _myprofile = "m/myprofile";
 
   Future<dynamic> allcabang(String accesToken) async {
     final response = await http.get(
@@ -38,6 +39,39 @@ class DevService {
 
       print('Failed to get allcabang');
       throw Exception('Failed to load');
+    }
+  }
+
+  Future myprofile(
+    String accesToken,
+    String phone,
+  ) async {
+    Map data = {
+      "phone": phone,
+    };
+
+    var body = jsonEncode(data);
+
+    final response = await http
+        .post(
+          Uri.parse(_baseUrl + _myprofile),
+          headers: <String, String>{
+            'Authorization': accesToken,
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: body,
+        )
+        .timeout(Duration(seconds: 15));
+
+    if (response.statusCode == 200) {
+      print("myprofile succes " + response.body);
+      return response.body;
+      //ReturnLogin.fromJson(json.decode(response.body));
+    } else {
+      print(response.body);
+
+      print('Failed to post myprofile ');
+      throw Exception('Failed to post');
     }
   }
 

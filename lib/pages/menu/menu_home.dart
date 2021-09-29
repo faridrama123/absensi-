@@ -451,70 +451,6 @@ class _MenuHomeState extends State<MenuHome> {
                           ),
                         )),
                   ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Card(
-                        elevation: 1,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Container(
-                          height: 60,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "0",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  " Efektif",
-                                  style: TextStyle(fontSize: 12),
-                                  textAlign: TextAlign.center,
-                                )
-                              ],
-                            ),
-                          ),
-                        )),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Card(
-                        elevation: 1,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Container(
-                          height: 60,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "0",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text("Hari Off", style: TextStyle(fontSize: 12))
-                              ],
-                            ),
-                          ),
-                        )),
-                  ),
                   Expanded(
                     flex: 1,
                     child: Card(
@@ -543,64 +479,156 @@ class _MenuHomeState extends State<MenuHome> {
                           ),
                         )),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Card(
-                        elevation: 1,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Container(
-                          height: 60,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "0",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text("Tugas", style: TextStyle(fontSize: 12))
-                              ],
-                            ),
-                          ),
-                        )),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Card(
-                        elevation: 1,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Container(
-                          height: 60,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "0",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text("Mangkir", style: TextStyle(fontSize: 12))
-                              ],
-                            ),
-                          ),
-                        )),
-                  ),
                 ],
               ),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       flex: 1,
+              //       child: Card(
+              //           elevation: 1,
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(5),
+              //           ),
+              //           child: Container(
+              //             height: 60,
+              //             child: Center(
+              //               child: Column(
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   Text(
+              //                     "0",
+              //                     style: TextStyle(
+              //                         fontWeight: FontWeight.bold,
+              //                         fontSize: 18),
+              //                   ),
+              //                   SizedBox(
+              //                     height: 5,
+              //                   ),
+              //                   Text(
+              //                     " Efektif",
+              //                     style: TextStyle(fontSize: 12),
+              //                     textAlign: TextAlign.center,
+              //                   )
+              //                 ],
+              //               ),
+              //             ),
+              //           )),
+              //     ),
+              //     Expanded(
+              //       flex: 1,
+              //       child: Card(
+              //           elevation: 1,
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(5),
+              //           ),
+              //           child: Container(
+              //             height: 60,
+              //             child: Center(
+              //               child: Column(
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   Text(
+              //                     "0",
+              //                     style: TextStyle(
+              //                         fontWeight: FontWeight.bold,
+              //                         fontSize: 18),
+              //                   ),
+              //                   SizedBox(
+              //                     height: 5,
+              //                   ),
+              //                   Text("Hari Off", style: TextStyle(fontSize: 12))
+              //                 ],
+              //               ),
+              //             ),
+              //           )),
+              //     ),
+              //     Expanded(
+              //       flex: 1,
+              //       child: Card(
+              //           elevation: 1,
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(5),
+              //           ),
+              //           child: Container(
+              //             height: 60,
+              //             child: Center(
+              //               child: Column(
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   Text(
+              //                     "0",
+              //                     style: TextStyle(
+              //                         fontWeight: FontWeight.bold,
+              //                         fontSize: 18),
+              //                   ),
+              //                   SizedBox(
+              //                     height: 5,
+              //                   ),
+              //                   Text("Izin", style: TextStyle(fontSize: 12))
+              //                 ],
+              //               ),
+              //             ),
+              //           )),
+              //     ),
+              //     Expanded(
+              //       flex: 1,
+              //       child: Card(
+              //           elevation: 1,
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(5),
+              //           ),
+              //           child: Container(
+              //             height: 60,
+              //             child: Center(
+              //               child: Column(
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   Text(
+              //                     "0",
+              //                     style: TextStyle(
+              //                         fontWeight: FontWeight.bold,
+              //                         fontSize: 18),
+              //                   ),
+              //                   SizedBox(
+              //                     height: 5,
+              //                   ),
+              //                   Text("Tugas", style: TextStyle(fontSize: 12))
+              //                 ],
+              //               ),
+              //             ),
+              //           )),
+              //     ),
+              //     Expanded(
+              //       flex: 1,
+              //       child: Card(
+              //           elevation: 1,
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(5),
+              //           ),
+              //           child: Container(
+              //             height: 60,
+              //             child: Center(
+              //               child: Column(
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   Text(
+              //                     "0",
+              //                     style: TextStyle(
+              //                         fontWeight: FontWeight.bold,
+              //                         fontSize: 18),
+              //                   ),
+              //                   SizedBox(
+              //                     height: 5,
+              //                   ),
+              //                   Text("Mangkir", style: TextStyle(fontSize: 12))
+              //                 ],
+              //               ),
+              //             ),
+              //           )),
+              //     ),
+              //   ],
+              // ),
               SizedBox(
                 height: 15,
               ),
