@@ -288,7 +288,12 @@ class SignUpState extends State<SignUp> {
             CameraHeader(
               "REGISTER WAJAH",
               onBackPressed: _onBackPressed,
-            )
+            ),
+            if (postFace == true)
+              Center(
+                child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue)),
+              )
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -303,6 +308,11 @@ class SignUpState extends State<SignUp> {
 
                   // 1. jika wajah di db cocok / hasil shot merupakan real face
                   if (result.toString() == "true") {
+                    SharedPreferences pref =
+                        await SharedPreferences.getInstance();
+
+                    pref.setString("PREF_FACE", "data_face_user");
+
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(builder: (context) => MainMenu()),
                         (Route<dynamic> route) => false);

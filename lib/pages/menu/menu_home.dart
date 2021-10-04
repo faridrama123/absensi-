@@ -75,7 +75,7 @@ class _MenuHomeState extends State<MenuHome> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     var accesToken = pref.getString("PREF_TOKEN")!;
     faceData = pref.getString("PREF_FACE")!;
-    // print("faceData" + faceData.toString());
+    //  print("faceData" + faceData.toString());
 
     print(pref.getString("PREF_TOKEN")!);
     _devService.absenhariini(accesToken).then((value) async {
