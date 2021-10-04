@@ -3,15 +3,20 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
 import 'package:flutter_application_1/api/camera.service.dart';
+import 'package:flutter_application_1/api/face.service.dart';
 import 'package:flutter_application_1/api/facenet.service.dart';
 import 'package:flutter_application_1/api/ml_kit_service.dart';
 import 'package:flutter_application_1/models/menu/cls_absen_hari_ini.dart';
+import 'package:flutter_application_1/models/return_face_data.dart';
+import 'package:flutter_application_1/pages/general_widget.dart/widget_snackbar.dart';
+import 'package:flutter_application_1/pages/main_menu.dart';
 import 'package:flutter_application_1/pages/widgets/FacePainter.dart';
 import 'package:flutter_application_1/pages/widgets/auth-action-button.dart';
 import 'package:flutter_application_1/pages/widgets/camera_header.dart';
 import 'package:camera/camera.dart';
-import 'package:google_ml_kit/google_ml_kit.dart';
+// import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUp extends StatefulWidget {
   final CameraDescription cameraDescription;
@@ -24,9 +29,9 @@ class SignUp extends StatefulWidget {
 
 class SignUpState extends State<SignUp> {
   String imagePath = "";
-  Face? faceDetected;
+  // Face? faceDetected;
   Size? imageSize;
-
+  bool postFace = false;
   bool _detectingFaces = false;
   bool pictureTaked = false;
 
@@ -43,9 +48,9 @@ class SignUpState extends State<SignUp> {
   bool _bottomSheetVisible = false;
 
   // service injection
-  MLKitService _mlKitService = MLKitService();
+  // MLKitService _mlKitService = MLKitService();
   CameraService _cameraService = CameraService();
-  FaceNetService _faceNetService = FaceNetService();
+  // FaceNetService _faceNetService = FaceNetService();
 
   @override
   void initState() {
@@ -76,42 +81,10 @@ class SignUpState extends State<SignUp> {
     _frameFaces();
   }
 
-  /// handles the button pressed event
-  Future<bool> onShot() async {
-    if (faceDetected == null) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: Text('No face detected!'),
-          );
-        },
-      );
-
-      return false;
-    } else {
-      _saving = true;
-      await Future.delayed(Duration(milliseconds: 500));
-      await _cameraService.cameraController.stopImageStream();
-      await Future.delayed(Duration(milliseconds: 200));
-      XFile file = await _cameraService.takePicture();
-      imagePath = file.path;
-      print(imagePath.toString());
-      setState(() {
-        _bottomSheetVisible = true;
-        pictureTaked = true;
-      });
-
-      return true;
-    }
-  }
-
-  /// draws rectangles when detects faces
   _frameFaces() {
     imageSize = _cameraService.getImageSize();
 
     _cameraService.cameraController.startImageStream((image) async {
-      // ignore: unnecessary_null_comparison
       if (_cameraService.cameraController != null) {
         // if its currently busy, avoids overprocessing
         if (_detectingFaces) return;
@@ -119,33 +92,122 @@ class SignUpState extends State<SignUp> {
         _detectingFaces = true;
 
         try {
-          List<Face> faces = await _mlKitService.getFacesFromImage(image);
-
-          if (faces.length > 0) {
-            setState(() {
-              faceDetected = faces[0];
-            });
-
-            if (_saving) {
-              print("============+_saving+==============");
-              _faceNetService.setCurrentPrediction(image, faceDetected!);
-              setState(() {
-                _saving = false;
-              });
-            }
-          } else {
-            setState(() {
-              faceDetected = null;
-            });
-          }
-
           _detectingFaces = false;
         } catch (e) {
+          print(e);
           _detectingFaces = false;
         }
       }
     });
   }
+
+  /// handles the button pressed event
+  Future<bool> onShot_() async {
+    try {
+      bool result = false;
+      print("===========onShot_=============");
+
+      await _cameraService.cameraController.stopImageStream();
+      await Future.delayed(Duration(milliseconds: 200));
+      XFile file = await _cameraService.takePicture();
+
+      setState(() {
+        print("_bottomSheetVisible");
+        _bottomSheetVisible = true;
+        pictureTaked = true;
+        imagePath = file.path;
+      });
+      print("===========================");
+      print(imagePath);
+
+      FaceService faceService = new FaceService();
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      var idUser = pref.getString("PREF_ID_USER")!;
+      print("idUser " + idUser);
+
+      var post = await faceService.postFace(imagePath, idUser).then((value) {
+        ReturnFaceData returnFaceData = value;
+        result = returnFaceData.status ?? false;
+        print(returnFaceData.status);
+      });
+
+      return result;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  // /// handles the button pressed event
+  // Future<bool> onShot() async {
+  //   if (faceDetected == null) {
+  //     showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialog(
+  //           content: Text('No face detected!'),
+  //         );
+  //       },
+  //     );
+
+  //     return false;
+  //   } else {
+  //     _saving = true;
+  //     await Future.delayed(Duration(milliseconds: 500));
+  //     await _cameraService.cameraController.stopImageStream();
+  //     await Future.delayed(Duration(milliseconds: 200));
+  //     XFile file = await _cameraService.takePicture();
+  //     imagePath = file.path;
+  //     print(imagePath.toString());
+  //     setState(() {
+  //       _bottomSheetVisible = true;
+  //       pictureTaked = true;
+  //     });
+
+  //     return true;
+  //   }
+  // }
+
+  // /// draws rectangles when detects faces
+  // _frameFaces() {
+  //   imageSize = _cameraService.getImageSize();
+
+  //   _cameraService.cameraController.startImageStream((image) async {
+  //     // ignore: unnecessary_null_comparison
+  //     if (_cameraService.cameraController != null) {
+  //       // if its currently busy, avoids overprocessing
+  //       if (_detectingFaces) return;
+
+  //       _detectingFaces = true;
+
+  //       try {
+  //         List<Face> faces = await _mlKitService.getFacesFromImage(image);
+
+  //         if (faces.length > 0) {
+  //           setState(() {
+  //             faceDetected = faces[0];
+  //           });
+
+  //           if (_saving) {
+  //             print("============+_saving+==============");
+  //             _faceNetService.setCurrentPrediction(image, faceDetected!);
+  //             setState(() {
+  //               _saving = false;
+  //             });
+  //           }
+  //         } else {
+  //           setState(() {
+  //             faceDetected = null;
+  //           });
+  //         }
+
+  //         _detectingFaces = false;
+  //       } catch (e) {
+  //         _detectingFaces = false;
+  //       }
+  //     }
+  //   });
+  // }
 
   _onBackPressed() {
     Navigator.of(context).pop();
@@ -204,12 +266,12 @@ class SignUpState extends State<SignUp> {
                                 children: <Widget>[
                                   CameraPreview(
                                       _cameraService.cameraController),
-                                  if (faceDetected != null)
-                                    CustomPaint(
-                                      painter: FacePainter(
-                                          face: faceDetected!,
-                                          imageSize: imageSize!),
-                                    ),
+                                  // if (faceDetected != null)
+                                  //   CustomPaint(
+                                  //     painter: FacePainter(
+                                  //         face: faceDetected!,
+                                  //         imageSize: imageSize!),
+                                  //   ),
                                 ],
                               ),
                             ),
@@ -231,13 +293,66 @@ class SignUpState extends State<SignUp> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: !_bottomSheetVisible
-            ? AuthActionButton(
-                _initializeControllerFuture!,
-                onPressed: onShot,
-                isLogin: false,
-                reload: _reload,
-                absen: Absen(),
+            ? GestureDetector(
+                onTap: () async {
+                  setState(() {
+                    postFace = true;
+                  });
+
+                  var result = await onShot_();
+
+                  // 1. jika wajah di db cocok / hasil shot merupakan real face
+                  if (result.toString() == "true") {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => MainMenu()),
+                        (Route<dynamic> route) => false);
+                    WidgetSnackbar(
+                        context: context,
+                        message: "Registrasi wajah berhasil",
+                        warna: "hijau");
+                  } else {
+                    _reload();
+                    WidgetSnackbar(
+                        context: context,
+                        message: "Wajah tidak sesuai",
+                        warna: "merah");
+                  }
+
+                  setState(() {
+                    postFace = false;
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(5.0),
+                          bottomLeft: Radius.circular(5.0),
+                          topLeft: Radius.circular(5.0),
+                          bottomRight: Radius.circular(5.0))),
+                  width: 50,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.camera_alt,
+                      color: Colors.black,
+                      size: 30,
+                    ),
+                  ),
+                ),
               )
             : Container());
+
+    // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    // floatingActionButton: !_bottomSheetVisible
+    //     ? AuthActionButton(
+    //         _initializeControllerFuture!,
+    //         onPressed: onShot_,
+    //         isLogin: false,
+    //         reload: _reload,
+    //         absen: Absen(),
+    //       )
+    //     : Container());
   }
 }

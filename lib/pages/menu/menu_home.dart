@@ -43,8 +43,8 @@ class _MenuHomeState extends State<MenuHome> {
   ReturnAbsenHariAbsen_in? absenIn;
   ReturnAbsenHariAbsen_out? absenOut;
 
-  FaceNetService _faceNetService = FaceNetService();
-  MLKitService _mlKitService = MLKitService();
+  // FaceNetService _faceNetService = FaceNetService();
+  // MLKitService _mlKitService = MLKitService();
   DataBaseService _dataBaseService = DataBaseService();
 
   DevService _devService = DevService();
@@ -204,8 +204,8 @@ class _MenuHomeState extends State<MenuHome> {
     );
 
     // start the services
-    await _faceNetService.loadModel();
-    _mlKitService.initialize();
+    // await _faceNetService.loadModel();
+    // _mlKitService.initialize();
   }
 
   Widget online() {

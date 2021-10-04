@@ -262,8 +262,8 @@ class _AbsenState extends State<AbsenForm> {
       });
   }
 
-  FaceNetService _faceNetService = FaceNetService();
-  MLKitService _mlKitService = MLKitService();
+  // FaceNetService _faceNetService = FaceNetService();
+  // MLKitService _mlKitService = MLKitService();
   DataBaseService _dataBaseService = DataBaseService();
   late CameraDescription cameraDescription;
   void startUp() async {
@@ -276,8 +276,8 @@ class _AbsenState extends State<AbsenForm> {
     );
 
     // start the services
-    await _faceNetService.loadModel();
-    _mlKitService.initialize();
+    // await _faceNetService.loadModel();
+    // _mlKitService.initialize();
   }
 
   Future submitAbsen(BuildContext context) async {
@@ -311,7 +311,8 @@ class _AbsenState extends State<AbsenForm> {
       usingFace = pref.getString("PREF_FACE_IOS")!;
     }
 
-    if (usingFace == "true") {
+    if (usingFace == "false") {
+      print("usingFace");
       Navigator.push(
         context,
         MaterialPageRoute(
